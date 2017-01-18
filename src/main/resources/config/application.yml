@@ -6,11 +6,10 @@ spring:
     jackson:
         serialization.write_dates_as_timestamps: false
         time-zone: Europe/Skopje
-        date-format: yyyy-MM-dd HH:mm:ss
     jpa:
         open-in-view: true
         hibernate:
-            ddl-auto: none
+            ddl-auto: update
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
@@ -18,7 +17,7 @@ spring:
 #================================================================
 # App specific properties
 #================================================================
-book.store:
+book-store:
     jwt:
         header: Authorization
         secret: BC1428EE0A4FE1F689E5B70D1D6C004ADD76F003FC8B836ABF00166F7A956539

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="book-store_main" target="1.8" />
+      <module name="book-store_test" target="1.8" />
       <module name="emt-book-store_main" target="1.8" />
       <module name="emt-book-store_test" target="1.8" />
     </bytecodeTargetLevel>

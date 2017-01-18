@@ -20,14 +20,23 @@ sourceCompatibility = 1.8
 group 'com.finki.emt.bookstore'
 version '0.1'
 
+//bootRun {
+//	systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
+//}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compile "org.springframework.boot:spring-boot-starter-data-jpa"
-	compile "org.springframework.boot:spring-boot-starter-security"
+	compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jackson_version}"
+	compile "org.hibernate:hibernate-core:${hibernate_core_version}"
+	compile "org.hibernate:hibernate-validator:${hibernate_validator_version}"
+	// Needed for hibernate-validator > 5.1.*
+	compile "org.glassfish.web:el-impl:2.2"
 	compile "org.springframework.boot:spring-boot-starter-web"
+	compile "org.springframework.boot:spring-boot-starter-security"
+	compile "org.springframework.boot:spring-boot-starter-data-jpa"
 	compile "mysql:mysql-connector-java:${mysql_connector_java_version}"
 	compile "io.jsonwebtoken:jjwt:${jsonwebtoken_jjwt_version}"
 	testCompile "org.springframework.boot:spring-boot-starter-test"

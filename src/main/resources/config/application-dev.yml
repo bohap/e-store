@@ -1,8 +1,8 @@
 spring:
+    profiles:
+        active: dev
     datasource:
-        url: jdbc:mysql://localhost:3306/book_store?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: admin
+        url: jdbc:mysql://localhost:3306/emt_book_store?useUnicode=true&characterEncoding=utf8&useSSL=false
         driver-class-name: com.mysql.jdbc.Driver
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -11,15 +11,16 @@ spring:
     mail:
         host: localhost
         port: 25
-        username:
-        password:
+        username: root
+        password: admin
 server:
     port: 8080
+    context-path: /api
 
 #================================================================
 # App specific properties
 #================================================================
 book-store:
     mail:
-        from:
-        baseUrl:
+        from: book-store@example.com
+        baseUrl: localhost
