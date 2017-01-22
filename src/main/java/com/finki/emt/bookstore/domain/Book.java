@@ -3,7 +3,6 @@ package com.finki.emt.bookstore.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,12 +23,12 @@ public class Book extends BaseModel implements Serializable {
     private String slug;
 
     @NotNull
-    @Size(min = 20, max = 255)
+    @Size(min = 20, max = 300)
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
     @NotNull
-    @Max(10000)
+    @Size(max = 10000)
     @Column(nullable = false, length = 10000)
     private String body;
 
@@ -45,8 +44,9 @@ public class Book extends BaseModel implements Serializable {
     @Column(nullable = false, precision = 2, scale = 2)
     private double price;
 
+    @JsonIgnore
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20480)
     private byte[] image;
 
     @Column(nullable = true)
@@ -62,7 +62,7 @@ public class Book extends BaseModel implements Serializable {
     private int pages;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private User admin;
 
@@ -236,6 +236,14 @@ public class Book extends BaseModel implements Serializable {
 
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
+    }
+
+    public Set<User> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<User> favorites) {
+        this.favorites = favorites;
     }
 
     public Set<Basket> getBaskets() {

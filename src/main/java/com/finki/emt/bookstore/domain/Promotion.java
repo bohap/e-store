@@ -44,6 +44,16 @@ public class Promotion implements Serializable {
         this.end = end;
     }
 
+    public Promotion(Book book, double newPrice, ZonedDateTime start, ZonedDateTime end) {
+        this.book = book;
+        this.newPrice = newPrice;
+        this.start = start;
+        this.end = end;
+        if (this.book != null) {
+            this.bookId = book.getId();
+        }
+    }
+
     public long getBookId() {
         return bookId;
     }
@@ -82,6 +92,9 @@ public class Promotion implements Serializable {
 
     public void setBook(Book book) {
         this.book = book;
+        if (book != null) {
+            this.bookId = book.getId();
+        }
     }
 
     @Override

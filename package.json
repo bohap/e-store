@@ -1,0 +1,36 @@
+{
+  "name": "emt-book-store",
+  "description": "E-commerce book store",
+  "main": "",
+  "authors": [
+    "Borche Petrovski <bor4epetrovski@gmail.com>",
+    "Marijan Gajdov <marijan.gajdov@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/bohap/emt-book-store",
+  "private": true,
+  "scripts": {
+    "postinstall": "bower install && gulp default"
+  },
+  "dependencies": {
+    "bower": "^1.8.0",
+    "browser-sync": "^2.18.6",
+    "del": "^2.2.2",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^1.6.1",
+    "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-filter": "^4.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-rev-append": "^0.1.7",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.8",
+    "main-bower-files": "^2.13.1",
+    "proxy-middleware": "^0.15.0",
+    "run-sequence": "^1.2.2"
+  }
+}

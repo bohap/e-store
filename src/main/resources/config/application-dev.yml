@@ -15,12 +15,11 @@ spring:
         password: admin
 server:
     port: 8080
-    context-path: /api
 
 #================================================================
 # App specific properties
 #================================================================
 book-store:
     mail:
-        from: book-store@example.com
+        from: book-save@example.com
         baseUrl: localhost

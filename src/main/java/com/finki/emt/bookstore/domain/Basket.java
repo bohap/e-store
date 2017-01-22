@@ -35,9 +35,17 @@ public class Basket implements Serializable {
     public Basket() {
     }
 
-    public Basket(int userId, ZonedDateTime updatedAt) {
+    public Basket(long userId, ZonedDateTime updatedAt) {
         this.userId = userId;
         this.updatedAt = updatedAt;
+    }
+
+    public Basket(User user, ZonedDateTime updatedAt) {
+        this.user = user;
+        this.updatedAt = updatedAt;
+        if (user != null) {
+            this.userId = user.getId();
+        }
     }
 
     public long getUserId() {
@@ -62,6 +70,9 @@ public class Basket implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        if (user != null) {
+            this.userId = user.getId();
+        }
     }
 
     public Set<Book> getBooks() {

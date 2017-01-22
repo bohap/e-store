@@ -38,6 +38,11 @@ public class Authority implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return this.name != null ? this.name.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return String.format("Authority{name='%s'}", name);
     }

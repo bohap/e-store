@@ -1,0 +1,138 @@
+body {
+	background: #424242;
+	color: white;
+	padding-top: 90px;
+}
+
+body * {
+	outline: none!important;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+/**
+ * Angular specific properties
+ */
+a[ng-click] {
+	cursor: pointer;
+}
+
+.animate.ng-enter,
+.animate.ng-leave {
+	-webkit-transition: 1s ease all;
+	-moz-transition: 1s ease all;
+	-ms-transition: 1s ease all;
+	-o-transition: 1s ease all;
+	transition: 1s ease all;
+}
+
+.animate.ng-leave.animate.ng-leave-active,
+.animate.ng-enter {
+	opacity: 0;
+}
+
+.animate.ng-enter.ng-enter-active,
+.animate.ng-leave {
+	opacity: 1;
+}
+
+/**
+ * Customized bootstrap
+ */
+
+.modal {
+	color: black;
+}
+
+.has-feedback .fa.form-control-feedback {
+	line-height: 34px;
+	font-size: 17px;
+}
+
+.table-primary {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	overflow: hidden;
+	font-size: 20px;
+}
+
+.table-primary.table-striped > tbody > tr:nth-of-type(even),
+.table-primary.table-hover > tbody > tr:hover {
+	background-color: #337AFA;
+}
+
+.table-primary.table-striped > tbody > tr:nth-of-type(odd) {
+	background-color: transparent;
+}
+
+.table-primary.table-hover > tbody > tr:hover {
+	background-color: #337ab7;
+}
+
+.table-primary >tbody > tr > td {
+	border-color: #2e6da4;
+}
+
+.navbar {
+	height: 70px;
+	font-size: 18px;
+}
+
+.navbar .nav {
+	margin-top: 8px;
+}
+
+.navbar-inverse .navbar-collapse {
+	background-color: #202020;
+}
+
+.navbar .navbar-header .navbar-brand .brand-players {
+	width: 300px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.dropdown-menu {
+	background-color: black;
+}
+
+.dropdown-menu > li > a {
+	color: white;
+}
+
+.dropdown-menu > li > a:hover {
+	background-color: #424242;
+	color: white;
+}
+
+@media(max-width: 768px) {
+	.navbar {
+		font-size: 15px;
+	}
+
+	.navbar .navbar-header .navbar-brand .brand-players {
+		width: 200px;
+	}
+
+	.navbar .navbar-header .navbar-toggle {
+		margin-top: 15px;
+	}
+}
+
+/**
+ * Form styles
+ */
+.form-error-messages {
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+
+.form-error-messages > strong {
+	display: block;
+}
+
+/**
+ * Book styles
+ */

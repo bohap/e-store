@@ -1,0 +1,9 @@
+<div class="alert alert-danger" ng-if="vm.hasErrors()">
+	<strong>Whoops!</strong>
+    There were some problems with your input.<br><br>
+    <ul>
+    	<li ng-repeat="error in vm.errors">
+    		{{ error }}
+    	</li>
+    </ul>
+</div>

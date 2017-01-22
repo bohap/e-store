@@ -70,9 +70,6 @@ fabric.properties
 # *.ipr
 
 
-### Java ###
-*.class
-
 # BlueJ files
 *.ctxt
 
@@ -108,3 +105,8 @@ gradle-app.setting
 
 ## App ##
 src/main/resources/config/application-borche.yml
+
+## Front end ##
+node_modules
+src/main/webapp/dist
+src/main/webapp/assets/libs

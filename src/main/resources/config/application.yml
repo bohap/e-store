@@ -19,7 +19,6 @@ spring:
 #================================================================
 book-store:
     jwt:
-        header: Authorization
         secret: BC1428EE0A4FE1F689E5B70D1D6C004ADD76F003FC8B836ABF00166F7A956539
         tokenValidInMinutes: 60
         tokenRefreshableInMinutes: 604800

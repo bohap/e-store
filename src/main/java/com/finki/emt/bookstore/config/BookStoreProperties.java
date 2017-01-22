@@ -21,21 +21,11 @@ public class BookStoreProperties implements Serializable {
 
     public static class JWT implements Serializable {
 
-        private String header;
-
         private String secret;
 
         private long tokenValidInMinutes;
 
         private long tokenRefreshableInMinutes;
-
-        public String getHeader() {
-            return header;
-        }
-
-        public void setHeader(String header) {
-            this.header = header;
-        }
 
         public String getSecret() {
             return secret;

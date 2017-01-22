@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -29,7 +29,7 @@ public class User extends BaseModel implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Min(value = 6)
+    @Size(min = 6, max = 255)
     @Column(nullable = false)
     private String password;
 
@@ -41,7 +41,7 @@ public class User extends BaseModel implements Serializable {
     @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updatedAt;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_authorities",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -50,7 +50,7 @@ public class User extends BaseModel implements Serializable {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL,
-            orphanRemoval = true, optional = false)
+            orphanRemoval = true)
     private Basket basket;
 
     @JsonIgnore
@@ -77,6 +77,10 @@ public class User extends BaseModel implements Serializable {
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public User(String name, String email, String password) {
+        this(0, name, null, email, password, null, null);
     }
 
     public String getName() {
