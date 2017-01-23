@@ -1,10 +1,13 @@
 package com.finki.emt.bookstore.config;
 
+import com.finki.emt.bookstore.security.AuthoritiesConstants;
 import com.finki.emt.bookstore.security.Http401UnauthorizedEntryPoint;
+import com.finki.emt.bookstore.security.SecurityUtil;
 import com.finki.emt.bookstore.security.jwt.JWTConfigurer;
 import com.finki.emt.bookstore.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Inject
     private TokenProvider tokenProvider;
 
+    @Inject
+    private SecurityUtil securityUtil;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -54,7 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-            .antMatchers("/api/auth/account").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/books")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers(HttpMethod.PUT, "/api/books/{slug}")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers(HttpMethod.POST, "/api/books/{slug}")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+//            .antMatchers("/api/auth/account").authenticated()
 //            .antMatchers("/api/auth/authenticate").permitAll()
 //            .antMatchers("api/auth/register").permitAll()
             .antMatchers("/api/**").permitAll()
@@ -63,6 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
+        return new JWTConfigurer(tokenProvider, securityUtil);
     }
 }

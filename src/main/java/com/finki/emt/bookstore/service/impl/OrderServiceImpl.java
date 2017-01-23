@@ -5,6 +5,8 @@ import com.finki.emt.bookstore.repository.BookOrderRepository;
 import com.finki.emt.bookstore.repository.OrderRepository;
 import com.finki.emt.bookstore.service.OrderService;
 import com.finki.emt.bookstore.service.PromotionService;
+import com.finki.emt.bookstore.service.UserService;
+import com.finki.emt.bookstore.web.rest.errors.ModelNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,16 +28,28 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository repository;
 
     @Inject
+    private BookOrderRepository bookOrderRepository;
+
+    @Inject
     private PromotionService promotionService;
 
     @Inject
-    private BookOrderRepository bookOrderRepository;
+    private UserService userService;
 
     @Override
     @Transactional(readOnly = true)
     public List<Order> findAll() {
         log.debug("Request to get all Orders");
         return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findAllByUserSlug(String userSlug) {
+        log.debug("Request to get orders for user with slug - {}", userSlug);
+        User user = userService.findBySlug(userSlug).orElseThrow(() ->
+                new ModelNotFoundException("user with slug " + userSlug + " cant' be find"));
+        return repository.findByUserId(user.getId());
     }
 
     @Override

@@ -2,12 +2,14 @@ package com.finki.emt.bookstore.service.impl;
 
 import com.finki.emt.bookstore.domain.Authority;
 import com.finki.emt.bookstore.domain.Basket;
+import com.finki.emt.bookstore.domain.Book;
 import com.finki.emt.bookstore.domain.User;
 import com.finki.emt.bookstore.repository.UserRepository;
 import com.finki.emt.bookstore.security.AuthoritiesConstants;
 import com.finki.emt.bookstore.service.AuthorityService;
 import com.finki.emt.bookstore.service.UserService;
 import com.finki.emt.bookstore.util.SlugUtil;
+import com.finki.emt.bookstore.web.rest.errors.ModelNotFoundException;
 import com.finki.emt.bookstore.web.rest.vm.RegisterVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -134,5 +137,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<User> findAllRegularUsers() {
         return this.findByAuthority(AuthoritiesConstants.USER);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> findAllFavoritesBuSlug(String slug) {
+        User user = repository.findBySlug(slug).orElseThrow(() ->
+                new ModelNotFoundException("User with slug " + slug + " can't be find"));
+        return user.getFavorites().stream().collect(Collectors.toList());
     }
 }

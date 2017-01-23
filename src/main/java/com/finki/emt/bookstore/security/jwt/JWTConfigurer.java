@@ -1,5 +1,6 @@
 package com.finki.emt.bookstore.security.jwt;
 
+import com.finki.emt.bookstore.security.SecurityUtil;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -7,19 +8,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class JWTConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     static final String AUTHORIZATION_TOKEN = "access_token";
 
+    public static final String AUTHORIZATION_CARRIER = "Bearer ";
+
+    public static final String AUTHORIZATION_REFRESH_ROUTE = "/refresh";
+
     private TokenProvider tokenProvider;
 
-    public JWTConfigurer(TokenProvider tokenProvider) {
+    private SecurityUtil securityUtil;
+
+    public JWTConfigurer(TokenProvider tokenProvider, SecurityUtil securityUtil) {
         this.tokenProvider = tokenProvider;
+        this.securityUtil = securityUtil;
     }
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
-        JWTFiler customFilter = new JWTFiler(tokenProvider);
+        JWTFiler customFilter = new JWTFiler(tokenProvider, securityUtil);
         builder.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

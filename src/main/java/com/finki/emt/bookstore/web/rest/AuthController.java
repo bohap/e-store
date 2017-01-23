@@ -1,6 +1,9 @@
 package com.finki.emt.bookstore.web.rest;
 
 import com.finki.emt.bookstore.domain.User;
+import com.finki.emt.bookstore.security.Principal;
+import com.finki.emt.bookstore.security.SecurityUtil;
+import com.finki.emt.bookstore.security.jwt.JWTConfigurer;
 import com.finki.emt.bookstore.security.jwt.TokenProvider;
 import com.finki.emt.bookstore.service.UserService;
 import com.finki.emt.bookstore.web.rest.response.JWTResponse;
@@ -12,24 +15,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -38,13 +42,16 @@ public class AuthController {
     private Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Inject
+    private UserService userService;
+
+    @Inject
     private TokenProvider tokenProvider;
 
     @Inject
-    private AuthenticationManager authenticationManager;
+    private SecurityUtil securityUtil;
 
     @Inject
-    private UserService userService;
+    private AuthenticationManager authenticationManager;
 
     @Inject
     private RegisterRequestValidator registerRequestValidator;
@@ -72,25 +79,33 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public JWTResponse register(@Valid @RequestBody RegisterVM registerVM) {
+        log.debug("Register request - {}", registerVM);
         User saved = userService.create(registerVM);
 
-        List<? extends GrantedAuthority> authorities = saved.getAuthorities().stream()
-                .map(a -> new SimpleGrantedAuthority(a.getName()))
-                .collect(Collectors.toList());
+        Collection<? extends GrantedAuthority> authorities =
+                SecurityUtil.createAuthorities(saved.getAuthorities());
+        Principal principal = new Principal(saved, authorities);
+        Authentication auth = securityUtil.authenticate(principal, authorities);
 
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(registerVM.getEmail(), null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.createToken(authentication);
+        String jwt = tokenProvider.createToken(auth);
         return new JWTResponse(jwt);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/account")
-    public PrincipalResponse account(Principal principal) {
-        String username = principal.getName();
-        Optional<User> user = userService.findByEmail(username);
-        return user.map(PrincipalResponse::new)
-                .orElseThrow(() -> new IllegalStateException(
-                        "User with email " + username + "can't be find in the database"));
+    public PrincipalResponse account(@AuthenticationPrincipal Principal principal) {
+        return new PrincipalResponse(principal.getUser());
+    }
+
+    @GetMapping(value = JWTConfigurer.AUTHORIZATION_REFRESH_ROUTE)
+    public ResponseEntity refresh(HttpServletRequest request) {
+        log.debug("Refresh token request");
+        String token = tokenProvider.resolveTokenFromRequest(request);
+        String newToken = tokenProvider.refreshToken(token);
+        String bearer = JWTConfigurer.AUTHORIZATION_CARRIER + newToken;
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add(JWTConfigurer.AUTHORIZATION_HEADER, bearer);
+
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 }

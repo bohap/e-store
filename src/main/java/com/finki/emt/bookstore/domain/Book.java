@@ -1,6 +1,7 @@
 package com.finki.emt.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.finki.emt.bookstore.config.Constants;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -46,7 +47,7 @@ public class Book extends BaseModel implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Column(nullable = false, length = 20480)
+    @Column(nullable = false, length = Constants.BOOK_IMAGE_MAX_SIZE)
     private byte[] image;
 
     @Column(nullable = true)

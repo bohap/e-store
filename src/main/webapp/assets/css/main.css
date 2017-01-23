@@ -88,10 +88,9 @@ a[ng-click] {
 	background-color: #202020;
 }
 
-.navbar .navbar-header .navbar-brand .brand-players {
-	width: 300px;
-	height: 40px;
-	cursor: pointer;
+.navbar-inverse .navbar-brand h4 {
+	font-size: 24px;
+	margin-top: 4px;
 }
 
 .dropdown-menu {

@@ -20,9 +20,9 @@ sourceCompatibility = 1.8
 group 'com.finki.emt.bookstore'
 version '0.1'
 
-//bootRun {
-//	systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
-//}
+bootRun {
+	systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
+}
 
 repositories {
 	mavenCentral()

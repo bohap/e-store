@@ -12,6 +12,8 @@ public interface OrderService {
 
     List<Order> findAll();
 
+    List<Order> findAllByUserSlug(String userSlug);
+
     Optional<Order> findById(long id);
 
     Order save(Order order);

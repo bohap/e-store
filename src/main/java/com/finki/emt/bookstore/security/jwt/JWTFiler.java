@@ -1,10 +1,11 @@
 package com.finki.emt.bookstore.security.jwt;
 
+import com.finki.emt.bookstore.security.SecurityUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JWTFiler extends GenericFilterBean {
@@ -21,48 +23,46 @@ public class JWTFiler extends GenericFilterBean {
 
     private TokenProvider tokenProvider;
 
-    public JWTFiler(TokenProvider tokenProvider) {
+    private SecurityUtil securityUtil;
+
+    JWTFiler(TokenProvider tokenProvider, SecurityUtil securityUtil) {
         this.tokenProvider = tokenProvider;
+        this.securityUtil = securityUtil;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                                                             throws IOException, ServletException {
+        log.debug("Checking if request contains the token");
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse  =(HttpServletResponse) response;
         try {
-            log.debug("Checking if request contains the token");
-            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-            String jwt = resolveToken(httpServletRequest);
+            String jwt = tokenProvider.resolveTokenFromRequest(httpServletRequest);
             if (StringUtils.hasText(jwt)) {
-                log.debug("Request contains JWT token");
                 if (tokenProvider.validateToken(jwt)) {
                     Authentication authentication = tokenProvider.getAuthentication(jwt);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.debug("Authenticating user - {}", authentication.getName());
+                    securityUtil.authenticate(authentication);
                 }
             }
-            chain.doFilter(request, response);
         } catch (ExpiredJwtException exp) {
             log.info("Security exception for user {} - {}",
                     exp.getClaims().getSubject(), exp.getMessage());
-            throw exp;
-        }
-    }
 
-    /**
-     * Get the token content from the request.
-     *
-     * @param request the http request
-     * @return token content, or null if the token can't be find
-     */
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(JWTConfigurer.AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            boolean isRefreshRoute = httpServletRequest.getServletPath()
+                    .endsWith(JWTConfigurer.AUTHORIZATION_REFRESH_ROUTE);
+            boolean isRefreshable = tokenProvider.isTokenRefreshable(exp.getClaims().getIssuedAt());
+            if (!isRefreshRoute || !isRefreshable) {
+                log.info("Token is expired and can't be refreshed");
+                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token Expired");
+                return;
+            }
         }
-        String jwt = request.getParameter(JWTConfigurer.AUTHORIZATION_TOKEN);
-        if (StringUtils.hasText(jwt)) {
-            return jwt;
+        catch (UsernameNotFoundException exp) {
+            log.info("Security exception - {}", exp.getMessage());
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token data");
+            return;
         }
-        log.debug("Request don't contains token");
-        return null;
+        chain.doFilter(request, response);
     }
 }

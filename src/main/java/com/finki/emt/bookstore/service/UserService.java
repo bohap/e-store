@@ -1,5 +1,6 @@
 package com.finki.emt.bookstore.service;
 
+import com.finki.emt.bookstore.domain.Book;
 import com.finki.emt.bookstore.domain.User;
 import com.finki.emt.bookstore.web.rest.vm.RegisterVM;
 
@@ -29,4 +30,6 @@ public interface UserService {
     List<User> findAllAdmins();
 
     List<User> findAllRegularUsers();
+
+    List<Book> findAllFavoritesBuSlug(String slug);
 }
