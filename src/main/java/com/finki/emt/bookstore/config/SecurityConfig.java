@@ -1,6 +1,7 @@
 package com.finki.emt.bookstore.config;
 
 import com.finki.emt.bookstore.security.AuthoritiesConstants;
+import com.finki.emt.bookstore.security.CustomAccessDeniedHandler;
 import com.finki.emt.bookstore.security.Http401UnauthorizedEntryPoint;
 import com.finki.emt.bookstore.security.SecurityUtil;
 import com.finki.emt.bookstore.security.jwt.JWTConfigurer;
@@ -29,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private Http401UnauthorizedEntryPoint authenticationEntryPoint;
 
     @Inject
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
+    @Inject
     private UserDetailsService userDetailsService;
 
     @Inject
@@ -55,21 +59,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
             .disable()
             .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPoint)
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
         .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
+                // users routes
+                .antMatchers("/api/users/count")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/api/users/{slug}/**")
+                    .authenticated()
+                .antMatchers("/api/users/**")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+
+                // books routes
+                .antMatchers("/api/books/count")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers(HttpMethod.POST, "/api/books")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers(HttpMethod.PUT, "/api/books/{slug}")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers(HttpMethod.POST, "/api/books/{slug}")
+                .antMatchers(HttpMethod.DELETE, "/api/books/{slug}")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-//            .antMatchers("/api/auth/account").authenticated()
-//            .antMatchers("/api/auth/authenticate").permitAll()
-//            .antMatchers("api/auth/register").permitAll()
-            .antMatchers("/api/**").permitAll()
+
+                // favorite books routes
+                .antMatchers("/api/books/{slug}/favorites/**")
+                    .hasAuthority(AuthoritiesConstants.USER)
+
+                // basket routes
+                .antMatchers("/api/basket/**")
+                    .hasAuthority(AuthoritiesConstants.USER)
+
+                // orders routes
+                .antMatchers("/api/orders/count")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/api/orders/{id}/**")
+                    .authenticated()
+                .antMatchers("/api/orders/**")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+
+                // promotion routes
+                .antMatchers(HttpMethod.POST, "/api/books/{slug}/promotion")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+
+                .antMatchers("/api/**").permitAll()
         .and()
             .apply(securityConfigurerAdapter());
     }

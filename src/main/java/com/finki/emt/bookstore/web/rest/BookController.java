@@ -37,18 +37,29 @@ public class BookController {
     private BookService service;
 
     @GetMapping
-    public List<MinifiedBookResponse> index(@RequestParam Optional<Integer> offset,
+    public List<?> index(@RequestParam Optional<Integer> offset,
                                             @RequestParam Optional<Integer> limit,
                                             @RequestParam Optional<Boolean> latest,
+                                            @RequestParam Optional<Boolean> minified,
                                             @RequestParam Optional<String> categories) {
         List<Book> books = categories
                 .map(c -> service
                         .filterByCategory(limit, offset, latest, categories.get().split(",")))
                 .orElse(service.findAll(limit, offset, latest));
 
-        return books.stream()
-                .map(MinifiedBookResponse::new)
-                .collect(Collectors.toList());
+        boolean minifiedResponse = minified.orElse(true);
+        if (minifiedResponse) {
+            return books.stream()
+                    .map(MinifiedBookResponse::new)
+                    .collect(Collectors.toList());
+        }
+        return books;
+    }
+
+    @GetMapping("/count")
+    public Map<String, Long> count() {
+        long count = service.count();
+        return Collections.singletonMap("count", count);
     }
 
     @GetMapping("/{slug}")
@@ -76,8 +87,8 @@ public class BookController {
 
     @PostMapping(consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> store(@Valid @RequestBody BookVM bookVM,
-                                   @RequestPart(required = false) MultipartFile image,
+    public ResponseEntity<?> store(@Valid @RequestPart BookVM bookVM,
+                                   @RequestPart MultipartFile image,
                                    @AuthenticationPrincipal Principal principal) {
         ResponseEntity<?> imgInvalid = this.validateImage(image);
         if (imgInvalid != null) {
@@ -88,17 +99,17 @@ public class BookController {
         book.setImage(this.getImageBytes(image));
         User admin = principal.getUser();
 
-        service.create(book, admin);
+        Book saved = service.create(book, admin);
 
         Map<String, String> msg =
-                Collections.singletonMap("message", "The book is created successfully");
+                Collections.singletonMap("slug", saved.getSlug());
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{slug}")
     public ResponseEntity<?> update(@PathVariable String slug,
-                                    @Valid @RequestBody BookVM bookVM,
-                                    @RequestPart MultipartFile image,
+                                    @Valid @RequestPart BookVM bookVM,
+                                    @RequestPart(required = false) MultipartFile image,
                                     @AuthenticationPrincipal Principal principal) {
         if (image != null) {
             ResponseEntity<?> imgInvalid = this.validateImage(image);
@@ -113,10 +124,10 @@ public class BookController {
         }
         User admin = principal.getUser();
 
-        service.update(slug, book, admin);
+        Book updated = service.update(slug, book, admin);
 
         Map<String, String> msg =
-                Collections.singletonMap("message", "The book is updated successfully");
+                Collections.singletonMap("slug", updated.getSlug());
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 

@@ -22,3 +22,6 @@ book-store:
         secret: BC1428EE0A4FE1F689E5B70D1D6C004ADD76F003FC8B836ABF00166F7A956539
         tokenValidInMinutes: 60
         tokenRefreshableInMinutes: 604800
+    payPal:
+        clientId: AQs3l1zG8SL-73BefhH-3Vtkdy9K5I9rREfJl-T2cF4w5hJ6xiebLbD09YYp3SdXf1RDij5h_qg4SFzj
+        clientSecret: ECwEgRAHk-JZ5aBVwVesD73e1q8gjG1IoB5fY8XnmiPe5NpP1E63pSXADclx5XwR8MlnUPJ0gd-biPjn

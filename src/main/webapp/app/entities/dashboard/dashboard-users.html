@@ -1,0 +1,54 @@
+<h1 class="page-header">
+	Users
+	<small class="badge">
+		{{ vm.users.length }}
+	</small>
+</h1>
+
+<table class="table table-striped" st-table="users" st-safe-src="vm.users">
+	<thed>
+		<tr class="bold">
+			<td class="col-xs-1" st-sort="id">ID</td>
+			<td st-sort="name">Name</td>
+			<td st-sort="email">Email</td>
+			<td st-sort="authoritiesString">Authorities</td>
+			<td st-sort="createdAt">Member Since</td>
+		</tr>
+		<tr>
+			<td>
+				<input type='text' class='form-control' st-search='id'  uib-tooltip="Search by user id..."
+				 		placeholder="Search by user id..." />
+			</td>
+			<td>
+				<input type='text' class='form-control' st-search='name'  uib-tooltip="Search by user name..."
+				 		placeholder="Search by user name..." />
+			</td>
+			<td>
+				<input type='text' class='form-control' st-search='email'  uib-tooltip="Search by user email..."
+				 		placeholder="Search by user email..." />
+			</td>
+			<td>
+				<input type='text' class='form-control' st-search='authoritiesString'
+						uib-tooltip="Search by user authorities..."
+						placeholder="Search by user authorities..." />
+			</td>
+			<td></td>
+		</tr>
+	</thed>
+	<tbody>
+		<tr ng-repeat="user in users">
+			<td>{{ user.id }}</td>
+			<td>{{ user.name }}</td>
+			<td>{{ user.email }}</td>
+			<td>{{ user.authoritiesString }}</td>
+			<td>{{ user.createdAt | amTimeAgo }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6" class="text-center">
+				<div st-pagination st-items-by-page="20"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>

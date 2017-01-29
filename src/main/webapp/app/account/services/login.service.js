@@ -6,7 +6,7 @@
 	Login.$inject = ['$http'];
 
 	function Login($http) {
-		var resourceUrl = "/api/auth/login";
+		var resourceUrl = "/api/auth/authenticate";
 		var service = {
 			login: login
 		};

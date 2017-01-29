@@ -1,12 +1,13 @@
-package com.finki.emt.bookstore.web.rest.errors.mapper;
+package com.finki.emt.bookstore.web.rest.errors;
 
-import com.finki.emt.bookstore.web.rest.errors.ModelNotFoundException;
-import com.finki.emt.bookstore.web.rest.response.ErrorResponse;
+import com.finki.emt.bookstore.util.exceptions.EmptyBasketException;
+import com.finki.emt.bookstore.util.exceptions.ModelNotFoundException;
 import com.finki.emt.bookstore.web.rest.validators.converter.ValidationErrorConverter;
 import com.finki.emt.bookstore.web.rest.validators.converter.ValidationErrorConverter.Error;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @ControllerAdvice
 @RestController
-public class ErrorsMapper {
+public class ExceptionTranslator {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -38,8 +39,24 @@ public class ErrorsMapper {
     }
 
     @ExceptionHandler(ModelNotFoundException.class)
-    public String test(ModelNotFoundException exp) {
-        return exp.getMessage();
+    @ResponseStatus( HttpStatus.NOT_FOUND)
+    public ErrorResponse handleModelNotFound(ModelNotFoundException exp) {
+        return new ErrorResponse(404, "Not Found", exp.getMessage());
+    }
+
+    @ExceptionHandler(EmptyBasketException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse handleEmptyBasket(EmptyBasketException exp) {
+        HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+        return new ErrorResponse(status.value(), status.getReasonPhrase(), exp.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleAccessDenied() {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        return new ErrorResponse(status.value(), status.getReasonPhrase(),
+                "You don't have permissions to access to this resource");
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
@@ -48,5 +65,11 @@ public class ErrorsMapper {
         ErrorResponse response = new ErrorResponse(status.value(),
                 status.getReasonPhrase(), exp.getMessage());
         return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ErrorResponse handleRuntimeException(Exception exp) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        return new ErrorResponse(status.value(), status.getReasonPhrase(), exp.getMessage());
     }
 }

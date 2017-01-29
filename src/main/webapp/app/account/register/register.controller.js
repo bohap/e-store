@@ -28,7 +28,7 @@
 				name: vm.name,
 				email: vm.username,
 				password: vm.password,
-				'password_confirmation': vm.repeatPassword
+				passwordConfirmation: vm.repeatPassword
 			};
 			vm.errors = [];
 			vm.isSending = true;
@@ -38,7 +38,7 @@
 
 			function registrationSuccess(data) {
 				vm.isSending = false;
-				$uibModalInstance.dismiss('cancel');
+				$uibModalInstance.close('success');
 			}
 
 			function registrationFailed(data) {

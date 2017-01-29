@@ -33,6 +33,7 @@ public class BookVM implements Serializable {
 
     private int pages;
 
+    @NotNull
     private Set<Category> categories;
 
     public BookVM() {
@@ -100,6 +101,14 @@ public class BookVM implements Serializable {
 
     public void setPages(int pages) {
         this.pages = pages;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     public Book createBook() {

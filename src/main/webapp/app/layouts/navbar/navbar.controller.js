@@ -16,6 +16,8 @@
 		vm.showRegisterDialog = showRegisterDialog;
 		vm.logout = logout;
 		vm.isAuthenticated = Principal.isAuthenticated;
+		vm.isAdmin = Principal.isAdmin;
+		vm.isRegularUser = Principal.isRegularUser;
 		vm.identity = Principal.getIdentity;
 
 		function toggleNavbar() {

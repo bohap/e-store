@@ -12,30 +12,16 @@ body * {
 	cursor: pointer;
 }
 
-/**
- * Angular specific properties
- */
-a[ng-click] {
+a {
+	color: #337AFA;
+}
+
+a:hover {
+	color: #337ab7;
+}
+
+a[ng-click], a[ng-link] {
 	cursor: pointer;
-}
-
-.animate.ng-enter,
-.animate.ng-leave {
-	-webkit-transition: 1s ease all;
-	-moz-transition: 1s ease all;
-	-ms-transition: 1s ease all;
-	-o-transition: 1s ease all;
-	transition: 1s ease all;
-}
-
-.animate.ng-leave.animate.ng-leave-active,
-.animate.ng-enter {
-	opacity: 0;
-}
-
-.animate.ng-enter.ng-enter-active,
-.animate.ng-leave {
-	opacity: 1;
 }
 
 /**
@@ -46,33 +32,37 @@ a[ng-click] {
 	color: black;
 }
 
+input[type='checkbox'].form-control {
+	height: 30px;
+}
+
 .has-feedback .fa.form-control-feedback {
 	line-height: 34px;
 	font-size: 17px;
 }
 
-.table-primary {
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
-	overflow: hidden;
-	font-size: 20px;
+.table {
+	font-size: 18px;
 }
 
-.table-primary.table-striped > tbody > tr:nth-of-type(even),
-.table-primary.table-hover > tbody > tr:hover {
-	background-color: #337AFA;
+.table-striped > tbody > tr:nth-of-type(even) {
+	background-color: #757575;
 }
 
-.table-primary.table-striped > tbody > tr:nth-of-type(odd) {
+.table-striped > tbody > tr:nth-of-type(odd) {
 	background-color: transparent;
 }
 
-.table-primary.table-hover > tbody > tr:hover {
-	background-color: #337ab7;
+.table-hover > tbody > tr:hover {
+	background-color: #9E9E9E;
 }
 
-.table-primary >tbody > tr > td {
-	border-color: #2e6da4;
+.table-striped > tbody > tr > td a {
+	color: white;
+}
+
+.table-striped > tbody > tr > td a:hover {
+	color: #e6e6e6;
 }
 
 .navbar {
@@ -106,6 +96,10 @@ a[ng-click] {
 	color: white;
 }
 
+.modal-dialog .uib-datepicker-popup {
+	background-color: white ;
+}
+
 @media(max-width: 768px) {
 	.navbar {
 		font-size: 15px;
@@ -118,6 +112,27 @@ a[ng-click] {
 	.navbar .navbar-header .navbar-toggle {
 		margin-top: 15px;
 	}
+}
+
+.text-primary {
+	color: #337ab7;
+}
+
+.text-success {
+	color: #5cb85c;
+}
+
+.text-danger {
+	color: #d9534f;
+}
+}
+
+.btn-default {
+	color: black !important;
+}
+
+.bold {
+	font-weight: bold;
 }
 
 /**
@@ -133,5 +148,38 @@ a[ng-click] {
 }
 
 /**
- * Book styles
+ * UI Select
  */
+.ui-select-bootstrap .ui-select-choices-row > span {
+	color: white;
+}
+
+.ui-select-bootstrap .ui-select-choices-row > span:hover,
+.ui-select-bootstrap .ui-select-choices-row > span:focus {
+	color: black;
+}
+
+/**
+ * Smart Table
+ */
+.st-sort-ascent:before{
+	content: '\25B2';
+	position: relative;
+	top: -2px;
+}
+
+.st-sort-descent:before{
+	content: '\25BC';
+	position: relative;
+	top: -2px;
+}
+
+td[st-sort] {
+	cursor: pointer;
+}
+
+.align-center {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}

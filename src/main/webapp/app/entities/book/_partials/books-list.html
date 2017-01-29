@@ -1,0 +1,102 @@
+<div ng-switch="vm.isEmpty()">
+	<div ng-switch-when="true">
+		<h1 class="page-header text-center text-primary">
+			No records were found
+		</h1>
+	</div>
+	<div ng-switch-when="false">
+		<h1 class="page-header">
+			Books
+			<span class="badge">
+				{{ vm.books.length }}
+			</span>
+		</h1>
+		<table class="table table-striped books-table" st-table="books" st-safe-src="vm.books">
+			<thead>
+				<tr class='bold'>
+					<td  class="col-xs-1" st-sort="id">Book ID</td>
+					<td st-sort="name">Book Name</td>
+					<td st-sort="price">Price</td>
+					<td st-sort="promotion.end">Promotion</td>
+					<td st-sort="promotion.newPrice">Promotion Price</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<input type='text' class='form-control' st-search='id'  uib-tooltip="Search by book id..."
+						 		placeholder="Search by book id..." />
+					</td>
+					<td>
+						<input type='text' class='form-control' st-search='name' uib-tooltip="Search by book name..."
+								placeholder="Search by book name..." />
+					</td>
+					<td colspan="4"></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="book in books">
+					<td>{{ book.id }}</td>
+					<td>
+						<a ng-link="['/', 'Book', 'BookDetails', {slug: book.slug}]">
+							{{ book.name }}
+						</a>
+					</td>
+					<td>
+						{{ book.price | currency }}
+					</td>
+					<td ng-switch="vm.hasPromotion(book)">
+						<span class='text-danger bold' ng-switch-when="false"
+								uib-tooltip="This book is not on promotion">
+							None
+						</span>
+						<span class='text-success bold' uib-tooltip="Promotion end"  ng-switch-when="true"
+								ng-if="vm.isPromotionStarted(book)">
+							Ends
+							{{ book.promotion.end | amTimeAgo }}
+						</span>
+						<span class='bold' uib-tooltip="Promotion start" ng-switch-when="true"
+								ng-if="!vm.isPromotionStarted(book)">
+							Starts
+							{{ book.promotion.start | amTimeAgo }}
+						</span>
+					</td>
+					<td>
+						<span ng-if="vm.hasPromotion(book)">
+							{{ vm.getPromotionPrice(book) | currency }}
+						</span>
+					</td>
+					<td>
+						<div class='btn-group' ng-switch="vm.hasPromotion(book)" ng-if="vm.isAdmin()">
+							<a class='btn btn-primary' uib-tooltip="Edit book"
+								ng-link="['/Book', 'BookUpdate', {slug: book.slug}]">
+								<i class='fa fa-pencil-square-o'></i>
+							</a>
+							<button class='btn btn-danger' uib-tooltip="Delete book" ng-click="vm.deleteBook(book)">
+								<i class='fa fa-remove'></i>
+							</button>
+							<button class='btn btn-success' uib-tooltip="Add on promotion" ng-switch-when="false"
+									ng-click="vm.openPromotionDialog(book)">
+								<i class='fa fa-plus-circle'></i>
+							</button>
+							<button class='btn btn-primary' uib-tooltip="Update promotion" ng-switch-when="true"
+									ng-click="vm.openPromotionDialog(book)">
+								<i class='fa fa-pencil-square-o'></i>
+							</button>
+							<button class='btn btn-danger' uib-tooltip="Remove promotion" ng-switch-when="true"
+									ng-click="vm.removePromotion(book)">
+								<i class='fa fa-trash'></i>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6" class="text-center">
+						<div st-pagination st-items-by-page="20"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

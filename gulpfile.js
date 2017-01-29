@@ -22,6 +22,7 @@ var gulp = require('gulp'),
 	gutil = require('gulp-util'),
 	eslint = require('gulp-eslint'),
 	path = require('path');
+	historyApiFallback = require('connect-history-api-fallback')
 
 var config = {
 	app: 'src/main/webapp/',
@@ -32,7 +33,7 @@ var config = {
 	module: 'app',
 	uri: 'http://localhost:',
 	port: 9000,
-	apiUrl: 'http://localhost::8000',
+	apiUrl: 'http://localhost:8080',
 	proxyRoutes: [
 		'/api'
 	]
@@ -125,22 +126,31 @@ gulp.task('clean', function() {
 	return del([config.dist], {dot: true});
 });
 
+gulp.task('reload', function(cb) {
+	browserSync.reload();
+	cb();
+});
+
 gulp.task('build', ['clean'], function(callback) {
 	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts', 'copy-images','build-custom-css',
 				 'build-app-js', 'html-template-cache'],'cache-break', callback);
 });
 
 gulp.task('install', function(callback) {
-	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts'], 'cache-break', callback);
+	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts'], 'cache-break', 'reload', callback);
 });
 
 gulp.task('watch', function() {
 	gulp.watch('bower.json', ['install']);
-	gulp.watch(config.assets + 'css/**/*.css', ['build-custom-css', 'cache-break']);
-	gulp.watch(config.app + 'app/**/*.js', ['build-app-js', 'cache-break']);
-	gulp.watch(config.app + 'app/**/*.html', ['html-template-cache', 'cache-break']);
-	gulp.watch([config.app + 'app/**', config.assets + 'css/**'])
-		.on('change', browserSync.reload);
+	gulp.watch(config.assets + 'css/**/*.css', function() {
+		runSequence('build-custom-css', 'cache-break', 'reload');
+	});
+	gulp.watch(config.app + 'app/**/*.js', function() {
+		runSequence('build-app-js', 'cache-break', 'reload');
+	});
+	gulp.watch(config.app + 'app/**/*.html', function() {
+		runSequence('html-template-cache', 'cache-break', 'reload');
+	});
 });
 
 gulp.task('serve', ['build', 'watch'], function() {
@@ -150,6 +160,7 @@ gulp.task('serve', ['build', 'watch'], function() {
 		options.route = r;
 		return proxy(options);
 	});
+	proxies.push(historyApiFallback());
 
 	browserSync({
 		open: true,

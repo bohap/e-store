@@ -5,15 +5,18 @@
 		.module('app')
 		.factory('Principal', Principal);
 
-	Principal.$inject = ['$q', 'Account', 'AuthJWTProvider', '$rootScope'];
+	Principal.$inject = ['$q', 'Account', 'AuthJWTProvider', '$rootScope', 'ROLES'];
 
-	function Principal($q, Account, AuthJWTProvider, $rootScope) {
+	function Principal($q, Account, AuthJWTProvider, $rootScope, ROLES) {
 		var _identity = null;
 		var autheticated = false;
+
 		var event = "auth-checked";
 		var authChecked = false;
 		var service = {
 			isAuthenticated: isAuthenticated,
+			isAdmin: isAdmin,
+			isRegularUser: isRegularUser,
 			getIdentity: getIdentity,
 			identity: identity,
 			resolveIdentity: resolveIdentity,
@@ -24,6 +27,31 @@
 
 		function isAuthenticated() {
 			return autheticated;
+		}
+
+		function isAdmin() {
+			return hasAuthority(ROLES.admin);
+		}
+
+		function isRegularUser() {
+			return hasAuthority(ROLES.regular);
+		}
+
+		function hasAuthority(authority) {
+			if (!autheticated) {
+				return false;
+			}
+			var authorities = _identity.authorities;
+			if (angular.isUndefined(authorities) || authorities === null) {
+				return false;
+			}
+
+			for (var i = 0; i < authorities.length; i++) {
+				if (authorities[i] == authority) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		function getIdentity() {
@@ -77,8 +105,7 @@
 				deferred.resolve(_identity);
 			}
 			var unwatch = $rootScope.$on(event, function(event, data) {
-				var resolve = _identity !== null ? _identity : null;
-				deferred.resolve(resolve);
+				deferred.resolve(_identity);
 				unwatch();
 			});
 

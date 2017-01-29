@@ -10,7 +10,10 @@
 			'ngAnimate',
 			'angular-loading-bar',
 			'ui.bootstrap',
+			'ui.select',
 			'toastr',
-			'infinite-scroll'
+			'infinite-scroll',
+			'smart-table',
+			'angularMoment'
 		]);
 })();

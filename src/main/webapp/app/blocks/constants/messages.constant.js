@@ -12,9 +12,9 @@
 		},
 		notAuthorized: {
 			title: "Not Authorized",
-			body: "You don;t have permissions to see this page"
+			body: "You don't have permissions to see this page"
 		},
-		internalServeError: {
+		internalServerError: {
 			title: "Serve error",
 			body: "There is some problem with the servers. Please try again later"
 		}

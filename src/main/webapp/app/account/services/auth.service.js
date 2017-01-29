@@ -52,6 +52,7 @@
 
 		function authenticationSuccess(response, deferred) {
 			AuthJWTProvider.storeToken(response);
+
 			// Get the user account
 			Principal.identity()
 				.then(identityResolveSuccess, identityResolveFailed);
@@ -69,7 +70,7 @@
 		function refresh() {
 			var deferred = $q.defer();
 			var token = AuthJWTProvider.getToken();
-			if (angular.isUndefined(token) && token === null) {
+			if (angular.isUndefined(token) || token === null) {
 				deferred.reject(false);
 			}
 			RefreshToken.refresh()
@@ -81,6 +82,7 @@
 			}
 
 			function refreshFailed(response) {
+				AuthJWTProvider.deleteToken();
 				deferred.reject(response);
 			}
 

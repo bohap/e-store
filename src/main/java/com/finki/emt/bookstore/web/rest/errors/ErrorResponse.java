@@ -1,4 +1,4 @@
-package com.finki.emt.bookstore.web.rest.response;
+package com.finki.emt.bookstore.web.rest.errors;
 
 import java.io.Serializable;
 

@@ -9,7 +9,11 @@ import java.util.Set;
 
 public class MinifiedBookResponse implements Serializable {
 
+    private long id;
+
     private String slug;
+
+    private String name;
 
     private String shortDescription;
 
@@ -19,15 +23,27 @@ public class MinifiedBookResponse implements Serializable {
 
     private Promotion promotion;
 
+    // TODO add the ide as a param
+
     public MinifiedBookResponse() {
     }
 
     public MinifiedBookResponse(Book book) {
+        this.id = book.getId();
         this.slug = book.getSlug();
+        this.name = book.getName();
         this.shortDescription = book.getShortDescription();
         this.price = book.getPrice();
         this.categories = book.getCategories();
         this.promotion = book.getPromotion();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getSlug() {
@@ -36,6 +52,14 @@ public class MinifiedBookResponse implements Serializable {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String setName(String name) {
+        return this.name;
     }
 
     public String getShortDescription() {

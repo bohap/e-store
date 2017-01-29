@@ -1,4 +1,4 @@
-package com.finki.emt.bookstore.web.rest.errors;
+package com.finki.emt.bookstore.util.exceptions;
 
 public class ModelNotFoundException extends RuntimeException {
 

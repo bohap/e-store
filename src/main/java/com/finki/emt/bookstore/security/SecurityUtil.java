@@ -43,4 +43,9 @@ public class SecurityUtil {
                 .map(a -> new SimpleGrantedAuthority(a.getName()))
                 .collect(Collectors.toList());
     }
+
+    public Principal getAuthentication() {
+        return (Principal)
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }

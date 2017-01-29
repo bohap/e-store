@@ -24,6 +24,7 @@
     <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:5.1.40" level="project" />
     <orderEntry type="library" name="Gradle: io.jsonwebtoken:jjwt:0.7.0" level="project" />
     <orderEntry type="library" name="Gradle: com.thedeanda:lorem:2.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.paypal.sdk:rest-api-sdk:1.13.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.8.5" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.8.5" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
@@ -52,6 +53,8 @@
     <orderEntry type="library" name="Gradle: javax.transaction:javax.transaction-api:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:1.10.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-aspects:4.3.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.22" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.7" level="project" />
     <orderEntry type="library" name="Gradle: org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.1_spec:1.0.0.Beta1" level="project" />
     <orderEntry type="library" name="Gradle: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
@@ -73,7 +76,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:1.12.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-orm:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-tx:4.3.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.22" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.22" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.8" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.22" level="project" />

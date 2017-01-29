@@ -43,7 +43,7 @@ public class BookSeeder {
         log.debug("Request to seed Book entity");
 
         final double minPrice = 100;
-        final double maxPrice = 10000;
+        final double maxPrice = 5000;
         List<Category> categories = categoryService.findAll();
         List<User> admins = userService.findByAuthority(AuthoritiesConstants.ADMIN);
 

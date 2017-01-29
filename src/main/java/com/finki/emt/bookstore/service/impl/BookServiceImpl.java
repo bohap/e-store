@@ -8,7 +8,7 @@ import com.finki.emt.bookstore.service.BookService;
 import com.finki.emt.bookstore.service.CategoryService;
 import com.finki.emt.bookstore.util.PageRequestUtil;
 import com.finki.emt.bookstore.util.SlugUtil;
-import com.finki.emt.bookstore.web.rest.errors.ModelNotFoundException;
+import com.finki.emt.bookstore.util.exceptions.ModelNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +42,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findAll(Optional<Integer> limit, Optional<Integer> offset,
                               Optional<Boolean> latest) {
         PageRequest pageRequest = PageRequestUtil.create(limit, offset, latest, "updatedAt");
@@ -49,10 +50,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> filterByCategory(Optional<Integer> limit, Optional<Integer> offset,
                                        Optional<Boolean> latest, String... categories) {
         PageRequest pageRequest = PageRequestUtil.create(limit, offset, latest, "updatedAt");
         return repository.findDistinctByCategoriesNameIn(pageRequest, categories);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long count() {
+        return repository.count();
     }
 
     @Override
@@ -169,5 +177,28 @@ public class BookServiceImpl implements BookService {
         Book book = repository.findBySlug(slug).orElseThrow(() ->
                 new ModelNotFoundException("book with slug " + slug + " can't be find"));
         repository.delete(book.getId());
+    }
+
+    @Override
+    public boolean isAddedToTheFavorites(String slug, User user) {
+        return repository.findBySlugAndFavoritesId(slug, user.getId()).isPresent();
+    }
+
+    @Override
+    public Book addToFavorites(String bookSlug, User user) {
+        log.debug("Request to add book to the favorites - {}, {}", bookSlug, user);
+        Book book = this.findBySlug(bookSlug).orElseThrow(() ->
+                new ModelNotFoundException("book with slug " + bookSlug + " can't be find"));
+        book.getFavorites().add(user);
+        return repository.save(book);
+    }
+
+    @Override
+    public Book removeFromFavorites(String bookSlug, User user) {
+        log.debug("Request to remove book from the favorites - {}, {}", bookSlug, user);
+        Book book = this.findBySlug(bookSlug).orElseThrow(() ->
+                new ModelNotFoundException("book with slug " + bookSlug + " can't be find"));
+        book.getFavorites().remove(user);
+        return repository.save(book);
     }
 }

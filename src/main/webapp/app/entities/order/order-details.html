@@ -1,0 +1,151 @@
+<div ng-if="vm.isOrderLoaded">
+	<uib-tabset active="vm.activeTab" type="pills">
+		<uib-tab index="0" heading="Details">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 order-content">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td colspan="2" class="text-center bold">
+									Basic Information
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>ID: </td>
+								<td>{{ vm.order.id }}</td>
+							</tr>
+							<tr>
+								<td>User Name: </td>
+								<td>{{ vm.order.user.name }}</td>
+							</tr>
+							<tr>
+								<td>Created At: </td>
+								<td>{{ vm.order.createdAt | amTimeAgo }}</td>
+							</tr>
+							<tr>
+								<td>Updated At: </td>
+								<td>{{ vm.order.updatedAt | amTimeAgo }}</td>
+							</tr>
+							<tr>
+								<td>Finished: </td>
+								<td>
+									<span ng-class="{'text-success': vm.order.finished,
+										'text-danger': !vm.order.finished}">
+										{{ vm.order.finished }}
+									</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="col-md-4 col-sm-6 order-content">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td colspan="2" class="text-center bold">
+									Billing Address
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Type: </td>
+								<td>{{ vm.order.billingAddress.type }}</td>
+							</tr>
+							<tr>
+								<td>Street: </td>
+								<td>{{ vm.order.billingAddress.street }}</td>
+							</tr>
+							<tr>
+								<td>City: </td>
+								<td>{{ vm.order.billingAddress.city }}</td>
+							</tr>
+							<tr>
+								<td>State: </td>
+								<td>{{ vm.order.billingAddress.state }}</td>
+							</tr>
+							<tr>
+								<td>Postal Code: </td>
+								<td>{{ vm.order.billingAddress.postalCode }}</td>
+							</tr>
+							<tr>
+								<td>Country Code: </td>
+								<td>{{ vm.order.billingAddress.countryCode }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 order-content">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td colspan="2" class="text-center bold">
+									Credit Card
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Type: </td>
+								<td>{{ vm.order.creditCard.type }}</td>
+							</tr>
+							<tr>
+								<td>Number: </td>
+								<td>{{ vm.order.creditCard.number }}</td>
+							</tr>
+							<tr>
+								<td>Expire: </td>
+								<td>
+									{{ vm.order.creditCard.expireMonth }} / {{ vm.order.creditCard.expireYear }}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="1" heading="Books">
+			<table class="table table-striped" st-table="items" st-safe-src="vm.order.items">
+				<thead>
+					<tr class='bold'>
+						<td  class="col-xs-1" st-sort="book.id">Book ID</td>
+						<td st-sort="book.name">Book Name</td>
+						<td st-sort="price">Price</td>
+						<td st-sort="quantity">Quantity</td>
+						<td st-sort="totalPrice">Total Price</td>
+					</tr>
+					<tr>
+						<td>
+							<input type='text' class='form-control' st-search='book.id'
+									placeholder="Search by book id..." />
+						</td>
+						<td>
+							<input type='text' class='form-control' st-search='book.name'
+									placeholder="Search by book name..."/>
+						</td>
+						<td colspan="3"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{ item.book.id }}</td>
+						<td>{{ item.book.name }}</td>
+						<td>{{ item.price | currency }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.totalPrice | currency }}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5" class="text-right">
+							<h3>Total Price: {{ vm.totalPrice | currency }}</h3>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</uib-tab>
+	</uib-tabset>
+</div>

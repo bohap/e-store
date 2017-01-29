@@ -11,12 +11,22 @@ public class BookStoreProperties implements Serializable {
 
     private JWT jwt = new JWT();
 
+    private PayPal payPal = new PayPal();
+
     public JWT getJwt() {
         return jwt;
     }
 
     public void setJwt(JWT jwt) {
         this.jwt = jwt;
+    }
+
+    public PayPal getPayPal() {
+        return payPal;
+    }
+
+    public void setPayPal(PayPal payPal) {
+        this.payPal = payPal;
     }
 
     public static class JWT implements Serializable {
@@ -49,6 +59,39 @@ public class BookStoreProperties implements Serializable {
 
         public void setTokenRefreshableInMinutes(long tokenRefreshableInMinutes) {
             this.tokenRefreshableInMinutes = tokenRefreshableInMinutes;
+        }
+    }
+
+    public static class PayPal {
+
+        private String clientId;
+
+        private String clientSecret;
+
+        private String mode;
+
+        public String getClientId() {
+            return clientId;
+        }
+
+        public void setClientId(String clientId) {
+            this.clientId = clientId;
+        }
+
+        public String getClientSecret() {
+            return clientSecret;
+        }
+
+        public void setClientSecret(String clientSecret) {
+            this.clientSecret = clientSecret;
+        }
+
+        public String getMode() {
+            return mode;
+        }
+
+        public void setMode(String mode) {
+            this.mode = mode;
         }
     }
 }

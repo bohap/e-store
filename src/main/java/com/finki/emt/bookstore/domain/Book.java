@@ -50,16 +50,12 @@ public class Book extends BaseModel implements Serializable {
     @Column(nullable = false, length = Constants.BOOK_IMAGE_MAX_SIZE)
     private byte[] image;
 
-    @Column(nullable = true)
     private String publisher;
 
-    @Column(nullable = true)
     private String author;
 
-    @Column(nullable = true)
     private int year;
 
-    @Column(nullable = true)
     private int pages;
 
     @JsonIgnore
@@ -75,7 +71,7 @@ public class Book extends BaseModel implements Serializable {
     private Set<Category> categories;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "book", cascade = CascadeType.ALL,
-              orphanRemoval = true, optional = true)
+              orphanRemoval = true)
     private Promotion promotion;
 
     @JsonIgnore
@@ -87,11 +83,11 @@ public class Book extends BaseModel implements Serializable {
     private Set<User> favorites;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
     private Set<Basket> baskets;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pk.book")
+    @OneToMany(mappedBy = "pk.book", cascade = CascadeType.ALL)
     private Set<BookOrder> orders;
 
     public Book() {

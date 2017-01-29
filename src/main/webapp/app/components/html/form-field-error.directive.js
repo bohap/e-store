@@ -39,7 +39,7 @@
 			fieldContainer.removeClass('has-error');
 			fieldContainer.removeClass('has-success');
 
-			var errorMessages = fieldContainer.next('.form-error-messages');
+			var errorMessages = fieldContainer.find('.form-error-messages');
 			var icon = angular.element('<i></i>');
 			icon.addClass('fa form-control-feedback');
 			if (hasError) {
@@ -49,8 +49,11 @@
 			} else {
 				errorMessages.hide();
 				if (angular.isDefined(viewValue) && viewValue !== null) {
-					icon.addClass('fa-check');
-					fieldContainer.addClass('has-success');
+					var empty = angular.isArray(viewValue) && viewValue.length === 0 ? true : false;
+					if (!empty) {
+						icon.addClass('fa-check');
+						fieldContainer.addClass('has-success');
+					}
 				}
 			}
 

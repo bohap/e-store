@@ -22,6 +22,5 @@ public class ValidationErrorConverterTest {
                 mockFieldError(1, 2), mockFieldError(1, 3), mockFieldError(2, 1),
                 mockFieldError(3, 1), mockFieldError(3, 2));
         Map<String, List<Error>> result = ValidationErrorConverter.groupErrors(errors);
-        // TODO
     }
 }

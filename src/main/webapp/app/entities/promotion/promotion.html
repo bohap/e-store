@@ -1,0 +1,87 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.close()">&times;</button>
+	Promotion for book {{ vm.book.name }}
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<errors-list errors="vm.errors"></errors-list>
+			<form name="form" novalidate class="form-horizontal" ng-submit="form.$valid && vm.save()">
+				<!-- New Price -->
+				<div class="form-group has-feedback">
+					<label for="newPrice" class="control-label col-sm-3">New Price:</label>
+					<div class="col-sm-9 input-group">
+						<input type="number" class="form-control" id="newPrice" name="newPrice"
+								ng-model="vm.promotion.newPrice" ng-model-options="{updateOn: 'blur'}"
+								required ng-max="vm.currentPrice" form-field-error />
+					</div>
+					<div class="col-sm-9 col-sm-offset-3 form-error-messages" ng-messages="form.newPrice.$error">
+						<strong class="text-danger" ng-message="required">
+							The new price field is required
+						</strong>
+						<strong class="text-danger" ng-message="max">
+							The new price can't be bigger then {{ vm.currentPrice | currency }}
+						</strong>
+					</div>
+				</div>
+
+				<!-- Start Date -->
+				<div class="form-group has-feedback">
+					<label for="start" class="control-label col-sm-3">Start Date:</label>
+					<div class="col-sm-9 input-group">
+						<input type="text" class="form-control" id="start" name="start"
+								uib-datepicker-popup="yyyy-MM-dd" is-open="vm.startDatepickerOpened"
+								datepicker-options="vm.startDatepickerOptions"
+								ng-model="vm.promotion.start" ng-model-options="{updateOn: 'blur'}"
+								ng-change="vm.updateDatepickerOptions()"
+								required form-field-error />
+						<span class="input-group-btn">
+				            <button type="button" class="btn btn-default" ng-click="vm.openStartDatepicker()">
+		            			<i class="fa fa-calendar"></i>
+		        			</button>
+			          	</span>
+					</div>
+					<div class="col-sm-9 col-sm-offset-3 form-error-messages" ng-messages="form.start.$error">
+						<strong class="text-danger" ng-message="required">
+							The start date field is required.
+						</strong>
+					</div>
+				</div>
+
+				<!-- End Date -->
+				<div class="form-group has-feedback">
+					<label for="end" class="control-label col-sm-3">End Date: </label>
+					<div class="col-sm-9 input-group">
+						<input type="text" id="end" class="form-control" name="end"
+								uib-datepicker-popup="yyyy-MM-dd" is-open="vm.endDatepickerOpened"
+								datepicker-options="vm.endDatepickerOptions"
+								ng-model="vm.promotion.end" ng-model-options="{updateOn: 'blur'}"
+								ng-change="vm.updateDatepickerOptions()"
+								required form-field-error />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="vm.openEndDatepicker()">
+								<i class="fa fa-calendar"></i>
+							</button>
+						</span>
+					</div>
+					<div class="col-sm-9 col-sm-offset-3 form-error-messages" ng-messages="form.end.$error">
+						<strong class="text-danger" ng-message="required">
+							The end date field is required.
+						</strong>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-3 col-xs-8">
+						<button class="btn btn-primary btn-block">
+							<i class="fa fa-paper-plane"></i>
+							Save
+						</button>
+					</div>
+					<i class="fa fa-spinner fa-spin fa-2x" ng-show="vm.sending"
+					   disable-ng-animation></i>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

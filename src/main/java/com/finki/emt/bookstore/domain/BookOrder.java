@@ -2,7 +2,6 @@ package com.finki.emt.bookstore.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "orders_books")
@@ -17,22 +16,27 @@ public class BookOrder {
     @EmbeddedId
     private BookOrderId pk;
 
-    @NotNull
     @Min(1)
     @Column(nullable = false, precision = 2, scale = 2)
     private double price;
 
+    @Min(1)
+    @Column(nullable = false)
+    private int quantity;
+
     public BookOrder() {
     }
 
-    public BookOrder(BookOrderId pk, double price) {
+    public BookOrder(BookOrderId pk, double price, int quantity) {
         this.pk = pk;
         this.price = price;
+        this.quantity = quantity;
     }
 
-    public BookOrder(Book book, Order order, double price) {
+    public BookOrder(Book book, Order order, double price, int quantity) {
         this.pk = new BookOrderId(book, order);
         this.price = price;
+        this.quantity = quantity;
     }
 
     public BookOrderId getPk() {
@@ -49,6 +53,14 @@ public class BookOrder {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override

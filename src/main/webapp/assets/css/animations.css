@@ -1,0 +1,18 @@
+.animate.ng-enter,
+.animate.ng-leave {
+	-webkit-transition: 1s ease all;
+	-moz-transition: 1s ease all;
+	-ms-transition: 1s ease all;
+	-o-transition: 1s ease all;
+	transition: 1s ease all;
+}
+
+.animate.ng-leave.animate.ng-leave-active,
+.animate.ng-enter {
+	opacity: 0;
+}
+
+.animate.ng-enter.ng-enter-active,
+.animate.ng-leave {
+	opacity: 1;
+}

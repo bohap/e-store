@@ -1,0 +1,171 @@
+<div class="col-md-10 col-md-offset-1">
+	<errors-list errors="vm.errors"></errors-list>
+
+	<form name='form' novalidate class='form-horizontal book-form' ng-submit="form.$valid && vm.submit()">
+		<!-- Name -->
+		<div class='form-group has-feedback'>
+			<label for="name" class='control-label col-sm-2'>Name: </label>
+			<div class='col-sm-10'>
+				<input type="text" class='form-control' id="name" name="name"
+					ng-model="vm.book.name" ng-model-options="{updateOn: 'blur'}"
+					required form-field-error />
+			</div>
+			<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.name.$error">
+				<strong class='text-danger' ng-message="required">
+					The name field is required
+				</strong>
+			</div>
+		</div>
+
+		<!-- Short Description -->
+		<div class='form-group has-feedback'>
+			<label for="shortDescription" class='control-label col-sm-2'>Short Description: </label>
+			<div class='col-sm-10'>
+				<textarea rows="4" class='form-control' id="shortDescription" name="shortDescription"
+					ng-model="vm.book.shortDescription" ng-model-options="{updateOn: 'blur'}"
+					required form-field-error>
+				</textarea>
+			</div>
+			<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.shortDescription.$error">
+				<strong class='text-danger' ng-message="required">
+					The short description field is required
+				</strong>
+			</div>
+		</div>
+
+		<!-- Body -->
+		<div class='form-group has-feedback'>
+			<label for="body" class='control-label col-sm-2'>Body: </label>
+			<div class='col-sm-10'>
+				<textarea rows="7" class='form-control' id="body" name="body"
+					ng-model="vm.book.body" ng-model-options="{updateOn: 'blur'}"
+					required form-field-error>
+				</textarea>
+			</div>
+			<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.body.$error">
+				<strong class='text-danger' ng-message="required">
+					The body field is required
+				</strong>
+			</div>
+		</div>
+
+		<!-- Categories -->
+		<div class='form-group has-feedback'>
+			<label for="categories" class='control-label col-sm-2'>Categories: </label>
+			<div class='col-sm-10'>
+				<ui-select name="categories" class='form-control' id="categories" ng-model="vm.book.categories"
+					multiple tagging="vm.categoryTransform" tagging-label="new category"
+					ui-select-required form-field-error>
+					<ui-select-match placeholder="Select Categories">
+						<span>{{ $item.name }}</span>
+					</ui-select-match>
+					<ui-select-choices
+						repeat="item in (vm.categories | filter: $select.search) track by item.id">
+						<span>{{ item.name }}</span>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.categories.$error">
+				<strong class='text-danger' ng-message="uiSelectRequired">
+					You must add at least one category
+				</strong>
+			</div>
+		</div>
+
+		<!-- Image -->
+		<div class="book-image" ng-switch="vm.book.hasImage">
+			<div class='form-group has-feedback' ng-switch-when="false">
+				<label for="image" class='control-label col-sm-2'>Image: </label>
+				<div class='col-sm-10'>
+					<input type="file" class='form-control' id="image" name="image"
+						ng-model="vm.image" accept="image/png,image/jpeg" required valid-file form-field-error />
+				</div>
+				<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.image.$error">
+					<strong class='text-danger' ng-message="required">
+						You must add a image
+					</strong>
+				</div>
+			</div>
+
+			<div class='form-group' ng-switch-when="true">
+				<label for="image" class='control-label col-sm-2'>Image: </label>
+				<div>
+					<div class='col-sm-3 col-xs-6'>
+						<img class='img-responsive' ng-src="api/books/{{vm.book.slug}}/image" />
+					</div>
+					<div class='col-xs-1'>
+						<button type='button' class='btn btn-danger' uib-tooltip="Remove"
+							ng-click="vm.deleteImage()">
+							<i class='fa fa-remove'></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Price -->
+		<div class='form-group has-feedback'>
+			<label for="price" class='control-label col-sm-2'>Price: </label>
+			<div class='col-sm-10'>
+				<input type="number" step="0.01" class='form-control' id="price" name="price"
+					ng-model="vm.book.price" ng-model-options="{updateOn: 'blur'}"
+					required min="1" ng-min="1" form-field-error />
+			</div>
+			<div class='col-sm-10 col-sm-offset-2 form-error-messages' ng-messages="form.price.$error">
+				<strong class='text-danger' ng-message="required">
+					The price field is required
+				</strong>
+				<strong class='text-danger' ng-message="min">
+					The price must be greater then zero.
+				</strong>
+			</div>
+		</div>
+
+		<!-- Publisher -->
+		<div class='form-group'>
+			<label for="publisher" class='control-label col-sm-2'>Publisher: </label>
+			<div class='col-sm-10'>
+				<input type="text" class='form-control' id="publisher" name="publisher"
+					ng-model="vm.book.publisher" />
+			</div>
+		</div>
+
+		<!-- Author -->
+		<div class='form-group has-feedback'>
+			<label for="author" class='control-label col-sm-2'>Author: </label>
+			<div class='col-sm-10'>
+				<input type="text" class='form-control' id="author" name="author"
+					ng-model="vm.book.author" />
+			</div>
+		</div>
+
+		<!-- Year -->
+		<div class='form-group has-feedback'>
+			<label for="year" class='control-label col-sm-2'>Year: </label>
+			<div class='col-sm-10'>
+				<input type="number" class='form-control' id="year" name="year"
+					ng-model="vm.book.year" />
+			</div>
+		</div>
+
+		<!-- Pages -->
+		<div class='form-group has-feedback'>
+			<label for="pages" class='control-label col-sm-2'>Pages: </label>
+			<div class='col-sm-10'>
+				<input type="number" class='form-control' id="pages" name="pages"
+					ng-model="vm.book.pages" />
+			</div>
+		</div>
+
+		<!-- Buttons -->
+		<div class='row'>
+			<div class='col-sm-4 col-sm-offset-2 col-xs-8'>
+				<button class='btn btn-primary btn-block'>
+					<i class='fa fa-paper-plane'></i>
+					{{vm.btnSaveText}}
+				</button>
+			</div>
+			<i class='fa fa-spinner fa-spin fa-2x' disable-ng-animation ng-if="vm.sending"></i>
+		</div>
+	</form>
+</div>

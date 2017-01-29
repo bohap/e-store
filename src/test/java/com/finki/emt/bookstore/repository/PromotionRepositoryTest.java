@@ -15,6 +15,8 @@ import javax.inject.Inject;
 import java.time.ZonedDateTime;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,5 +45,24 @@ public class PromotionRepositoryTest {
 //        repository.save(promotion);
         Promotion saved = repository.findOne(book.getId());
         assertThat(promotion, equalTo(saved));
+    }
+
+    @Test
+    public void testDelete() {
+        ZonedDateTime now = ZonedDateTime.now();
+        User user = ModelUtil.mockUser(1, now);
+        Book book = ModelUtil.mockBook(1, now, user);
+        Promotion promotion = new Promotion(book, 123, now, now);
+        book.setPromotion(promotion);
+
+        userRepository.save(user);
+        bookRepository.save(book);
+
+        Promotion saved = repository.findOne(book.getId());
+        assertThat(promotion, equalTo(saved));
+
+        book.setPromotion(null);
+        bookRepository.save(book);
+        assertThat(repository.findOne(book.getId()), is(nullValue()));
     }
 }

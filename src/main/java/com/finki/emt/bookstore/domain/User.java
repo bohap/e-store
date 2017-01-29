@@ -171,6 +171,12 @@ public class User extends BaseModel implements Serializable {
         this.createdBooks = createdBooks;
     }
 
+    public boolean hasAuthority(String authority) {
+        return authorities != null &&
+                authorities.stream()
+                        .anyMatch(a -> a.getName().equals(authority));
+    }
+
     @Override
     public boolean equals(Object obj) {
         return !(obj == null || !this.getClass().equals(obj.getClass())) &&

@@ -1,0 +1,287 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.close()">&times;</button>
+	<h4>Create new order</h4>
+</div>
+<div class="modal-body order" ng-switch="vm.sending">
+	<div class="container-fluid order" ng-switch-when="false">
+		<uib-tabset active="vm.activeTab" type="pills" justified="true">
+			<uib-tab index="0" heading="Confirm Order" class="{{ vm.isTabPassed(0) ? 'passed' : '' }}">
+				<div class="order-content">
+					<div class="row form-group" ng-repeat="item in vm.items">
+						<div class="col-xs-6">
+							<input type="text" class="form-control disabled" readonly uib-tooltip="Book name"
+									value="{{ item.book.name }}" />
+						</div>
+						<div class="col-xs-2">
+							<input type="text" class="form-control disabled" readonly uib-tooltip="Order quantity"
+									 value="{{ item.quantity }}" />
+						</div>
+						<div class="col-xs-4">
+							<input type="text" class="form-control disabled" readonly uib-tooltip="Book Price"
+								value="{{ vm.getBookPrice(item.book) | currency }}" />
+						</div>
+					</div>
+					<h3 class="text-success text-right bold">
+						Total: {{ vm.total | currency }}
+					</h3>
+				</div>
+			</uib-tab>
+			<!-- Billing Address -->
+			<uib-tab index="1" heading="Billing Address" class="{{ vm.isTabPassed(1) ? 'passed' : '' }}">
+				<form name="addressForm" class="form-horizontal order-content" novalidate>
+					<div class="row">
+						<!-- Type -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-type" class="control-label col-sm-2">Type: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="address-type" name="type"
+										placeholder="Enter address type (home, businness...)..."
+										ng-model="vm.address.type" required form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.type.$error">
+								<strong class="text-danger" ng-message="required">
+									The type field is reqwuired
+								</strong>
+							</div>
+						</div>
+						<!-- Street -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-street" class="control-label col-sm-2">Street: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="address-street" name="street"
+										placeholder="Enter address street..."
+										ng-model="vm.address.street" required form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.street.$error">
+								<strong class="text-danger" ng-message="required">
+									The street field is reqwuired
+								</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- City -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-city" class="control-label col-sm-2">City: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="address-city" name="city"
+										placeholder="Enter address city..."
+										ng-model="vm.address.city" required form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.city.$error">
+								<strong class="text-danger" ng-message="required">
+									The city field is reqwuired
+								</strong>
+							</div>
+						</div>
+						<!-- State -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-state" class="control-label col-sm-2">State: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="address-state" name="state"
+										placeholder="Enter address state..."
+										ng-model="vm.address.state" required form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.state.$error">
+								<strong class="text-danger" ng-message="required">
+									The state field is reqwuired
+								</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- Postal Code -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-postal-code" class="control-label col-sm-2">Postal Code: </label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="address-postal-code"
+										name="postalCode" placeholder="Enter address postal code..."
+										ng-model="vm.address.postalCode" required ng-min="1" form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.postalCode.$error">
+								<strong class="text-danger" ng-message="required">
+									The postal code field is reqwuired
+								</strong>
+								<strong class="text-danger" ng-message="min">
+									The postal code value must be bigger that 0
+								</strong>
+							</div>
+						</div>
+						<!-- Country Code -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="address-country-code" class="control-label col-sm-2">Country Code: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="address-country-code"
+										name="countryCode" placeholder="Enter address two letter country code..."
+										ng-model="vm.address.countryCode" required ng-minlength="2"
+										ng-maxlength="2" form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="addressForm.countryCode.$error">
+								<strong class="text-danger" ng-message="required">
+									The country code field is reqwuired
+								</strong>
+								<strong class="text-danger" ng-message="minlength">
+									The country code must be two characters
+								</strong>
+								<strong class="text-danger" ng-message="maxlength">
+									The country code must be two characters
+								</strong>
+							</div>
+						</div>
+					</div>
+				</form>
+			</uib-tab>
+			<!-- Credit Card -->
+			<uib-tab index="2" heading="Credit Card" disable="addressForm.$invalid">
+				<form name="creditCardForm" class="form-horizontal order-content" novalidate>
+					<div class="row">
+					<!-- Type -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="credit-card-type" class="control-label col-sm-6">Type: </label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="credit-card-type" name="type"
+										placeholder="Credit card type..."
+										ng-model="vm.creditCard.type" required form-field-error />
+							</div>
+							<div class="col-sm-6 col-sm-offset-6 form-error-messages"
+									ng-messages="creditCardForm.type.$error">
+								<strong class="text-danger" ng-message="required">
+									The type field is required
+								</strong>
+							</div>
+						</div>
+						<!-- Number -->
+						<div class="form-group has-feedback col-md-6">
+							<label for="credit-card-number" class="control-label col-sm-2">Number: </label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="credit-card-number" name="number"
+										placeholder="Credit card number..."
+										ng-model="vm.creditCard.number" required ng-minlength="16"
+										ng-maxlength="16" number form-field-error />
+							</div>
+							<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+									ng-messages="creditCardForm.number.$error">
+								<strong class="text-danger" ng-message="required">
+									The number field is required
+								</strong>
+								<strong class="text-danger" ng-message="minlength">
+									The number value must be 16 characters
+								</strong>
+								<strong class="text-danger" ng-message="maxlength">
+									The number value must be 16 characters
+								</strong>
+								<strong class="text-danger" ng-message="number">
+									The number value must be only digits
+								</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- Expire Month -->
+						<div class="form-group has-feedback col-sm-6">
+							<label for="credit-card-month" class="control-label col-sm-6">
+								Expire Month
+							</label>
+							<div class="col-sm-6">
+								<input type="number" class="form-control" name="month" id="credit-card-month"
+										placeholder="Credit card expire month..."
+										ng-model="vm.creditCard.expireMonth" required form-field-error
+										ng-min="1" ng-max="12" />
+							</div>
+							<div class="col-sm-6 col-sm-offset-6 form-error-messages"
+									ng-messages="creditCardForm.month.$error">
+								<strong class="text-danger" ng-message="required">
+									The expire month field is required
+								</strong>
+								<strong class="text-danger" ng-message="min">
+									The expire month value can't be less then 1
+								</strong>
+								<strong class="text-danger" ng-message="max">
+									The expire month field can't be bigger then 12
+								</strong>
+							</div>
+						</div>
+						<!-- Expire Year -->
+						<div class="form-group has-feedback col-sm-6">
+							<label for="credit-card-year" class="control-label col-sm-6">
+								Expire Year
+							</label>
+							<div class="col-sm-6">
+								<input type="number" class="form-control" name="year" id="credit-card-year"
+										placeholder="Credit card expire year..."
+										ng-model="vm.creditCard.expireYear" required form-field-error
+										ng-min="vm.nowYear" />
+							</div>
+							<div class="col-sm-6 col-sm-offset-6 form-error-messages"
+									ng-messages="creditCardForm.year.$error">
+								<strong class="text-danger" ng-message="required">
+									The expire year field is required
+								</strong>
+								<strong class="text-danger" ng-message="min">
+									The expire year value can't be less then {{ vm.nowYear }}
+								</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group has-feedback col-sm-6">
+							<label for="credit-card-cvv" class="control-label col-sm-6">CVV</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="cvv" id="credit-card-cvv"
+										placeholder="Credit card cvv..."
+										ng-model="vm.creditCard.cvv2" required ng-minlength="3"
+										ng-maxlength="3" number form-field-error />
+							</div>
+							<div class="col-sm-6 col-sm-offset-6 form-error-messages"
+									ng-messages="creditCardForm.cvv.$error">
+								<strong class="text-danger" ng-message="required">
+									The cvv field is required
+								</strong>
+								<strong class="text-danger" ng-message="minlength">
+									The cvv filed must be 3 characters
+								</strong>
+								<strong class="text-danger" ng-message="maxlength">
+									The cvv filed must be 3 characters
+								</strong>
+								<strong class="text-danger" ng-message="number">
+									The cvv filed must be only digits
+								</strong>
+							</div>
+						</div>
+					</div>
+				</form>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<div ng-switch-when="true" class="sending-content">
+		<div class="main-content text-center text-info">
+			<i class="fa fa-spinner fa-spin fa-5x"></i>
+			<h4 class="text-center">
+				The request is sending. This may take a couple of minutes in order to process
+				the PayPal transaction. Please be patient.
+			</h4>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="vm.prev()" ng-if="vm.hasPrev()" ng-disabled="vm.sending">
+		<i class="fa fa-backward"></i>
+		Prev
+	</button>
+	<button class="btn btn-primary" ng-click="vm.next()" ng-if="vm.hasNext()" ng-disabled="vm.sending">
+		Next
+		<i class="fa fa-forward"></i>
+	</button>
+	<button class="btn btn-success" ng-click="vm.create()" ng-if="vm.canCreate()" ng-disabled="vm.sending">
+		Create
+	</button>
+	<button class="btn btn-danger" ng-click="vm.close()" ng-disabled="vm.sending">
+		Cancel
+	</button>
+</div>

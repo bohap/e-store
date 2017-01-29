@@ -1,0 +1,86 @@
+<div class="row basket" ng-if="!vm.initDataLoading" ng-switch="vm.isEmpty()">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row align-center">
+                    <div class="col-md-7">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Shopping-cart</span>
+                    </div>
+                    <div class="col-md-5">
+                        <a class="btn btn-primary btn-block" ng-link="['/', 'Book']">
+                            <i class="fa fa-mail-forward"></i>
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div ng-switch-when="true">
+                        <div class='well text-center text-info'>
+                            <h1>Empty Basket</h1>
+                        </div>
+                    </div>
+                    <div class="row separator item-row animate" ng-switch-when="false"
+                        ng-repeat="item in vm.items">
+                        <div class="col-md-3">
+                            <img class="img-responsive" ng-src="/api/books/{{item.book.slug}}/image" />
+                        </div>
+                        <div class="col-md-5">
+                            <h4>
+                                <strong>
+                                    <a ng-link="['/', 'Book', 'BookDetails', {slug: item.book.slug}]">
+                                        {{ item.book.name }}
+                                    </a>
+                                </strong>
+                            </h4>
+                            <span>
+                                {{ item.book.shortDescription | limitTo:100 }}...
+                            </span>
+                        </div>
+                        <div class="col-md-1 text-success">
+                            <span>
+                                {{ vm.getBookPrice(item) | currency }}
+                            </span>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group has-feedback"
+                                    ng-class="{'has-error': vm.hasInvalidQuantity(item)}">
+                                <input type="number" name="quantity" class="form-control" uib-tooltip="Quantity"
+                                        ng-model="item.quantity" uib-popover="The quantity must be bigger than 1"
+                                        popover-placement="bottom" popover-trigger="'mouseenter'"
+                                        popover-enable="vm.hasInvalidQuantity(item)" />
+                            </div>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <button class='btn btn-danger btn-sm' uib-tooltip="Remove from the basket"
+                                    ng-click="vm.removeBook(item)">
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row product-row pull-right" ng-switch-when="false">
+                        <div class="text-right">
+                            <h3>Total
+                                <strong>
+                                    {{ vm.totalPrice() | currency }}
+                                </strong>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" ng-switch-when="false">
+                <div class="row">
+                    <div class="col-md-3 pull-right">
+                        <button class="btn btn-success btn-block" ng-click="vm.openCreateOrderDialog()">
+                            Checkout
+                            <i class='fa fa-play'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

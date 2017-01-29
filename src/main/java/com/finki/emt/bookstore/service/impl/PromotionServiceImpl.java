@@ -5,6 +5,7 @@ import com.finki.emt.bookstore.domain.Promotion;
 import com.finki.emt.bookstore.repository.PromotionRepository;
 import com.finki.emt.bookstore.service.BookService;
 import com.finki.emt.bookstore.service.PromotionService;
+import com.finki.emt.bookstore.util.exceptions.ModelNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,14 +42,37 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public void delete(long id) {
-        log.debug("Request to save promotion - {}", id);
-        repository.delete(id);
+        log.debug("Request to delete promotion - {}", id);
+        Book book = bookService.findById(id).orElseThrow(() ->
+                new ModelNotFoundException("book with id " + id + " can't be find"));
+        book.setPromotion(null);
+        bookService.save(book);
+    }
+
+    @Override
+    public void delete(String bookSlug) {
+        log.debug("Request to delete promotion for book - {}", bookSlug);
+        Book book = bookService.findBySlug(bookSlug).orElseThrow(() ->
+                new ModelNotFoundException("book with slug " + bookSlug + " can't be find"));
+        book.setPromotion(null);
+        bookService.save(book);
     }
 
     @Override
     public Promotion create(Book book, double newPrice, ZonedDateTime start, ZonedDateTime end) {
         log.debug("Request to create promotion for Book - {}", book);
         Promotion promotion = new Promotion(book, newPrice, start, end);
+        book.setPromotion(promotion);
+        bookService.save(book);
+        return promotion;
+    }
+
+    @Override
+    public Promotion save(String bookSlug, Promotion promotion) {
+        log.debug("Request to save promotion - {}, {}", bookSlug, promotion);
+        Book book = bookService.findBySlug(bookSlug).orElseThrow(() ->
+                new ModelNotFoundException("book with slug " + bookSlug + " can't be find"));
+        promotion.setBook(book);
         book.setPromotion(promotion);
         bookService.save(book);
         return promotion;

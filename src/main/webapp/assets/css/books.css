@@ -1,0 +1,79 @@
+@media(min-width: 768px) {
+	.books-index .book {
+		height: 360px;
+	}
+}
+
+.books-index .book {
+	margin-bottom: 30px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+.books-index .book {
+	position: relative;
+}
+
+.books-index .book .book-promotion {
+	background-color: #d9534f;
+	text-align: center;
+	width: 200px;
+	height: 30px;
+	font-size: 22px;
+	position: absolute;
+	top: 35px;
+	left: -40px;
+
+	-ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.books-index .book .book-categories {
+	margin-top: 10px;
+}
+
+.books-index .book .book-heading  {
+	margin-bottom: 20px;
+}
+
+.books-index .book .book-heading h4 {
+	font-size: 22px;
+}
+
+.books-index .book .book-price {
+	margin-top: 0px;
+}
+
+.books-index .book .book-description {
+	font-size: 16px;
+}
+
+.book-details .book-buttons {
+	margin-top: 20px;
+}
+
+.book-details .book-buttons .btn {
+	margin-left: 10px;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}
+
+.book-details .book-discount {
+	margin-left: 15px;
+}
+
+.book-details .book-info {
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+.book-form {
+	padding-bottom: 30px;
+}
+
+.book-form .form-control {
+	background-color: transparent;
+	color: white;
+}

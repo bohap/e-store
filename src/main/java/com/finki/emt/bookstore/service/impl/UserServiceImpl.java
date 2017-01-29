@@ -6,10 +6,11 @@ import com.finki.emt.bookstore.domain.Book;
 import com.finki.emt.bookstore.domain.User;
 import com.finki.emt.bookstore.repository.UserRepository;
 import com.finki.emt.bookstore.security.AuthoritiesConstants;
+import com.finki.emt.bookstore.security.Principal;
 import com.finki.emt.bookstore.service.AuthorityService;
 import com.finki.emt.bookstore.service.UserService;
 import com.finki.emt.bookstore.util.SlugUtil;
-import com.finki.emt.bookstore.web.rest.errors.ModelNotFoundException;
+import com.finki.emt.bookstore.util.exceptions.ModelNotFoundException;
 import com.finki.emt.bookstore.web.rest.vm.RegisterVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 
@@ -42,6 +43,11 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         log.debug("Request to get all Users");
         return repository.findAll();
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
     }
 
     @Override
@@ -145,5 +151,14 @@ public class UserServiceImpl implements UserService {
         User user = repository.findBySlug(slug).orElseThrow(() ->
                 new ModelNotFoundException("User with slug " + slug + " can't be find"));
         return user.getFavorites().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean canSee(Principal principal, String slug) {
+        User user = principal.getUser();
+        log.debug("Checking if authenticated user can see user profile - {}, {}", user, slug);
+
+        return user.hasAuthority(AuthoritiesConstants.ADMIN) || user.getSlug().equals(slug);
     }
 }

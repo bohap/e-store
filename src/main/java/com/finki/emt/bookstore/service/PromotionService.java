@@ -15,5 +15,9 @@ public interface PromotionService {
 
     void delete(long id);
 
+    void delete(String bookSlug);
+
     Promotion create(Book book, double newPrice, ZonedDateTime start, ZonedDateTime end);
+
+    Promotion save(String bookSlug, Promotion promotion);
 }

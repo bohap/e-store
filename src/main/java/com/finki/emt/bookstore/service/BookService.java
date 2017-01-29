@@ -19,6 +19,8 @@ public interface BookService {
     List<Book> filterByCategory(Optional<Integer> limit, Optional<Integer> offset,
                                 Optional<Boolean> latest, String... categories);
 
+    long count();
+
     Optional<Book> findById(long id);
 
     Optional<Book> findBySlug(String slug);
@@ -36,4 +38,10 @@ public interface BookService {
     Book update(String slug, Book book, User admin);
 
     void delete(String slug);
+
+    boolean isAddedToTheFavorites(String slug, User user);
+
+    Book addToFavorites(String bookSlug, User user);
+
+    Book removeFromFavorites(String bookSlug, User user);
 }

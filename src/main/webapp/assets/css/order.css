@@ -1,0 +1,19 @@
+.order-content {
+	margin-top: 40px;
+}
+
+.order .passed {
+	background-color: #999;
+}
+
+.order .passed a {
+	color: #777;
+}
+
+.order .sending-content {
+	height: 200px;
+}
+
+.order .sending-content .main-content {
+	padding-top: 20px;
+}

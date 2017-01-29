@@ -23,6 +23,7 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         log.debug("Http401 unauthenticated entry point called, reject request");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                "You need to be authenticated to access to this resource");
     }
 }

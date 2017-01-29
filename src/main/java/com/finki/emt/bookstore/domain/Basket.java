@@ -26,8 +26,7 @@ public class Basket implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-            name = "baskets_books",
+    @JoinTable(name = "baskets_books",
             joinColumns = {@JoinColumn(name = "basket_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")})
     private Set<Book> books;

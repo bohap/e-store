@@ -2,6 +2,7 @@ package com.finki.emt.bookstore.service;
 
 import com.finki.emt.bookstore.domain.Book;
 import com.finki.emt.bookstore.domain.User;
+import com.finki.emt.bookstore.security.Principal;
 import com.finki.emt.bookstore.web.rest.vm.RegisterVM;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.Optional;
 public interface UserService {
 
     List<User> findAll();
+
+    long count();
 
     Optional<User> findById(long id);
 
@@ -32,4 +35,6 @@ public interface UserService {
     List<User> findAllRegularUsers();
 
     List<Book> findAllFavoritesBuSlug(String slug);
+
+    boolean canSee(Principal principal, String slug);
 }

@@ -1,0 +1,95 @@
+<div class='row book-details'>
+	<div class='col-sm-9 col-sm-offset-1'>
+		<h1 class='page-header'>
+			{{ vm.book.name }}
+		</h1>
+		<div class='row'>
+			<div class='col-sm-4'>
+				<img class='img-thumbnail book-img' ng-src="/api/books/{{vm.book.slug}}/image" />
+
+				<div class='text-center book-buttons' ng-if="vm.isRegularUser()">
+					<button class='btn btn-success text-center' uib-tooltip="Add to the basket"
+							ng-if="!vm.isBookInTheUserBasket()" ng-click="vm.addToBasket()">
+						<i class='fa fa-cart-arrow-down'></i>
+					</button>
+					<button class='btn btn-danger text-center' uib-tooltip="Remove from the basket"
+							ng-if="vm.isBookInTheUserBasket()" ng-click="vm.removeFromBasket()">
+						<i class='fa fa-cart-arrow-down'></i>
+					</button>
+
+					<button class='btn btn-success text-center' uib-tooltip="Add to the favorites"
+							ng-if="!vm.isBookInTheUserFavorites()" ng-click="vm.addToFavorites()">
+						<i class='fa fa-heart-o'></i>
+					</button>
+					<button class='btn btn-danger text-center' uib-tooltip="Remove from the favorites"
+							ng-if="vm.isBookInTheUserFavorites()" ng-click="vm.removeFromFavorites()">
+						<i class='fa fa-heart'></i>
+					</button>
+				</div>
+			</div>
+			<div class='col-sm-8 book-content'>
+				<p>
+					{{ vm.book.body }}
+				</p>
+				<table class='table table-hover table-striped book-info'>
+					<tbody>
+						<tr>
+							<td>
+								<b>Publisher</b>
+							</td>
+							<td>
+								{{ vm.book.publisher }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Author</b>
+							</td>
+							<td>
+								{{ vm.book.author }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Price</b>
+							</td>
+							<td ng-class="vm.isBookOnPromotion ? 'text-danger' : 'text-success'">
+								{{ vm.book.price | currency }}
+								<b class="book-discount" ng-if="vm.isBookOnPromotion">
+									-{{ vm.bookDiscount }}%
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Year</b>
+							</td>
+							<td>
+								{{ vm.book.year }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Pages</b>
+							</td>
+							<td>
+								{{ vm.book.pages }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Categories</b>
+							</td>
+							<td>
+								<span class='label label-primary category'
+									ng-repeat="category in vm.book.categories">
+									{{ category.name }}
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

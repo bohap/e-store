@@ -1,0 +1,52 @@
+<table class="table table-striped" st-table="orders" st-safe-src="vm.orders">
+	<thed>
+		<tr class="bold">
+			<td class="col-xs-1" st-sort="id">ID</td>
+			<td st-sort="user.name">User Name</td>
+			<td st-sort="createdAt">Created At</td>
+			<td st-sort="updatedAt">Updated At</td>
+			<td class="text-center" st-sort="finished">Finished</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<input type='text' class='form-control' st-search='id'  uib-tooltip="Search by order id..." />
+			</td>
+			<td>
+				<input type='text' class='form-control' st-search='user.name'
+						uib-tooltip="Search by user name..." />
+			</td>
+			<td colspan="4"></td>
+		</tr>
+	</thed>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{ order.id }}</td>
+			<td>{{ order.user.name }}</td>
+			<td>{{ order.createdAt | amTimeAgo }}</td>
+			<td>{{ order.updatedAt | amTimeAgo }}</td>
+			<td class="text-center">
+				<input type="checkbox" class="form-control" ng-model="order.finished" disabled />
+			</td>
+			<td>
+				<div class="btn-group">
+					<a class="btn btn-primary" ng-link="['/', 'Order', 'OrderDetails', {id: order.id}]"
+						uib-tooltip="View order details">
+						<i class="fa fa-eye"></i>
+					</a>
+					<button class="btn btn-success" uib-tooltip="Mark order as finished"
+							  ng-if="vm.canFinishOrder(order)" ng-click="vm.finish(order)">
+						<i class="fa fa-pencil-square-o "></i>
+					</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6" class="text-center">
+				<div st-pagination st-items-by-page="20"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>

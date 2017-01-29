@@ -7,23 +7,49 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a ng-link="['Player']" class="navbar-brand pointer">
+			<a class="navbar-brand pointer" ng-link="['Book']">
 				<h4>EMT Book Store</h4>
 			</a>
 		</div>
-		<div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed">
-			<ul class="nav navbar-nav navbar-right" ng-switch="vm.isAuthenticated()">
-				<li ng-switch-when="true" class="dropdown pointer" uib-dropdown>
+		<div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed" ng-switch="vm.isAuthenticated()">
+			<ul class="nav navbar-nav" ng-switch-when=true>
+				<li ng-if="vm.isRegularUser()">
+					<a ng-link="['Basket']">
+						<i class="fa fa-shopping-cart"></i>
+						Basket
+					</a>
+				</li>
+				<li ng-if="vm.isAdmin()">
+					<a ng-link="['Dashboard']">
+						<i class="fa fa-tachometer"></i>
+						Dashboard
+					</a>
+				</li>
+				<li ng-if="vm.isAdmin()">
+					<a ng-link="['Book', 'BookCreate']">
+						<i class="fa fa-plus-square"></i>
+						Add Book
+					</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown pointer" uib-dropdown ng-switch-when="true">
 					<a class="dropdown-toggle" uib-dropdown-toggle>
 						<i class="fa fa-user"></i>
 						{{ vm.identity().name }}
 						<span class="caret"></span>
 					</a>
-					<ul class="dropdown-menu" uib-dropdown-menu>
-						<li>
-							<a ng-link="['FavoritePlayers']">
+					<ul class="dropdown-menu" uib-dropdown-menu ng-switch="vm.isRegularUser()">
+						<li ng-switch-when="true">
+							<a ng-link="['User', 'UserFavorites', {slug: vm.identity().slug}]">
 								<i class="fa fa-heart"></i>
 								Favorites
+							</a>
+						</li>
+						<li ng-switch-when="true">
+							<a ng-link="['User', 'UserOrders', {slug: vm.identity().slug}]">
+								<i class="fa fa-heart"></i>
+								Orders
 							</a>
 						</li>
 						<li>

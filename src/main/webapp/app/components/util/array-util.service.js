@@ -20,13 +20,24 @@
 			if (isEmpty(array)) {
 				return result;
 			}
+
+			// Check if the param is only a string
+			if (!angular.isArray(array) && !angular.isObject(array)) {
+				result.push(array);
+				return result;
+			}
+
 			angular.forEach(array, function(value, key) {
 				if (angular.isArray(value)) {
 					result = result.concat(value);
 				} else if (angular.isObject(value)) {
 					for (var prop in value) {
 						var flattened = flatten(prop);
-						result.concat(flattened);
+						flattened.forEach(function(f) {
+							if (angular.isUndefined(f.message) && f.message !== null) {
+								result.push(prop + " " + f.message);
+							}
+						});
 					}
 				} else {
 					result.push(value);

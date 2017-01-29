@@ -27,7 +27,7 @@
 			}
 
 			var credentials = {
-				email: vm.username,
+				username: vm.username,
 				password: vm.password
 			};
 

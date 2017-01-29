@@ -20,13 +20,18 @@ public class Order extends BaseModel implements Serializable {
     @Column(name = "finished", nullable = false)
     private boolean finished;
 
-    @JsonIgnore
+    @Embedded
+    private BillingAddress billingAddress;
+
+    @Embedded
+    private CreditCard creditCard;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pk.order")
+    @OneToMany(mappedBy = "pk.order", cascade = CascadeType.ALL)
     private Set<BookOrder> books;
 
     public Order() {
@@ -61,6 +66,22 @@ public class Order extends BaseModel implements Serializable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public BillingAddress getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(BillingAddress billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 
     public User getUser() {

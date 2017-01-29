@@ -10,4 +10,6 @@ public interface BasketRepository extends JpaRepository<Basket, Long>,
                                           JpaSpecificationExecutor<Basket> {
 
     Optional<Basket> findByUserId(long userId);
+
+    Optional<Basket> findByUserIdAndBooksSlug(long userId, String bookSlug);
 }

@@ -7,15 +7,27 @@
 
 	function DateUtil() {
 		var service = {
-			getYearDiff: getYearDiff
+			addDays: addDays,
+			equals: equals
 		};
 
 		return service;
 
-		function getYearDiff(date1, date2) {
-			var yearMills = 356 * 24 * 60 * 60 * 1000;
-			var diff = (date1.getTime() - date2.getTime()) / yearMills;
-			return Math.floor(diff);
+		function addDays(date, days) {
+			if (angular.isUndefined(date) || date === null) {
+				return new Date();
+			}
+			var daysMills = days * 24 * 60 * 60 * 1000;
+			return new Date(date.getTime() + daysMills);
+		}
+
+		function equals(date1, date2) {
+			if (angular.isUndefined(date1) || date1 === null ||
+				angular.isUndefined(date2) || date2 === null) {
+				return false;
+			}
+
+			return date1.getTime() === date2.getTime();
 		}
 	}
 })();

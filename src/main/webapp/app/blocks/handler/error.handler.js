@@ -5,9 +5,9 @@
 		.module('app')
 		.factory('errorHandler', errorHandler);
 
-	errorHandler.$inject = ['$injector', 'MESSAGES'];
+	errorHandler.$inject = ['$injector'];
 
-	function errorHandler($injector, MESSAGES) {
+	function errorHandler($injector) {
 		var service = {
 			handleNotFound: handleNotFound,
 			handleNotAuthenticated: handleNotAuthenticated,
@@ -17,28 +17,29 @@
 
 		return service;
 
-		function showToast(msg) {
-			var toastr = $injector.get('toastr');
-			toastr.error(msg.body, msg.title);
-		}
-
 		function handleNotFound() {
-			showToast(MESSAGES.notFound);
+			var messageUtil = $injector.get('MessageUtil');
+			messageUtil.showNotFound();
 			// go to nod found route
 		}
 
 		function handleNotAuthenticated() {
+			var messageUtil = $injector.get('MessageUtil');
+			messageUtil.showNotAuthenticated();
+
+			// Show the login dialog
 			var LoginDialog = $injector.get('LoginDialog');
-			showToast(MESSAGES.notAuthenticated);
 			LoginDialog.open();
 		}
 
 		function handleNotAuthorized() {
-			showToast(MESSAGES.notAuthorized);
+			var messageUtil = $injector.get('MessageUtil');
+			messageUtil.showNotAuthorized();
 		}
 
 		function handleInternalServerError() {
-			showToast(MESSAGES.internalServerError);
+			var messageUtil = $injector.get('MessageUtil');
+			messageUtil.showInternalServerError();
 		}
 	}
 })();
