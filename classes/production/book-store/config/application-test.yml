@@ -5,11 +5,6 @@ spring:
         hibernate:
             dialect: org.hibernate.dialect.H2Dialect
         show-sql: true
-    mail:
-        host: smtp.mailtrap.io
-        port: 25
-        username: cceb517009de0e
-        password: 72f2802648d5a0
 
 #================================================================
 # App specific properties

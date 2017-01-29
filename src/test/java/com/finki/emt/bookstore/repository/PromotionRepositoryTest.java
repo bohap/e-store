@@ -65,4 +65,9 @@ public class PromotionRepositoryTest {
         bookRepository.save(book);
         assertThat(repository.findOne(book.getId()), is(nullValue()));
     }
+
+    @Test
+    public void tesLatest() {
+        repository.findTop10ByOrderByStart();
+    }
 }

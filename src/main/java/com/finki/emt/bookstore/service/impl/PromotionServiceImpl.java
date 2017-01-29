@@ -77,4 +77,10 @@ public class PromotionServiceImpl implements PromotionService {
         bookService.save(book);
         return promotion;
     }
+
+    @Override
+    public List<Promotion> findLatest() {
+        log.debug("Request to get latest promotions");
+        return repository.findTop10ByOrderByStart();
+    }
 }

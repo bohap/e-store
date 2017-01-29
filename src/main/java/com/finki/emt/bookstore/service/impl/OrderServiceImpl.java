@@ -5,10 +5,7 @@ import com.finki.emt.bookstore.repository.BookOrderRepository;
 import com.finki.emt.bookstore.repository.OrderRepository;
 import com.finki.emt.bookstore.security.AuthoritiesConstants;
 import com.finki.emt.bookstore.security.SecurityUtil;
-import com.finki.emt.bookstore.service.OrderService;
-import com.finki.emt.bookstore.service.PayPalService;
-import com.finki.emt.bookstore.service.PromotionService;
-import com.finki.emt.bookstore.service.UserService;
+import com.finki.emt.bookstore.service.*;
 import com.finki.emt.bookstore.util.exceptions.ModelNotFoundException;
 import com.finki.emt.bookstore.web.rest.vm.BookOrderQuantityVM;
 import com.finki.emt.bookstore.web.rest.vm.BookOrderVM;
@@ -49,6 +46,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Inject
     private SecurityUtil securityUtil;
+
+    @Inject
+    private MailService mailService;
 
     @Override
     @Transactional(readOnly = true)
@@ -124,6 +124,8 @@ public class OrderServiceImpl implements OrderService {
             b.getPk().setOrder(order);
             bookOrderRepository.save(b);
         });
+
+        mailService.sendOrderCreatedMail(saved);
 
         return saved;
     }

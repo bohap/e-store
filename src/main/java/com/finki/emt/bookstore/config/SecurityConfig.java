@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasAuthority(AuthoritiesConstants.ADMIN)
 
                 // promotion routes
-                .antMatchers(HttpMethod.POST, "/api/books/{slug}/promotion")
+                .antMatchers("/api/books/{slug}/promotion")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
 
                 .antMatchers("/api/**").permitAll()

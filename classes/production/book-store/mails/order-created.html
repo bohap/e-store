@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Order Created Successfully</title>
+
+    <style type="text/css">
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .page-header {
+            padding-bottom: 9px;
+            margin: 40px 0 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .list-group {
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: -1px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary {
+            color: #337ab7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-header text-center text-primary">
+            Dear
+            <span th:text="${order.user.name}">User</span>
+            , a new order has been created with the following items:
+        </h1>
+
+        <div class="list-group">
+            <div class="list-group-item">
+                Book 1
+            </div>
+            <div class="list-group-item">
+                Book 1
+            </div>
+            <div class="list-group-item">
+                Book 1
+            </div>
+            <div class="list-group-item">
+                Book 1
+            </div>
+            <div class="list-group-item">
+                Book 1
+            </div>
+        </div>
+    </div>
+</body>
+</html>

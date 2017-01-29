@@ -13,6 +13,8 @@ public class BookStoreProperties implements Serializable {
 
     private PayPal payPal = new PayPal();
 
+    private Mail mail = new Mail();
+
     public JWT getJwt() {
         return jwt;
     }
@@ -27,6 +29,14 @@ public class BookStoreProperties implements Serializable {
 
     public void setPayPal(PayPal payPal) {
         this.payPal = payPal;
+    }
+
+    public Mail getMail() {
+        return mail;
+    }
+
+    public void setMail(Mail mail) {
+        this.mail = mail;
     }
 
     public static class JWT implements Serializable {
@@ -92,6 +102,19 @@ public class BookStoreProperties implements Serializable {
 
         public void setMode(String mode) {
             this.mode = mode;
+        }
+    }
+
+    public static class Mail {
+
+        private String from;
+
+        public String getFrom() {
+            return from;
+        }
+
+        public void setFrom(String from) {
+            this.from = from;
         }
     }
 }

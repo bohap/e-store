@@ -1,5 +1,6 @@
 package com.finki.emt.bookstore.web.rest;
 
+import com.finki.emt.bookstore.domain.Promotion;
 import com.finki.emt.bookstore.service.PromotionService;
 import com.finki.emt.bookstore.web.rest.vm.PromotionVM;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
