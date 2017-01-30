@@ -17,9 +17,13 @@ public interface PromotionService {
 
     void delete(String bookSlug);
 
+    void delete(Promotion promotion);
+
     Promotion create(Book book, double newPrice, ZonedDateTime start, ZonedDateTime end);
 
     Promotion save(String bookSlug, Promotion promotion);
 
     List<Promotion> findLatest();
+
+    void deleteExpired();
 }

@@ -14,4 +14,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long>,
     Optional<Promotion> findByBookId(long bookId);
 
     List<Promotion> findTop10ByOrderByStart();
+
+    List<Promotion> findAllByEndBefore(ZonedDateTime before);
 }

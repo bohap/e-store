@@ -9,11 +9,21 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "book-store")
 public class BookStoreProperties implements Serializable {
 
+    private Async async;
+
     private JWT jwt = new JWT();
 
     private PayPal payPal = new PayPal();
 
     private Mail mail = new Mail();
+
+    public Async getAsync() {
+        return async;
+    }
+
+    public void setAsync(Async async) {
+        this.async = async;
+    }
 
     public JWT getJwt() {
         return jwt;
@@ -37,6 +47,39 @@ public class BookStoreProperties implements Serializable {
 
     public void setMail(Mail mail) {
         this.mail = mail;
+    }
+
+    public static class Async {
+
+        private int corePoolSize;
+
+        private int maxPoolSize;
+
+        private int queueCapacity;
+
+        public int getCorePoolSize() {
+            return corePoolSize;
+        }
+
+        public void setCorePoolSize(int corePoolSize) {
+            this.corePoolSize = corePoolSize;
+        }
+
+        public int getMaxPoolSize() {
+            return maxPoolSize;
+        }
+
+        public void setMaxPoolSize(int maxPoolSize) {
+            this.maxPoolSize = maxPoolSize;
+        }
+
+        public int getQueueCapacity() {
+            return queueCapacity;
+        }
+
+        public void setQueueCapacity(int queueCapacity) {
+            this.queueCapacity = queueCapacity;
+        }
     }
 
     public static class JWT implements Serializable {

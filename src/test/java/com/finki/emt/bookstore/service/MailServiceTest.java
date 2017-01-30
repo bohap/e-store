@@ -38,10 +38,6 @@ public class MailServiceTest {
                 .collect(Collectors.toSet());
         order.setBooks(bookOrders);
 
-        double totalPrice = bookOrders.stream()
-                .mapToDouble(b -> b.getPrice() * b.getQuantity())
-                .sum();
-
-        service.sendOrderCreatedMail(order, totalPrice);
+        service.sendOrderCreatedMail(order);
     }
 }

@@ -10,7 +10,9 @@
 	function BookCreateController(Book, ArrayUtils, EVENTS, $rootRouter, $scope) {
 		var vm = this;
 
-		vm.book = {};
+		vm.book = {
+			hasImage: false
+		};
 		vm.errors = [];
 		vm.save = save;
 		vm.sending = false;

@@ -18,6 +18,10 @@ spring:
 # App specific properties
 #================================================================
 book-store:
+    async:
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000
     jwt:
         secret: BC1428EE0A4FE1F689E5B70D1D6C004ADD76F003FC8B836ABF00166F7A956539
         tokenValidInMinutes: 60

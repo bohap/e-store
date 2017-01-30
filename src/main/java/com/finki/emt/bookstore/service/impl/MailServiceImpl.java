@@ -55,7 +55,7 @@ public class MailServiceImpl implements MailService {
     @Override
     @Async
     public void sendOrderCreatedMail(Order order) {
-        log.debug("Sending order creted email for order - {}", order);
+        log.debug("Sending order crated email for order - {}", order);
         Context context = new Context(Locale.ENGLISH);
 
         double totalPrice = order.getBooks().stream()
@@ -71,6 +71,13 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendLatestPromotionsMail(List<User> users, List<Promotion> promotions) {
-
+        log.debug("Sending promotions mail to the users");
+        users.forEach(u -> {
+            Context context = new Context(Locale.ENGLISH);
+            context.setVariable("promotions", promotions);
+            String content = templateEngine.process("promotions", context);
+            String subject = "Book Store - New promotions";
+            sendEmail(u.getEmail(), subject, content, false, true);
+        });
     }
 }

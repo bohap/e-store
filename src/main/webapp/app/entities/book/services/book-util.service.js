@@ -59,7 +59,7 @@
 			}
 			var currPrice = book.price;
 			var newPrice = book.promotion.newPrice;
-			return Math.floor((newPrice / currPrice) * 100);
+			return Math.floor((1 - (newPrice / currPrice)) * 100);
 		}
 	}
 })();

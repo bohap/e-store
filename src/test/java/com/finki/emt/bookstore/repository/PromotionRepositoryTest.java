@@ -70,4 +70,9 @@ public class PromotionRepositoryTest {
     public void tesLatest() {
         repository.findTop10ByOrderByStart();
     }
+
+    @Test
+    public void testExpired() {
+        repository.findAllByEndBefore(ZonedDateTime.now().plusMinutes(1));
+    }
 }

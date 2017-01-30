@@ -59,6 +59,14 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
+    public void delete(Promotion promotion) {
+        log.debug("Request to delete promotion, {}", promotion);
+        Book book = promotion.getBook();
+        book.setPromotion(null);
+        bookService.save(book);
+    }
+
+    @Override
     public Promotion create(Book book, double newPrice, ZonedDateTime start, ZonedDateTime end) {
         log.debug("Request to create promotion for Book - {}", book);
         Promotion promotion = new Promotion(book, newPrice, start, end);
@@ -82,5 +90,13 @@ public class PromotionServiceImpl implements PromotionService {
     public List<Promotion> findLatest() {
         log.debug("Request to get latest promotions");
         return repository.findTop10ByOrderByStart();
+    }
+
+    @Override
+    public void deleteExpired() {
+        log.debug("Request to delete expired promotions");
+        ZonedDateTime now = ZonedDateTime.now();
+        List<Promotion> promotions = repository.findAllByEndBefore(now);
+        promotions.forEach(this::delete);
     }
 }
