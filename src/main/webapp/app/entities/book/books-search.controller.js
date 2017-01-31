@@ -15,24 +15,29 @@
 		vm.search = search;
 		vm.loadMore = loadMore;
 		vm.books = [];
-		vm.query = null;
-		vm.invalid = false;
+		vm.query = {
+			value: null,
+			invalid: false
+		};
 		vm.sending = false;
+		vm.allBooksLoaded = false;
 
 		function search() {
 			if (vm.sending) {
 				return;
 			}
-			if (vm.query === null || vm.query.length < 3) {
-				vm.invalid = true;
+			if (vm.query.value === null || vm.query.value.length < 3) {
+				vm.query.invalid = true;
+				return;
 			}
-			vm.invalid = false;
+			vm.query.invalid = false;
 			offset = 0;
+			vm.allBooksLoaded = false;
 			load();
 		}
 
 		function loadMore() {
-			if (vm.query === null || vm.query.length < 3 || vm.sending) {
+			if (vm.query.value === null || vm.query.value.length < 3 || vm.sending || vm.allBooksLoaded) {
 				return;
 			}
 
@@ -42,7 +47,7 @@
 
 		function load() {
 			vm.sending = true;
-			Book.search({query: vm.query, limit: limit, offset: offset}).$promise
+			Book.search({query: vm.query.value, limit: limit, offset: offset}).$promise
 				.then(onBooksLoadingSuccess, onBooksLoadingFailed);
 
 			function onBooksLoadingSuccess(books) {
@@ -51,6 +56,9 @@
 					vm.books = books;
 				} else {
 					vm.books = vm.books.concat(books);
+				}
+				if (books.length < limit) {
+					vm.allBooksLoaded = true;
 				}
 			}
 
