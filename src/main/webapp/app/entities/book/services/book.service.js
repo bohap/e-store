@@ -25,6 +25,20 @@
 				params: {
 					path: 'count'
 				}
+			},
+			popular: {
+				method: 'GET',
+				isArray: true,
+				params: {
+					path: 'popular'
+				}
+			},
+			search: {
+				method: 'GET',
+				isArray: true,
+				params: {
+					path: '_search'
+				}
 			}
 		});
 

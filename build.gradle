@@ -32,6 +32,8 @@ dependencies {
 	compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jackson_version}"
 	compile "org.hibernate:hibernate-core:${hibernate_core_version}"
 	compile "org.hibernate:hibernate-validator:${hibernate_validator_version}"
+	compile "org.hibernate:hibernate-search-orm:${hibernate_search_orm}"
+
 	// Needed for hibernate-validator > 5.1.*
 	compile "org.glassfish.web:el-impl:2.2"
 	compile "org.springframework.boot:spring-boot-starter-web"

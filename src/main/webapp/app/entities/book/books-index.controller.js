@@ -5,19 +5,14 @@
 		.module('app')
 		.controller('BooksIndexController', BooksIndexController);
 
-	BooksIndexController.$inject = ['Book', 'Category', 'BookUtil'];
+	BooksIndexController.$inject = ['Book', 'Category'];
 
-	function BooksIndexController(Book, Category, BookUtil) {
+	function BooksIndexController(Book, Category) {
 		var vm = this;
 		var limit = 15;
 		var offset = 0;
 
 		vm.$routerOnActivate = onRouterActivated;
-		vm.isBookDescriptionLong = BookUtil.isBookDescriptionLong;
-		vm.isBookOnPromotion = BookUtil.isBookOnPromotion;
-		vm.getBookDiscount = BookUtil.getBookDiscount;
-		vm.getBookPrice = BookUtil.getBookPrice;
-		vm.bookDescriptionMaxSize = BookUtil.getBookDescriptionMaxSize();
 		vm.loadMore = loadMore;
 		vm.filter = filter;
 		vm.books = [];

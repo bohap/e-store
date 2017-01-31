@@ -13,6 +13,12 @@ spring:
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        properties:
+            hibernate:
+                search:
+                    default:
+                        directory_provider: filesystem
+                        indexBase: target/search
 
 #================================================================
 # App specific properties

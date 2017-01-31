@@ -4,6 +4,7 @@ import com.finki.emt.bookstore.domain.Book;
 import com.finki.emt.bookstore.domain.Category;
 import com.finki.emt.bookstore.domain.User;
 import com.finki.emt.bookstore.repository.BookRepository;
+import com.finki.emt.bookstore.repository.search.BookSearchRepository;
 import com.finki.emt.bookstore.service.BookService;
 import com.finki.emt.bookstore.service.CategoryService;
 import com.finki.emt.bookstore.util.PageRequestUtil;
@@ -34,6 +35,9 @@ public class BookServiceImpl implements BookService {
     @Inject
     private CategoryService categoryService;
 
+    @Inject
+    private BookSearchRepository searchRepository;
+
     @Override
     @Transactional(readOnly = true)
     public List<Book> findAll() {
@@ -43,18 +47,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findAll(Optional<Integer> limit, Optional<Integer> offset,
-                              Optional<Boolean> latest) {
+    public List<Book> findAll(Optional<Integer> offset, Optional<Integer> limit,
+                              Optional<Boolean> latest, Optional<String> categories) {
         PageRequest pageRequest = PageRequestUtil.create(limit, offset, latest, "updatedAt");
-        return repository.findAll(pageRequest).getContent();
-    }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Book> filterByCategory(Optional<Integer> limit, Optional<Integer> offset,
-                                       Optional<Boolean> latest, String... categories) {
-        PageRequest pageRequest = PageRequestUtil.create(limit, offset, latest, "updatedAt");
-        return repository.findDistinctByCategoriesNameIn(pageRequest, categories);
+        return categories.map(c ->
+                repository.findDistinctByCategoriesNameIn(pageRequest, c.split(",")))
+        .orElseGet(() -> repository.findAll(pageRequest).getContent());
     }
 
     @Override
@@ -200,5 +199,21 @@ public class BookServiceImpl implements BookService {
                 new ModelNotFoundException("book with slug " + bookSlug + " can't be find"));
         book.getFavorites().remove(user);
         return repository.save(book);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> search(String phrase, Optional<Integer> offset, Optional<Integer> limit) {
+        int offsetVal = offset.orElse(0);
+        int limitVal = limit.orElse(Integer.MAX_VALUE);
+
+        return searchRepository.searchByPhrase(phrase, offsetVal, limitVal);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> findPopular(Optional<Integer> offset, Optional<Integer> limit) {
+        PageRequest page = PageRequestUtil.create(limit, offset, Optional.empty());
+        return repository.groupByOrdersCount(page);
     }
 }

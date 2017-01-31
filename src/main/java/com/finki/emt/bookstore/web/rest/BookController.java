@@ -38,14 +38,11 @@ public class BookController {
 
     @GetMapping
     public List<?> index(@RequestParam Optional<Integer> offset,
-                                            @RequestParam Optional<Integer> limit,
-                                            @RequestParam Optional<Boolean> latest,
-                                            @RequestParam Optional<Boolean> minified,
-                                            @RequestParam Optional<String> categories) {
-        List<Book> books = categories
-                .map(c -> service
-                        .filterByCategory(limit, offset, latest, categories.get().split(",")))
-                .orElse(service.findAll(limit, offset, latest));
+                         @RequestParam Optional<Integer> limit,
+                         @RequestParam Optional<Boolean> latest,
+                         @RequestParam Optional<Boolean> minified,
+                         @RequestParam Optional<String> categories) {
+        List<Book> books = service.findAll(offset, limit, latest, categories);
 
         boolean minifiedResponse = minified.orElse(true);
         if (minifiedResponse) {
@@ -106,7 +103,7 @@ public class BookController {
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{slug}")
+    @PutMapping("/{slug}")
     public ResponseEntity<?> update(@PathVariable String slug,
                                     @Valid @RequestPart BookVM bookVM,
                                     @RequestPart(required = false) MultipartFile image,
@@ -131,10 +128,27 @@ public class BookController {
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{slug}")
+    @DeleteMapping("/{slug}")
     public ResponseEntity<?> delete(@PathVariable String slug) {
         service.delete(slug);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/popular")
+    public List<MinifiedBookResponse> popular(@RequestParam Optional<Integer> offset,
+                                              @RequestParam Optional<Integer> limit) {
+        return service.findPopular(offset, limit).stream()
+                .map(MinifiedBookResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/_search")
+    public List<MinifiedBookResponse> search(@RequestParam String query,
+                                             @RequestParam Optional<Integer> offset,
+                                             @RequestParam Optional<Integer> limit) {
+        return service.search(query, offset, limit).stream()
+                .map(MinifiedBookResponse::new)
+                .collect(Collectors.toList());
     }
 
     private ResponseEntity<?> validateImage(MultipartFile image) {

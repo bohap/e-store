@@ -2,6 +2,10 @@ package com.finki.emt.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.finki.emt.bookstore.config.Constants;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -13,10 +17,18 @@ import java.util.Set;
 
 @Entity
 @Table(name = "books")
+@Indexed
+@AnalyzerDef(name = "bookStoreAnalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {@TokenFilterDef(factory = LowerCaseFilterFactory.class)})
+@Analyzer(definition = "bookStoreAnalyzer")
 public class Book extends BaseModel implements Serializable {
 
     @NotNull
     @Column(nullable = false)
+    @Field(index = Index.YES, store = Store.NO, analyze = Analyze.YES)
+    @SortableField
+    @Boost(2f)
     private String name;
 
     @NotNull
@@ -26,6 +38,8 @@ public class Book extends BaseModel implements Serializable {
     @NotNull
     @Size(min = 20, max = 300)
     @Column(name = "short_description", nullable = false)
+    @Field(index = Index.YES, store = Store.NO, analyze = Analyze.YES)
+    @Boost(1f)
     private String shortDescription;
 
     @NotNull
@@ -68,6 +82,7 @@ public class Book extends BaseModel implements Serializable {
             name = "books_categories",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    @IndexedEmbedded
     private Set<Category> categories;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "book", cascade = CascadeType.ALL,

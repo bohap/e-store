@@ -105,6 +105,7 @@ gradle-app.setting
 
 ## App ##
 src/main/resources/config/application-borche.yml
+target
 
 ## Front end ##
 node_modules

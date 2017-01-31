@@ -1,10 +1,10 @@
 .animate.ng-enter,
 .animate.ng-leave {
-	-webkit-transition: 1s ease all;
-	-moz-transition: 1s ease all;
-	-ms-transition: 1s ease all;
-	-o-transition: 1s ease all;
-	transition: 1s ease all;
+	-webkit-transition: 1s ease opacity;
+	-moz-transition: 1s ease opacity;
+	-ms-transition: 1s ease opacity;
+	-o-transition: 1s ease opacity;
+	transition: 1s ease opacity;
 }
 
 .animate.ng-leave.animate.ng-leave-active,
@@ -15,4 +15,21 @@
 .animate.ng-enter.ng-enter-active,
 .animate.ng-leave {
 	opacity: 1;
+}
+
+.if {
+	transition: 1s ease all;
+	position: relative;
+}
+
+.if.ng-enter,
+.if.ng-leave.ng-leave-active {
+	opacity: 0;
+	top: -50px;
+}
+
+.if.ng-enter.ng-enter-active,
+.if.ng-leave {
+	opacity: 1;
+	top: 0;
 }

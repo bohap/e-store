@@ -13,11 +13,8 @@ public interface BookService {
 
     List<Book> findAll();
 
-    List<Book> findAll(Optional<Integer> limit, Optional<Integer> offset,
-                       Optional<Boolean> latest);
-
-    List<Book> filterByCategory(Optional<Integer> limit, Optional<Integer> offset,
-                                Optional<Boolean> latest, String... categories);
+    List<Book> findAll(Optional<Integer> offset, Optional<Integer> limit,
+                       Optional<Boolean> latest, Optional<String> categories);
 
     long count();
 
@@ -44,4 +41,8 @@ public interface BookService {
     Book addToFavorites(String bookSlug, User user);
 
     Book removeFromFavorites(String bookSlug, User user);
+
+    List<Book> search(String phrase, Optional<Integer> offset, Optional<Integer> limit);
+
+    List<Book> findPopular(Optional<Integer> offset, Optional<Integer> limit);
 }

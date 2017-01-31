@@ -1,6 +1,7 @@
 package com.finki.emt.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +12,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categories")
+@Indexed
+@Analyzer(definition = "bookStoreAnalyzer")
 public class Category extends BaseModel implements Serializable {
 
+    @Field(index = Index.YES, store = Store.NO, analyze = Analyze.YES)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

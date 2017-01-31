@@ -11,6 +11,11 @@
 				useAsDefault: true
 			},
 			{
+				path: '/search',
+				name: 'BooksSearch',
+				component: 'booksSearch'
+			},
+			{
 				path: '/create',
 				name: 'BookCreate',
 				component: 'bookCreate'

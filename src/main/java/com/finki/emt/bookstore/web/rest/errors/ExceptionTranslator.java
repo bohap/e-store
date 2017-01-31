@@ -69,6 +69,7 @@ public class ExceptionTranslator {
 
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleRuntimeException(Exception exp) {
+        // TODO Returan a response entity so that the rewsponse status can tbe set
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         return new ErrorResponse(status.value(), status.getReasonPhrase(), exp.getMessage());
     }

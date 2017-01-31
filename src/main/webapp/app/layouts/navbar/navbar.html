@@ -7,11 +7,26 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand pointer" ng-link="['Book']">
+			<a class="navbar-brand pointer" ng-link="['Home']">
 				<h4>EMT Book Store</h4>
 			</a>
 		</div>
-		<div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed" ng-switch="vm.isAuthenticated()">
+		<div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed"
+				ng-switch="vm.isAuthenticated()">
+			<ui class="nav navbar-nav">
+				<li>
+					<a ng-link="['Book']">
+						<i class="fa fa-book"></i>
+						Books
+					</a>
+				</li>
+				<li>
+					<a ng-link="['Book', 'BooksSearch']">
+						<i class="fa fa-search"></i>
+						Search
+					</a>
+				</li>
+			</ui>
 			<ul class="nav navbar-nav" ng-switch-when=true>
 				<li ng-if="vm.isRegularUser()">
 					<a ng-link="['Basket']">

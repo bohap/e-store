@@ -13,9 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
@@ -188,8 +188,9 @@ public class BookRepositoryTest {
     }
 
     @Test
-    @Transactional
-    public void testFavorites() {
-
+    public void testGroupByOrdersCount() {
+        PageRequest page = new PageRequest(0, 10);
+        List<Book> books = repository.groupByOrdersCount(page);
+        assertThat(books, is(notNullValue()));
     }
 }

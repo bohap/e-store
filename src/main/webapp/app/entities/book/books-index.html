@@ -1,5 +1,5 @@
 <div class="row" infinite-scroll="vm.loadMore()">
-	<div class="col-sm-3">
+	<div class="col-sm-2">
 		<h4 class='bold'>
 			Filter by category
 		</h4>
@@ -11,36 +11,7 @@
 			</button>
 		</div>
 	</div>
-	<div class="col-sm-9">
-		<div class='row books-index'>
-			<div class='col-sm-4 book animate' ng-repeat="book in vm.books track by book.slug">
-				<img class='img-thumbnail img-responsive' ng-src="/api/books/{{book.slug}}/image" />
-				<div class="book-categories">
-					<label class="label label-primary" ng-repeat="category in book.categories">
-						{{ category.name }}
-					</label>
-				</div>
-				<div class="book-heading">
-					<h4 class='pull-right book-price'
-						ng-class="vm.isBookOnPromotion(book) ? 'text-danger' : 'text-success'">
-						{{ vm.getBookPrice(book) | currency }}
-					</h4>
-					<h4 class='book-name'>
-						<a ng-link="['BookDetails', {slug: book.slug}]">
-							{{ book.name }}
-						</a>
-					</h4>
-				</div>
-				<div class="book-promotion" ng-if="vm.isBookOnPromotion(book)">
-					-{{vm.getBookDiscount(book)}}%
-				</div>
-				<p class="book-description">
-					{{ book.shortDescription | limitTo : book.bookDescriptionMaxSize }}
-					<a ng-if="vm.isBookDescriptionLong(book)" ng-link="['BookDetails', {slug: book.slug}]">
-						... Read More
-					</a>
-				</p>
-			</div>
-		</div>
+	<div class="col-sm-10">
+		<books-list books="vm.books"></books-list>
 	</div>
 </div>

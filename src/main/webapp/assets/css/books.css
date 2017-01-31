@@ -1,20 +1,20 @@
 @media(min-width: 768px) {
-	.books-index .book {
-		height: 360px;
+	.books-list .book {
+		height: 400px;
 	}
 }
 
-.books-index .book {
+.books-list .book {
 	margin-bottom: 30px;
 	overflow-x: hidden;
 	overflow-y: hidden;
 }
 
-.books-index .book {
+.books-list .book {
 	position: relative;
 }
 
-.books-index .book .book-promotion {
+.books-list .book .book-promotion {
 	background-color: #d9534f;
 	text-align: center;
 	width: 200px;
@@ -29,23 +29,23 @@
     transform: rotate(-45deg);
 }
 
-.books-index .book .book-categories {
+.books-list .book .book-categories {
 	margin-top: 10px;
 }
 
-.books-index .book .book-heading  {
+.books-list .book .book-heading  {
 	margin-bottom: 20px;
 }
 
-.books-index .book .book-heading h4 {
+.books-list .book .book-heading h4 {
 	font-size: 22px;
 }
 
-.books-index .book .book-price {
+.books-list .book .book-price {
 	margin-top: 0px;
 }
 
-.books-index .book .book-description {
+.books-list .book .book-description {
 	font-size: 16px;
 }
 
@@ -76,4 +76,13 @@
 .book-form .form-control {
 	background-color: transparent;
 	color: white;
+}
+
+.books-search-input.form-control {
+	display: inline-block;
+	width: 95%;
+}
+
+.books-search-content {
+	margin-top: 50px;
 }

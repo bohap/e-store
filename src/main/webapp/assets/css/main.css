@@ -135,6 +135,18 @@ input[type='checkbox'].form-control {
 	font-weight: bold;
 }
 
+.carousel .carousel-caption {
+	color: black;
+}
+
+.carousel .carousel-indicators li {
+	border-color: black;
+}
+
+.carousel .carousel-indicators li.active {
+	background-color: black;
+}
+
 /**
  * Form styles
  */

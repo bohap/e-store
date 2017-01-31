@@ -1,0 +1,33 @@
+<div ng-if="vm.popularLoaded">
+	<h1 class="page-header text-info">Popular Books</h1>
+	<div uib-carousel active="0" interval="5000">
+		<div uib-slide ng-repeat="book in vm.popular" index="$index">
+			<img ng-src="/api/books/{{book.slug}}/image" />
+			<div class="carousel-caption">
+				<h2>
+					<a ng-link="['Book', 'BookDetails', {slug: book.slug}]">
+						{{ book.name }}
+					</a>
+				</h2>
+				<h4 ng-switch="vm.isBookOnPromotion(book)">
+					<span class="text-success" ng-switch-when="false">
+						{{ book.price | currency }}
+					</span>
+					<span class="text-danger" ng-switch-when="true">
+						{{ book.promotion.newPrice | currency }}
+						- Ends in
+						{{ book.promotion.end | amTimeAgo }}
+					</span>
+				</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-if="vm.latestLoaded">
+	<h1 class="page-header text-info">
+		<a ng-link="['Book']">
+			Latest Books
+		</a>
+	</h1>
+	<books-list books="vm.latest"></books-list>
+</div>

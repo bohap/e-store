@@ -5,10 +5,15 @@
 		templateUrl: 'app/root/app.html',
 		$routeConfig: [
 			{
+				path: '/',
+				name: 'Home',
+				component: 'home',
+				useAsDefault: true
+			},
+			{
 				path: '/books/...',
 				name: 'Book',
-				component: 'book',
-				useAsDefault: true
+				component: 'book'
 			},
 			{
 				path: '/users/...',
