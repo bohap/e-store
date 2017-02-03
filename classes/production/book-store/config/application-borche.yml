@@ -1,7 +1,0 @@
-spring:
-    profiles:
-        active: borche
-        include: dev
-    datasource:
-        username: root
-        password: Borana94*
