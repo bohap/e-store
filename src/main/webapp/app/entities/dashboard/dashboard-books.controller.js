@@ -5,9 +5,9 @@
 		.module('app')
 		.controller('DasboardBooksController', DasboardBooksController);
 
-	DasboardBooksController.$inject = ['Book', 'EVENTS', '$rootRouter', '$scope'];
+	DasboardBooksController.$inject = ['Book', 'EVENTS', '$rootRouter', '$scope', 'toastr'];
 
-	function DasboardBooksController(Book, EVENTS, $rootRouter, $scope) {
+	function DasboardBooksController(Book, EVENTS, $rootRouter, $scope, toastr) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;

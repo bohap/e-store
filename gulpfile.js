@@ -1,7 +1,6 @@
 /**
  * @author Borche Petrovski
  */
-
 var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	rev = require('gulp-rev-append'),
@@ -21,8 +20,11 @@ var gulp = require('gulp'),
 	proxy = require('proxy-middleware'),
 	gutil = require('gulp-util'),
 	eslint = require('gulp-eslint'),
-	path = require('path');
-	historyApiFallback = require('connect-history-api-fallback')
+	path = require('path'),
+	historyApiFallback = require('connect-history-api-fallback'),
+	plumber = require('gulp-plumber'),
+	notify = require('gulp-notify'),
+	sourcemaps = require('gulp-sourcemaps');
 
 var config = {
 	app: 'src/main/webapp/',
@@ -49,9 +51,28 @@ function isProduction() {
 	return gutil.env.env === 'prod';
 }
 
+function notificationEnabled() {
+	return gutil.env.notification === undefined ? true : gutil.end.notification;
+}
+
 function isLintFixed(file) {
 	// Has ESLint fixed the file contents?
 	return file.eslint !== null && file.eslint.fixed;
+}
+
+/**
+ * Notify the user that a error has happened
+ */
+function handleErrors() {
+	if (notificationEnabled()) {
+		var args = Array.prototype.slice.call(arguments);
+		notify.onError({
+			title:    "JHipster Gulp Build",
+			subtitle: "Failure!",
+			message:  "Error: <%= error.message %>",
+			sound:    "Beep"
+		}).apply(this, args);
+	}
 }
 
 /*
@@ -100,9 +121,12 @@ gulp.task('build-custom-css', function() {
 
 gulp.task('build-app-js', function() {
 	return gulp.src(config.app + 'app/**/*.js')
+			.pipe(plumber({ errorHandler: handleErrors }))
 			.pipe(angularFilesort())
+			.pipe(sourcemaps.init())
 			.pipe(concat('app.js'))
 			.pipe(gulpif(isProduction(), uglify()))
+			.pipe(sourcemaps.write("."))
 			.pipe(gulp.dest(config.dist + 'js'));
 });
 
@@ -133,7 +157,7 @@ gulp.task('reload', function(cb) {
 
 gulp.task('build', ['clean'], function(callback) {
 	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts', 'copy-images','build-custom-css',
-				 'build-app-js', 'html-template-cache'],'cache-break', callback);
+		'build-app-js', 'html-template-cache'],'cache-break', callback);
 });
 
 gulp.task('install', function(callback) {
@@ -186,7 +210,7 @@ gulp.task('eslint:html', function() {
 			.pipe(eslint.format('html', function(output) {
 				var dir = path.join(__dirname, config.eslintReport);
 				if (!fs.existsSync(dir)) {
-				    fs.mkdirSync(dir);
+					fs.mkdirSync(dir);
 				}
 				fs.writeFileSync(dir + '/eslint.html', output);
 			}));

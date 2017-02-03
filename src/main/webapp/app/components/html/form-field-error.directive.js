@@ -23,7 +23,6 @@
 				return ngModelCtrl.$$parentForm.$submitted;
 			}
 		], render);
-
 		scope.$on("$destroy", function() {
 			unwatch();
 		});

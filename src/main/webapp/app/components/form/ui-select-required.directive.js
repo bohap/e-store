@@ -17,7 +17,7 @@
 		function linkFunc(scope, element, attrs, ctrl) {
 			ctrl.$validators.uiSelectRequired = function(modelValue) {
 				return modelValue && modelValue.length > 0;
-			}
+			};
 		}
 	}
 })();

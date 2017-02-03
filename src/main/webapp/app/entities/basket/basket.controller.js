@@ -6,7 +6,7 @@
 		.controller("BasketController", BasketController);
 
 	BasketController.$inject = ['BasketBook', 'BookUtil', 'toastr', 'OrderCreateDialog',
-								'EVENTS', '$rootRouter', '$scope'];
+		'EVENTS', '$rootRouter', '$scope'];
 
 	function BasketController(BasketBook, BookUtil, toastr, OrderCreateDialog, EVENTS,
 								$rootRouter, $scope) {

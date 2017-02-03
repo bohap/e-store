@@ -5,9 +5,9 @@
 		.module('app')
 		.controller('BooksTableListController', BooksTableListController);
 
-	BooksTableListController.$inject = ['ConfirmDialog', 'PromotionDialog', 'toastr', 'Promotion', 'Principal'];
+	BooksTableListController.$inject = ['ConfirmDialog', 'PromotionDialog', 'toastr', 'Promotion', 'Principal', 'Book'];
 
-	function BooksTableListController(ConfirmDialog, PromotionDialog, toastr, Promotion, Principal) {
+	function BooksTableListController(ConfirmDialog, PromotionDialog, toastr, Promotion, Principal, Book) {
 		var vm = this;
 
 		vm.isEmpty = isEmpty;

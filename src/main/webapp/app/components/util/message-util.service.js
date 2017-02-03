@@ -5,7 +5,7 @@
 		.module('app')
 		.factory('MessageUtil', MessageUtil);
 
-	MessageUtil.$inject = ['toastr', 'MESSAGES']
+	MessageUtil.$inject = ['toastr', 'MESSAGES'];
 
 	function MessageUtil(toastr, MESSAGES) {
 		var service = {

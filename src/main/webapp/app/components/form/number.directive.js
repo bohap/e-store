@@ -18,7 +18,7 @@
 			ctrl.$validators.number = function(modelValue) {
 				return angular.isDefined(modelValue) && modelValue !== null &&
 					/^\d+$/.test(modelValue);
-			}
+			};
 		}
 	}
 })();

@@ -32,7 +32,7 @@
 			if (angular.isUndefined(book.promotion) || book.promotion === null) {
 				return {};
 			} else {
-				var result = JSON.parse(JSON.stringify(vm.book.promotion));;
+				var result = angular.fromJson(angular.toJson(vm.book.promotion));
 				result.start = new Date(result.start);
 				result.end = new Date(result.end);
 				return result;

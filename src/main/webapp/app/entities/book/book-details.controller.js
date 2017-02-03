@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	'use strict';
 
 	angular
@@ -6,10 +6,10 @@
 		.controller('BookDetailsController', BookDetailsController);
 
 	BookDetailsController.$inject = ['Book', 'FavoriteBook', 'BasketBook', 'Principal', 'BookUtil', 'toastr',
-										'EVENTS', '$scope'];
+		'EVENTS', '$scope'];
 
 	function BookDetailsController(Book, FavoriteBook, BasketBook, Principal, BookUtil, toastr,
-									EVENTS, $scope) {
+		EVENTS, $scope) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -31,7 +31,7 @@
 
 		function onRouterActivated(next, prev) {
 			var slug = next.params.slug;
-			Book.get({slug: slug}).$promise
+			Book.get({ slug: slug }).$promise
 				.then(onBookLoadingSuccess, onBookLoadingFailed);
 
 			function onBookLoadingSuccess(data) {
@@ -55,19 +55,19 @@
 
 			function onIdentityResolved(identity) {
 				if (vm.isRegularUser()) {
-					FavoriteBook.exists({slug: vm.book.slug}).$promise
+					FavoriteBook.exists({ slug: vm.book.slug }).$promise
 						.then(onFavoriteBookCheckingSuccess, onFavoriteBookCheckingFailed);
-
-					function onFavoriteBookCheckingSuccess(data) {
-						vm.favorite = data;
-					}
-
-					function onFavoriteBookCheckingFailed() {
-						toastr.error("Some error occurred while loading the page! Please try to reload.",
-							"Loading Failed");
-						vm.favorite = null;
-					}
 				}
+			}
+
+			function onFavoriteBookCheckingSuccess(data) {
+				vm.favorite = data;
+			}
+
+			function onFavoriteBookCheckingFailed() {
+				toastr.error("Some error occurred while loading the page! Please try to reload.",
+					"Loading Failed");
+				vm.favorite = null;
 			}
 		}
 
@@ -77,19 +77,19 @@
 
 			function onIdentityResolved(identity) {
 				if (vm.isRegularUser()) {
-					BasketBook.exists({slug: vm.book.slug}).$promise
+					BasketBook.exists({ slug: vm.book.slug }).$promise
 						.then(onBasketBookCheckingSuccess, onBasketBookCheckingFailed);
-
-					function onBasketBookCheckingSuccess(data) {
-						vm.basket = data;
-					}
-
-					function onBasketBookCheckingFailed() {
-						toastr.error("Some error occurred while loading the page! Please try to reload.",
-							"Loading Failed");
-						vm.basket = null;
-					}
 				}
+			}
+
+			function onBasketBookCheckingSuccess(data) {
+				vm.basket = data;
+			}
+
+			function onBasketBookCheckingFailed() {
+				toastr.error("Some error occurred while loading the page! Please try to reload.",
+					"Loading Failed");
+				vm.basket = null;
 			}
 		}
 
@@ -108,7 +108,7 @@
 				return;
 			}
 			vm.favoriteRequestSending = true;
-			FavoriteBook.save({slug: vm.book.slug}).$promise
+			FavoriteBook.save({ slug: vm.book.slug }).$promise
 				.then(onFavoriteAddingSuccess, onFavoriteAddingFailed);
 
 			function onFavoriteAddingSuccess(data) {
@@ -128,7 +128,7 @@
 				return;
 			}
 			vm.favoriteRequestSending = true;
-			FavoriteBook.remove({slug: vm.book.slug}).$promise
+			FavoriteBook.remove({ slug: vm.book.slug }).$promise
 				.then(onFavoriteRemovingSuccess, onFavoriteRemovingFailed);
 
 			function onFavoriteRemovingSuccess(data) {
@@ -158,7 +158,7 @@
 				return;
 			}
 			vm.basketRequestSending = true;
-			BasketBook.save({slug: vm.book.slug}).$promise
+			BasketBook.save({ slug: vm.book.slug }).$promise
 				.then(onBasketAddingSuccess, onBasketAddingFailed);
 
 			function onBasketAddingSuccess(data) {
@@ -178,7 +178,7 @@
 				return;
 			}
 			vm.basketRequestSending = true;
-			BasketBook.remove({slug: vm.book.slug}).$promise
+			BasketBook.remove({ slug: vm.book.slug }).$promise
 				.then(onBasketRemovingSuccess, onBasketRemovingFailed);
 
 			function onBasketRemovingSuccess(data) {
@@ -193,12 +193,12 @@
 			}
 		}
 
-		var authenticationSuccess = $scope.$on(EVENTS.authenticationSuccess, function(event, data) {
+		var authenticationSuccess = $scope.$on(EVENTS.authenticationSuccess, function (event, data) {
 			resolveBookFavorite();
 			resolveBasketBook();
 		});
 
-		$scope.$on('$destroy', function() {
+		$scope.$on('$destroy', function () {
 			authenticationSuccess();
 		});
 	}

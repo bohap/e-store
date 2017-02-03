@@ -47,7 +47,7 @@
 			}
 
 			for (var i = 0; i < authorities.length; i++) {
-				if (authorities[i] == authority) {
+				if (authorities[i] === authority) {
 					return true;
 				}
 			}

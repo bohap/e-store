@@ -44,11 +44,11 @@
 
 		function transformRequest(data) {
 			var formData = new FormData();
-	        formData.append('bookVM', new Blob([angular.toJson(data.book)], {
-	            type: "application/json"
-	        }));
-	        formData.append("image", data.image);
-	        return formData;
-		};
+			formData.append("bookVM", new Blob([angular.toJson(data.book)], {
+				type: 'application/json'
+			}));
+			formData.append("image", data.image);
+			return formData;
+		}
 	}
 })();

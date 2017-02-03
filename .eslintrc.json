@@ -24,6 +24,9 @@
     // os/git options
     // we want to run on all OSes
     "linebreak-style": 0,
-    "eol-last": 2
+    "eol-last": 2,
+
+    // disable angular not private call error
+    "angular/no-private-call": 0
   }
 }
