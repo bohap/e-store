@@ -15,8 +15,8 @@ their basket and in favorites, and to make checkout on basket. The paying is thr
 - [x] adding books in the favorites
 - [x] books promotions
 - [x] listing books with infinite scroll (AngularJS)
-- [ ] sending promotions email to the users every day at midnight
-- [ ] advanced search
+- [x] sending promotions email to the users every day at midnight
+- [x] advanced search
 - [x] PayPal implementation
 
 ### Collaborating
