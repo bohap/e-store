@@ -24,10 +24,14 @@ var gulp = require('gulp'),
 	historyApiFallback = require('connect-history-api-fallback'),
 	plumber = require('gulp-plumber'),
 	notify = require('gulp-notify'),
-	sourcemaps = require('gulp-sourcemaps');
+	sourcemaps = require('gulp-sourcemaps'),
+	inject = require('gulp-inject'),
+	KarmaServer = require('karma').Server,
+	protractor = require('gulp-protractor').protractor;
 
 var config = {
 	app: 'src/main/webapp/',
+	test: 'src/test/javascript/',
 	dist: 'src/main/webapp/dist/',
 	bower: 'src/main/webapp/assets/libs/',
 	assets: 'src/main/webapp/assets/',
@@ -194,6 +198,41 @@ gulp.task('serve', ['build', 'watch'], function() {
 			middleware: proxies
 		}
 	});
+});
+
+gulp.task('test:inject', function() {
+	return gulp.src(config.test + 'karma.conf.js')
+		.pipe(inject(gulp.src(bowerFiles({ includeDev: true, filter: ['**/*.js'] }), { read: false }), {
+			starttag: '// bower:js',
+			endtag: '// endbower',
+			transform: function(filepath) {
+				return '\'' + filepath.substring(1, filepath.length) + '\',';
+			}
+		}))
+		.pipe(gulp.dest(config.test));
+});
+
+gulp.task('test', ['test:inject'], function(done) {
+	new KarmaServer({
+		configFile: __dirname + '/' + config.test + 'karma.conf.js',
+		singleRun: true
+	}, done).start();
+});
+
+gulp.task('itest', function() {
+	var configObj = {
+		configFile: config.test + 'protractor.conf.js'
+	};
+	if (gutil.env.suite) {
+		configObj['args'] = ['--suite', gutil.env.suite];
+	}
+
+	return gulp.src([])
+		.pipe(protractor(configObj))
+		.on('error', function() {
+			gutil.log('E2E Tests failed');
+			process.exit(1);
+		});
 });
 
 gulp.task('default', ['build']);

@@ -10,9 +10,9 @@
   "homepage": "https://github.com/bohap/emt-book-store",
   "private": true,
   "scripts": {
-    "postinstall": "bower install && gulp default"
+    "postinstall": "webdriver-manager update && bower install && gulp default"
   },
-  "dependencies": {
+  "devDependencies": {
     "bower": "^1.8.0",
     "browser-sync": "^2.18.6",
     "connect-history-api-fallback": "^1.3.0",
@@ -27,13 +27,26 @@
     "gulp-filter": "^4.0.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.2",
+    "gulp-inject": "^4.2.0",
     "gulp-notify": "^3.0.0",
     "gulp-plumber": "^1.1.0",
+    "gulp-protractor": "^3.0.0",
     "gulp-rev-append": "^0.1.7",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
+    "jasmine-core": "^2.5.2",
+    "jasmine-reporters": "^2.2.0",
+    "karma": "^1.4.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-phantomjs-launcher": "^1.0.2",
     "main-bower-files": "^2.13.1",
+    "phantomjs-prebuilt": "^2.1.14",
+    "protractor": "^5.1.1",
+    "protractor-jasmine2-screenshot-reporter": "^0.3.2",
     "proxy-middleware": "^0.15.0",
     "run-sequence": "^1.2.2"
   }

@@ -113,5 +113,4 @@ classes
 node_modules
 src/main/webapp/dist
 src/main/webapp/assets/libs
-emt-book-store.sublime-project
-emt-book-store.sublime-workspace
+typings
