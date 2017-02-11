@@ -11,6 +11,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.order.partial')
 		.component('ordersList', ordersList);
 })();

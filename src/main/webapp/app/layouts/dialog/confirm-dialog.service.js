@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dialog')
 		.factory('ConfirmDialog', ConfirmDialog);
 
 	ConfirmDialog.$inject = ['$uibModal', '$q'];

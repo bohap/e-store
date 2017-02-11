@@ -12,19 +12,19 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.book')
 		.component('bookCreate', bookCreate);
 
-	canRouteActivate.$inject = ['Principal', '$rootRouter', 'MessageUtil'];
+	canRouteActivate.$inject = ['Principal', '$rootRouter', 'ToastrNotify'];
 
-	function canRouteActivate(Principal, $rootRouter, MessageUtil) {
+	function canRouteActivate(Principal, $rootRouter, ToastrNotify) {
 
 		return Principal.resolveIdentity()
 			.then(onIdentityResolved);
 
 		function onIdentityResolved(identity) {
 			if (!Principal.isAdmin()) {
-				MessageUtil.showNotAuthorized();
+				ToastrNotify.showNotAuthorized();
 				$rootRouter.navigate(['Book']);
 				return false;
 			}

@@ -1,10 +1,10 @@
 (function() {
 	'use strict';
 
-	angular.module('app')
-		.directive('hoverToggleClass', faHeartDirective);
+	angular.module('app.html')
+		.directive('hoverToggleClass', hoverToggleClass);
 
-	function faHeartDirective() {
+	function hoverToggleClass() {
 		var directive = {
 			restrict: 'A',
 			link: linkFunc,

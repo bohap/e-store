@@ -18,6 +18,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.user')
 		.component('user', user);
 })();

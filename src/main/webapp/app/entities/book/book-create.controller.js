@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.book')
 		.controller('BookCreateController', BookCreateController);
 
 	BookCreateController.$inject = ['Book', 'ArrayUtils', 'EVENTS', '$rootRouter', '$scope'];

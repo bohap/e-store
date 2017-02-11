@@ -29,6 +29,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.dashboard')
 		.component('dashboard', dashboard);
 })();

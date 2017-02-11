@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dashboard')
 		.controller('DashboardOrderController', DashboardOrderController);
 
-	DashboardOrderController.$inject = ['Order', 'toastr', 'EVENTS', "$rootRouter", '$scope'];
+	DashboardOrderController.$inject = ['Order', 'ToastrNotify', 'EVENTS', "$rootRouter", '$scope'];
 
-	function DashboardOrderController(Order, toastr, EVENTS, $rootRouter, $scope) {
+	function DashboardOrderController(Order, ToastrNotify, EVENTS, $rootRouter, $scope) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -22,7 +22,7 @@
 			}
 
 			function onOrdersLoadingFailed(response) {
-				toastr.error("Error occurred while loading the page! Please reload it.", "Loading Failed");
+				ToastrNotify.error("Error occurred while loading the page! Please reload it.", "Loading Failed");
 			}
 		}
 

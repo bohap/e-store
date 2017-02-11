@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.register')
 		.controller('RegisterController', RegisterController);
 
 	RegisterController.$inject = ['Auth', '$uibModalInstance', 'ArrayUtils'];

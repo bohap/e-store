@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.html')
 		.directive('formFieldError', formFieldError);
 
 	function formFieldError() {

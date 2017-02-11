@@ -1,35 +1,37 @@
 // See: http://eslint.org/
 // See: https://www.npmjs.com/package/eslint-plugin-angular
 {
-  "extends": [
-    "eslint:recommended",
-    "angular"
-  ],
-  "env": {
-    "node": true,
-    "browser": true,
-    "es6": true,
-    "jasmine": true,
-    "protractor": true
-  },
-  // severity for a rule should be one of the following: 0 = off, 1 = warning, 2 = error
-  "rules": {
-    // coding style
-    "wrap-iife": [2, "inside"],
-    "eqeqeq": 2,
-    "no-use-before-define": [2, "nofunc"],
-    "no-unused-vars": [2, {"vars": "local", "args": "none"}],
-    "no-multi-str": 2,
-    "no-irregular-whitespace": 2,
-    "semi": [2, "always"],
-    "indent": [2, "tab"],
-
-    // os/git options
-    // we want to run on all OSes
-    "linebreak-style": 0,
-    "eol-last": 2,
-
-    // disable angular not private call error
-    "angular/no-private-call": 0
-  }
+	"extends": [
+		"eslint:recommended",
+		"angular"
+	],
+	"plugins": [
+		"angular"
+	],
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true,
+		"jasmine": true,
+		"protractor": true,
+		"angular/mocks": true
+	},
+	// severity for a rule should be one of the following: 0 = off, 1 = warning, 2 = error
+	"rules": {
+		// coding style
+		"wrap-iife": [2, "inside"],
+		"eqeqeq": 2,
+		"no-use-before-define": [2, "nofunc"],
+		"no-unused-vars": [2, { "vars": "local", "args": "none" }],
+		"no-multi-str": 2,
+		"no-irregular-whitespace": 2,
+		"semi": [2, "always"],
+		"indent": [2, "tab"],
+		// os/git options
+		// we want to run on all OSes
+		"linebreak-style": 0,
+		"eol-last": 2,
+		// disable angular not private call error
+		"angular/no-private-call": 0
+	}
 }

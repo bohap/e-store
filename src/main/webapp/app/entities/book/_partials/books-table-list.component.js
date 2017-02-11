@@ -11,6 +11,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.book.partial')
 		.component('booksTableList', booksList);
 })();

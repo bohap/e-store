@@ -5,9 +5,9 @@
 		.module('app')
 		.factory('authInterceptor', authInterceptor);
 
-	authInterceptor.$inject = ['$localStorage'];
+	authInterceptor.$inject = ['AuthJWTProvider'];
 
-	function authInterceptor($localStorage) {
+	function authInterceptor(AuthJWTProvider) {
 		return {
 			request: request
 		};
@@ -15,7 +15,7 @@
 		function request(config) {
 			var url = config.url;
 			if (url.startsWith('/api')) {
-				var token = $localStorage.jwt;
+				var token = AuthJWTProvider.getToken();
 				if (angular.isDefined(token) && token !== null) {
 					config.headers.Authorization = "Bearer " + token;
 				}

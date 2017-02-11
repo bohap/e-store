@@ -9,19 +9,19 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.user')
 		.component('userFavorites', userFavorites);
 
-	canRouteActivate.$inject = ['$nextInstruction', 'Principal', '$rootRouter', 'MessageUtil'];
+	canRouteActivate.$inject = ['$nextInstruction', 'Principal', '$rootRouter', 'ToastrNotify'];
 
-	function canRouteActivate($nextInstruction, Principal, $rootRouter, MessageUtil) {
+	function canRouteActivate($nextInstruction, Principal, $rootRouter, ToastrNotify) {
 		return Principal.resolveIdentity()
 			.then(onIdentityResolved);
 
 		function onIdentityResolved(identity) {
 			var slug = $nextInstruction.params.slug;
 			if (!Principal.isAdmin() && identity.slug !== slug) {
-				MessageUtil.showNotAuthorized();
+				ToastrNotify.showNotAuthorized();
 				$rootRouter.navigate(['Book']);
 				return false;
 			}

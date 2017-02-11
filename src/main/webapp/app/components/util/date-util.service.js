@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.util')
 		.factory('DateUtil', DateUtil);
 
 	function DateUtil() {

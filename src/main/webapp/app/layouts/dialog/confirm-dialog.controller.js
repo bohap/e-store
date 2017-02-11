@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dialog')
 		.controller('ConfirmDialogController', ConfirmDialogController);
 
 	ConfirmDialogController.$inject = ['$uibModalInstance', 'message'];

@@ -9,18 +9,18 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.order')
 		.component('orderDetails', orderDetails);
 
-	canRouteActivate.$inject = ['$nextInstruction', 'Principal', '$rootRouter', 'MessageUtil'];
+	canRouteActivate.$inject = ['$nextInstruction', 'Principal', '$rootRouter', 'ToastrNotify'];
 
-	function canRouteActivate($nextInstruction, Principal, $rootRouter, MessageUtil) {
+	function canRouteActivate($nextInstruction, Principal, $rootRouter, ToastrNotify) {
 		return Principal.resolveIdentity()
 			.then(onIdentityResolved);
 
 		function onIdentityResolved(identity) {
 			if (identity === null) {
-				MessageUtil.showNotAuthenticated();
+				ToastrNotify.showNotAuthenticated();
 				$rootRouter.navigate(['Book']);
 				return false;
 			}

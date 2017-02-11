@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.auth')
 		.factory('Principal', Principal);
 
 	Principal.$inject = ['$q', 'Account', 'AuthJWTProvider', '$rootScope', 'ROLES'];

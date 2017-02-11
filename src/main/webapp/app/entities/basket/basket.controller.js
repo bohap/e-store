@@ -2,13 +2,13 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.basket')
 		.controller("BasketController", BasketController);
 
-	BasketController.$inject = ['BasketBook', 'BookUtil', 'toastr', 'OrderCreateDialog',
+	BasketController.$inject = ['BasketBook', 'BookUtil', 'ToastrNotify', 'OrderCreateDialog',
 		'EVENTS', '$rootRouter', '$scope'];
 
-	function BasketController(BasketBook, BookUtil, toastr, OrderCreateDialog, EVENTS,
+	function BasketController(BasketBook, BookUtil, ToastrNotify, OrderCreateDialog, EVENTS,
 								$rootRouter, $scope) {
 		var vm = this;
 
@@ -42,7 +42,8 @@
 
 			function onBasketBooksLoadingFailed(response) {
 				vm.initDataLoading = false;
-				toastr.error("Some error occurred while loading the page! Please reload it.", "Loading Failed");
+				ToastrNotify.error("Some error occurred while loading the page! Please reload it.",
+					"Loading Failed");
 			}
 		}
 
@@ -72,13 +73,13 @@
 				.then(onBookRemovingSuccess, onBookRemovingFailed);
 
 			function onBookRemovingSuccess() {
-				toastr.success("Book is successfullt removed from the basket", "Book Removed");
+				ToastrNotify.success("Book is successfullt removed from the basket", "Book Removed");
 				var index = vm.items.indexOf(item);
 				vm.items.splice(index, 1);
 			}
 
 			function onBookRemovingFailed() {
-				toastr.error("Book removing failed! Please try again.", "Remove Failed");
+				ToastrNotify.error("Book removing failed! Please try again.", "Remove Failed");
 			}
 		}
 

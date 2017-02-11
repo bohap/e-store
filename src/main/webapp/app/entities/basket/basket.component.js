@@ -9,23 +9,23 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.basket')
 		.component('basket', basket);
 
-	canRouteActivate.$inject = ['Principal', '$rootRouter', 'MessageUtil', 'toastr'];
+	canRouteActivate.$inject = ['Principal', '$rootRouter', 'ToastrNotify'];
 
-	function canRouteActivate(Principal, $rootRouter, MessageUtil, toastr) {
+	function canRouteActivate(Principal, $rootRouter, ToastrNotify) {
 		return Principal.resolveIdentity()
 			.then(onIdentityResolved);
 
 		function onIdentityResolved(identity) {
 			if (identity === null) {
-				MessageUtil.showNotAuthenticated();
+				ToastrNotify.showNotAuthenticated();
 				$rootRouter.navigate(['Book']);
 				return false;
 			}
 			if (Principal.isAdmin()) {
-				toastr.error("Admin users can't have a basket.", "Not Allowed");
+				ToastrNotify.error("Admin users can't have a basket.", "Not Allowed");
 				$rootRouter.navigate(['Book']);
 				return false;
 			}

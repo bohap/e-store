@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.handler')
 		.factory('errorHandler', errorHandler);
 
 	errorHandler.$inject = ['$injector'];

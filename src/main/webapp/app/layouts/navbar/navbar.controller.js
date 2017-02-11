@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.nav')
 		.controller('NavbarController', NavbarController);
 
 	NavbarController.$inject = ['LoginDialog', 'RegisterDialog', 'Principal', 'Auth'];

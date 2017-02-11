@@ -31,7 +31,6 @@ var gulp = require('gulp'),
 
 var config = {
 	app: 'src/main/webapp/',
-	test: 'src/test/javascript/',
 	dist: 'src/main/webapp/dist/',
 	bower: 'src/main/webapp/assets/libs/',
 	assets: 'src/main/webapp/assets/',
@@ -71,10 +70,10 @@ function handleErrors() {
 	if (notificationEnabled()) {
 		var args = Array.prototype.slice.call(arguments);
 		notify.onError({
-			title:    "JHipster Gulp Build",
+			title: "JHipster Gulp Build",
 			subtitle: "Failure!",
-			message:  "Error: <%= error.message %>",
-			sound:    "Beep"
+			message: "Error: <%= error.message %>",
+			sound: "Beep"
 		}).apply(this, args);
 	}
 }
@@ -87,18 +86,18 @@ function handleErrors() {
 
 gulp.task('build-lib-js', function() {
 	return gulp.src(bowerFiles())
-			.pipe(filter('**/*.js'))
-			.pipe(concat('lib.js'))
-			.pipe(gulpif(isProduction(), uglify()))
-			.pipe(gulp.dest(config.dist + 'js'));
+		.pipe(filter('**/*.js'))
+		.pipe(concat('lib.js'))
+		.pipe(gulpif(isProduction(), uglify()))
+		.pipe(gulp.dest(config.dist + 'js'));
 });
 
 gulp.task('build-lib-css', function() {
 	return gulp.src(bowerFiles())
-			.pipe(filter('**/*.css'))
-			.pipe(concat('lib.css'))
-			.pipe(gulpif(isProduction(), cssNano()))
-			.pipe(gulp.dest(config.dist + 'css'));
+		.pipe(filter('**/*.css'))
+		.pipe(concat('lib.css'))
+		.pipe(gulpif(isProduction(), cssNano()))
+		.pipe(gulp.dest(config.dist + 'css'));
 });
 
 gulp.task('copy-fonts', function() {
@@ -107,51 +106,51 @@ gulp.task('copy-fonts', function() {
 		config.bower + 'font-awesome/fonts/*.{ttf,woff,eot,svg,woff2}'
 	];
 	return gulp.src(src)
-			.pipe(gulp.dest(config.dist + 'fonts'));
+		.pipe(gulp.dest(config.dist + 'fonts'));
 });
 
 gulp.task('copy-images', function() {
 	return gulp.src(config.assets + 'images/**/*')
-			.pipe(gulp.dest(config.dist + 'images'));
+		.pipe(gulp.dest(config.dist + 'images'));
 
 });
 
 gulp.task('build-custom-css', function() {
 	return gulp.src(config.assets + "css/**/*.css")
-			.pipe(concat('custom.css'))
-			.pipe(gulpif(isProduction, cssNano()))
-			.pipe(gulp.dest(config.dist + 'css'));
+		.pipe(concat('custom.css'))
+		.pipe(gulpif(isProduction, cssNano()))
+		.pipe(gulp.dest(config.dist + 'css'));
 });
 
 gulp.task('build-app-js', function() {
-	return gulp.src(config.app + 'app/**/*.js')
-			.pipe(plumber({ errorHandler: handleErrors }))
-			.pipe(angularFilesort())
-			.pipe(sourcemaps.init())
-			.pipe(concat('app.js'))
-			.pipe(gulpif(isProduction(), uglify()))
-			.pipe(sourcemaps.write("."))
-			.pipe(gulp.dest(config.dist + 'js'));
+	return gulp.src([config.app + 'app/**/*.js', '!' + config.app + 'app/**/*.{spec,e2e}.js'])
+		.pipe(plumber({ errorHandler: handleErrors }))
+		.pipe(angularFilesort())
+		.pipe(sourcemaps.init())
+		.pipe(concat('app.js'))
+		.pipe(gulpif(isProduction(), uglify()))
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest(config.dist + 'js'));
 });
 
 gulp.task('html-template-cache', function() {
 	return gulp.src(config.app + 'app/**/*.html')
-			.pipe(htmlmin({collapseWhitespace: true}))
-			.pipe(templateCache('templates.js', {
-				module: config.module,
-				root: 'app'
-			}))
-			.pipe(gulp.dest(config.dist + 'js'));
+		.pipe(htmlmin({ collapseWhitespace: true }))
+		.pipe(templateCache('templates.js', {
+			module: config.module,
+			root: 'app'
+		}))
+		.pipe(gulp.dest(config.dist + 'js'));
 });
 
 gulp.task('cache-break', function() {
 	return gulp.src(config.app + 'index.html')
-			.pipe(rev())
-			.pipe(gulp.dest(config.app));
+		.pipe(rev())
+		.pipe(gulp.dest(config.app));
 });
 
 gulp.task('clean', function() {
-	return del([config.dist], {dot: true});
+	return del([config.dist], { dot: true });
 });
 
 gulp.task('reload', function(cb) {
@@ -160,8 +159,8 @@ gulp.task('reload', function(cb) {
 });
 
 gulp.task('build', ['clean'], function(callback) {
-	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts', 'copy-images','build-custom-css',
-		'build-app-js', 'html-template-cache'],'cache-break', callback);
+	runSequence(['build-lib-js', 'build-lib-css', 'copy-fonts', 'copy-images', 'build-custom-css',
+		'build-app-js', 'html-template-cache'], 'cache-break', callback);
 });
 
 gulp.task('install', function(callback) {
@@ -201,27 +200,42 @@ gulp.task('serve', ['build', 'watch'], function() {
 });
 
 gulp.task('test:inject', function() {
-	return gulp.src(config.test + 'karma.conf.js')
-		.pipe(inject(gulp.src(bowerFiles({ includeDev: true, filter: ['**/*.js'] }), { read: false }), {
+	// inject the bower resource files in the karma config
+	var bower = gulp.src(bowerFiles({ includeDev: true, filter: ['**/*.js'] }), { read: false });
+	gulp.src('karma.conf.js')
+		.pipe(inject(bower, {
 			starttag: '// bower:js',
 			endtag: '// endbower',
 			transform: function(filepath) {
 				return '\'' + filepath.substring(1, filepath.length) + '\',';
 			}
 		}))
-		.pipe(gulp.dest(config.test));
+		.pipe(gulp.dest('./'));
+
+	// inject all the angular modules in the application so that they will be loaded first
+	var modules = gulp.src(config.app + 'app/**/*.module.js')
+							.pipe(angularFilesort());
+	gulp.src('karma.conf.js')
+		.pipe(inject(modules, {
+			starttag: '// angular:modules',
+			endtag: '// endangular',
+			transform: function(filepath) {
+				return '\'' + filepath.substring(1, filepath.length) + '\',';
+			}
+		}))
+		.pipe(gulp.dest('./'));
 });
 
 gulp.task('test', ['test:inject'], function(done) {
 	new KarmaServer({
-		configFile: __dirname + '/' + config.test + 'karma.conf.js',
+		configFile: __dirname + '/karma.conf.js',
 		singleRun: true
 	}, done).start();
 });
 
 gulp.task('itest', function() {
 	var configObj = {
-		configFile: config.test + 'protractor.conf.js'
+		configFile: './protractor.conf.js'
 	};
 	if (gutil.env.suite) {
 		configObj['args'] = ['--suite', gutil.env.suite];
@@ -239,27 +253,27 @@ gulp.task('default', ['build']);
 
 gulp.task('eslint', function() {
 	return gulp.src(config.app + 'app/**/*.js')
-			.pipe(eslint())
-			.pipe(eslint.format());
+		.pipe(eslint())
+		.pipe(eslint.format());
 });
 
 gulp.task('eslint:html', function() {
 	return gulp.src(config.app + 'app/**/*.js')
-			.pipe(eslint())
-			.pipe(eslint.format('html', function(output) {
-				var dir = path.join(__dirname, config.eslintReport);
-				if (!fs.existsSync(dir)) {
-					fs.mkdirSync(dir);
-				}
-				fs.writeFileSync(dir + '/eslint.html', output);
-			}));
+		.pipe(eslint())
+		.pipe(eslint.format('html', function(output) {
+			var dir = path.join(__dirname, config.eslintReport);
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir);
+			}
+			fs.writeFileSync(dir + '/eslint.html', output);
+		}));
 });
 
 gulp.task('eslint:fix', function() {
 	return gulp.src(config.app + 'app/**/*.js')
-			.pipe(eslint({
-				fix: true
-			}))
-			.pipe(eslint.format())
-			.pipe(gulpif(isLintFixed, gulp.dest(config.app + 'app')));
+		.pipe(eslint({
+			fix: true
+		}))
+		.pipe(eslint.format())
+		.pipe(gulpif(isLintFixed, gulp.dest(config.app + 'app')));
 });

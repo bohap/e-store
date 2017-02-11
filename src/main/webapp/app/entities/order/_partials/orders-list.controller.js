@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.order.partial')
 		.controller('OrderListController', OrderListController);
 
-	OrderListController.$inject = ['Principal', 'Order', 'toastr'];
+	OrderListController.$inject = ['Principal', 'Order', 'ToastrNotify'];
 
-	function OrderListController(Principal, Order, toastr) {
+	function OrderListController(Principal, Order, ToastrNotify) {
 		var vm = this;
 
 		vm.canFinishOrder = canFinishOrder;
@@ -27,7 +27,7 @@
 			}
 
 			function onOrderFinishingFailed(response) {
-				toastr.error("Error occurred while finishing the order! Please try again.",
+				ToastrNotify.error("Error occurred while finishing the order! Please try again.",
 					"Request Failed");
 			}
 		}

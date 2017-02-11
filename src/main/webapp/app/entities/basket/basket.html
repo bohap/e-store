@@ -9,8 +9,7 @@
                     </div>
                     <div class="col-md-5">
                         <a class="btn btn-primary btn-block" ng-link="['/', 'Book']">
-                            <i class="fa fa-mail-forward"></i>
-                            Continue Shopping
+                            <i class="fa fa-mail-forward"></i> Continue Shopping
                         </a>
                     </div>
                 </div>
@@ -22,8 +21,7 @@
                             <h1>Empty Basket</h1>
                         </div>
                     </div>
-                    <div class="row separator item-row animate" ng-switch-when="false"
-                        ng-repeat="item in vm.items">
+                    <div class="row separator item-row animate" ng-switch-when="false" ng-repeat="item in vm.items">
                         <div class="col-md-3">
                             <img class="img-responsive" ng-src="/api/books/{{item.book.slug}}/image" />
                         </div>
@@ -45,8 +43,7 @@
                             </span>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group has-feedback"
-                                    ng-class="{'has-error': vm.hasInvalidQuantity(item)}">
+                            <div class="form-group has-feedback" ng-class="{'has-error': vm.hasInvalidQuantity(item)}">
                                 <input type="number" name="quantity" class="form-control" uib-tooltip="Quantity"
                                         ng-model="item.quantity" uib-popover="The quantity must be bigger than 1"
                                         popover-placement="bottom" popover-trigger="'mouseenter'"

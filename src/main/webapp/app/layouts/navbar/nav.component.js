@@ -8,6 +8,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.nav')
 		.component('appNav', nav);
 })();

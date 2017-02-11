@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.auth')
 		.factory('AuthJWTProvider', AuthJWTProvider);
 
 	AuthJWTProvider.$inject = ['$localStorage', '$q'];

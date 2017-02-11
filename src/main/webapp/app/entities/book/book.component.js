@@ -34,6 +34,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.book')
 		.component('book', book);
 })();

@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dashboard')
 		.controller('DashboardHomeController', DashboardHomeController);
 
-	DashboardHomeController.$inject = ['Book', 'User', 'Order', 'toastr', 'EVENTS', '$rootRouter', '$scope'];
+	DashboardHomeController.$inject = ['Book', 'User', 'Order', 'ToastrNotify', 'EVENTS', '$rootRouter', '$scope'];
 
-	function DashboardHomeController(Book, User, Order, toastr, EVENTS, $rootRouter, $scope) {
+	function DashboardHomeController(Book, User, Order, ToastrNotify, EVENTS, $rootRouter, $scope) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -38,7 +38,7 @@
 			}
 
 			function onDataLoadingFailed(response) {
-				toastr.error("Error occurred while loading the page! Please try to reload it.",
+				ToastrNotify.error("Error occurred while loading the page! Please try to reload it.",
 					"Loading Failed");
 			}
 		}

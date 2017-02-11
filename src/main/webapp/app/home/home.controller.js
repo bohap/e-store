@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.home')
 		.controller('HomeController', HomeController);
 
-	HomeController.$inject = ['Book', 'BookUtil', 'toastr'];
+	HomeController.$inject = ['Book', 'BookUtil', 'ToastrNotify'];
 
-	function HomeController(Book, BookUtil, toastr) {
+	function HomeController(Book, BookUtil, ToastrNotify) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivate;
@@ -35,7 +35,7 @@
 			}
 
 			function onLoadingFailed() {
-				toastr.error("Error occurred while loading the page. Please reload it.",
+				ToastrNotify.error("Error occurred while loading the page. Please reload it.",
 					"Loading Failed");
 			}
 		}

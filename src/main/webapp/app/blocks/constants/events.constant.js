@@ -7,6 +7,7 @@
 		bookImageSelected: 'book:image-selected'
 	};
 
-	angular.module('app')
+	angular
+		.module('app.constants')
 		.constant('EVENTS', events);
 })();

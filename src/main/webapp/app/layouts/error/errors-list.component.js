@@ -11,6 +11,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.error')
 		.component('errorsList', errors);
 })();

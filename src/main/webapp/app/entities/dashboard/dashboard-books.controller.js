@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dashboard')
 		.controller('DasboardBooksController', DasboardBooksController);
 
-	DasboardBooksController.$inject = ['Book', 'EVENTS', '$rootRouter', '$scope', 'toastr'];
+	DasboardBooksController.$inject = ['Book', 'EVENTS', '$rootRouter', '$scope', 'ToastrNotify'];
 
-	function DasboardBooksController(Book, EVENTS, $rootRouter, $scope, toastr) {
+	function DasboardBooksController(Book, EVENTS, $rootRouter, $scope, ToastrNotify) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -26,7 +26,7 @@
 			function onBooksLoadingFailed(response) {
 				vm.books = [];
 				vm.areBooksLoaded = false;
-				toastr.error("Error occurred while loadin the page! Please reload it.", "Loading Failed");
+				ToastrNotify.error("Error occurred while loadin the page! Please reload it.", "Loading Failed");
 			}
 		}
 

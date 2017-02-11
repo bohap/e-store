@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.book.partial')
 		.controller('BooksListController', BooksListController);
 
 	BooksListController.$inject = ['BookUtil'];

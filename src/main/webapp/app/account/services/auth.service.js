@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.auth')
 		.factory('Auth', Auth);
 
 	Auth.$inject = ['$q', 'AuthJWTProvider', 'Login', 'Register', 'RefreshToken', 'Principal',

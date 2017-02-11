@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.book.partial')
 		.controller('BooksTableListController', BooksTableListController);
 
-	BooksTableListController.$inject = ['ConfirmDialog', 'PromotionDialog', 'toastr', 'Promotion', 'Principal', 'Book'];
+	BooksTableListController.$inject = ['ConfirmDialog', 'PromotionDialog', 'ToastrNotify', 'Promotion', 'Principal', 'Book'];
 
-	function BooksTableListController(ConfirmDialog, PromotionDialog, toastr, Promotion, Principal, Book) {
+	function BooksTableListController(ConfirmDialog, PromotionDialog, ToastrNotify, Promotion, Principal, Book) {
 		var vm = this;
 
 		vm.isEmpty = isEmpty;
@@ -57,7 +57,7 @@
 				}
 
 				function onBookRemovingFailed() {
-					toastr.error("Removing the book failed! Please try again.", "Remove Failed");
+					ToastrNotify.error("Removing the book failed! Please try again.", "Remove Failed");
 				}
 			}
 
@@ -85,7 +85,7 @@
 
 			function onPromotionRemovingFailed(response) {
 				book.isPromotionRemoving = false;
-				toastr.error("Removing the book promotion failed!. Please try again.", "Removing Failed");
+				ToastrNotify.error("Removing the book promotion failed!. Please try again.", "Removing Failed");
 			}
 		}
 	}

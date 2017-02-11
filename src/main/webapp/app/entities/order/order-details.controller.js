@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.order')
 		.controller('OrderDetailsController', OrderDetailsController);
 
-	OrderDetailsController.$inject = ['Order', 'toastr', '$rootRouter', 'EVENTS', '$scope'];
+	OrderDetailsController.$inject = ['Order', 'ToastrNotify', '$rootRouter', 'EVENTS', '$scope'];
 
-	function OrderDetailsController(Order, toastr, $rootRouter, EVENTS, $scope) {
+	function OrderDetailsController(Order, ToastrNotify, $rootRouter, EVENTS, $scope) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -46,7 +46,7 @@
 				if (status === 403 || status === 404) {
 					$rootRouter.navigate(['Book']);
 				} else {
-					toastr.error("Error occurred while loading the page! Please reload it.",
+					ToastrNotify.error("Error occurred while loading the page! Please reload it.",
 						"Loading Failed");
 				}
 			}

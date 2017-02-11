@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.html')
 		.directive('disableNgAnimation', disableNgAnimation);
 
 	disableNgAnimation.$inject = ['$animate'];

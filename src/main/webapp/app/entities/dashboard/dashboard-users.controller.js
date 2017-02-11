@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.dashboard')
 		.controller('DashboardUsersController', DashboardUsersController);
 
-	DashboardUsersController.$inject = ['User', 'toastr', 'EVENTS', '$rootRouter', '$scope'];
+	DashboardUsersController.$inject = ['User', 'ToastrNotify', 'EVENTS', '$rootRouter', '$scope'];
 
-	function DashboardUsersController(User, toastr, EVENTS, $rootRouter, $scope) {
+	function DashboardUsersController(User, ToastrNotify, EVENTS, $rootRouter, $scope) {
 		var vm = this;
 
 		vm.$routerOnActivate = onRouterActivated;
@@ -33,7 +33,7 @@
 			}
 
 			function onUsersLoadingFailed(response) {
-				toastr.error("Loading the users data failed. Please relaod the page", "Loading Failed");
+				ToastrNotify.error("Loading the users data failed. Please relaod the page", "Loading Failed");
 			}
 		}
 

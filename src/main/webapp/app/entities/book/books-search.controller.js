@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.book')
 		.controller('BooksSearchController', BooksSearchController);
 
-	BooksSearchController.$inject = ['Book', 'toastr'];
+	BooksSearchController.$inject = ['Book', 'ToastrNotify'];
 
-	function BooksSearchController(Book, toastr) {
+	function BooksSearchController(Book, ToastrNotify) {
 		var vm = this,
 			limit = 20,
 			offset = 0;
@@ -64,7 +64,7 @@
 
 			function onBooksLoadingFailed(response) {
 				vm.sending = false;
-				toastr.error("Error occurred while searching the books. Please try again.",
+				ToastrNotify.error("Error occurred while searching the books. Please try again.",
 					"Loading Failed");
 			}
 		}

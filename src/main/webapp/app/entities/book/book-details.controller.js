@@ -2,13 +2,13 @@
 	'use strict';
 
 	angular
-		.module('app')
+		.module('app.book')
 		.controller('BookDetailsController', BookDetailsController);
 
-	BookDetailsController.$inject = ['Book', 'FavoriteBook', 'BasketBook', 'Principal', 'BookUtil', 'toastr',
+	BookDetailsController.$inject = ['Book', 'FavoriteBook', 'BasketBook', 'Principal', 'BookUtil', 'ToastrNotify',
 		'EVENTS', '$scope'];
 
-	function BookDetailsController(Book, FavoriteBook, BasketBook, Principal, BookUtil, toastr,
+	function BookDetailsController(Book, FavoriteBook, BasketBook, Principal, BookUtil, ToastrNotify,
 		EVENTS, $scope) {
 		var vm = this;
 
@@ -45,7 +45,7 @@
 			}
 
 			function onBookLoadingFailed(response) {
-				toastr.error("Error occurred while loading the page. Please try again", "Failed");
+				ToastrNotify.error("Error occurred while loading the page. Please try again", "Failed");
 			}
 		}
 
@@ -65,7 +65,7 @@
 			}
 
 			function onFavoriteBookCheckingFailed() {
-				toastr.error("Some error occurred while loading the page! Please try to reload.",
+				ToastrNotify.error("Some error occurred while loading the page! Please try to reload.",
 					"Loading Failed");
 				vm.favorite = null;
 			}
@@ -87,7 +87,7 @@
 			}
 
 			function onBasketBookCheckingFailed() {
-				toastr.error("Some error occurred while loading the page! Please try to reload.",
+				ToastrNotify.error("Some error occurred while loading the page! Please try to reload.",
 					"Loading Failed");
 				vm.basket = null;
 			}
@@ -118,7 +118,7 @@
 
 			function onFavoriteAddingFailed(response) {
 				vm.favoriteRequestSending = false;
-				toastr.error("Error occurred while adding the book in the favorites! Plase try again",
+				ToastrNotify.error("Error occurred while adding the book in the favorites! Plase try again",
 					"Adding Faile");
 			}
 		}
@@ -138,7 +138,7 @@
 
 			function onFavoriteRemovingFailed(response) {
 				vm.favoriteRequestSending = false;
-				toastr.error("Error occurred while removing the book from the favorites! Plase try again",
+				ToastrNotify.error("Error occurred while removing the book from the favorites! Plase try again",
 					"Removing Faile");
 			}
 		}
@@ -168,7 +168,7 @@
 
 			function onBasketAddingFailed(response) {
 				vm.favoriteRequestSending = false;
-				toastr.error("Error occurred while adding the book in the basket! Please try again.",
+				ToastrNotify.error("Error occurred while adding the book in the basket! Please try again.",
 					"Adding Failed");
 			}
 		}
@@ -188,7 +188,7 @@
 
 			function onBasketRemovingFailed(response) {
 				vm.basketRequestSending = false;
-				toastr.error("Error occurred while removing the book from the baske! Please try again.",
+				ToastrNotify.error("Error occurred while removing the book from the baske! Please try again.",
 					"Removing failed");
 			}
 		}

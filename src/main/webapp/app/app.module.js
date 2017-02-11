@@ -1,19 +1,16 @@
 (function() {
 	'use strict';
 
-	angular
-		.module('app', [
-			'ngResource',
-			'ngComponentRouter',
-			'ngStorage',
-			'ngMessages',
-			'ngAnimate',
-			'angular-loading-bar',
-			'ui.bootstrap',
-			'ui.select',
-			'toastr',
-			'infinite-scroll',
-			'smart-table',
-			'angularMoment'
-		]);
+	angular.module('app', [
+		'app.core',
+		'app.interceptor',
+		'app.account',
+		'app.nav',
+		'app.home',
+		'app.basket',
+		'app.book',
+		'app.user',
+		'app.dashboard',
+		'app.order'
+	]);
 })();

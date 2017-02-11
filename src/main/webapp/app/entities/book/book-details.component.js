@@ -8,6 +8,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.book')
 		.component('bookDetails', bookDetails);
 })();

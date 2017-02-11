@@ -7,6 +7,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.constants')
 		.constant('ROLES', roles);
 })();

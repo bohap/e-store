@@ -21,6 +21,6 @@
 	};
 
 	angular
-		.module('app')
+		.module('app.constants')
 		.constant('MESSAGES', messages);
 })();
