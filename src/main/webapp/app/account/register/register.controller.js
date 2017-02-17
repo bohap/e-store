@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app.register')
+		.module('app.account')
 		.controller('RegisterController', RegisterController);
 
 	RegisterController.$inject = ['Auth', '$uibModalInstance', 'ArrayUtils'];
@@ -24,6 +24,10 @@
 		}
 
 		function register() {
+			if (vm.isSending) {
+				return;
+			}
+
 			var account = {
 				name: vm.name,
 				email: vm.username,
@@ -43,7 +47,7 @@
 
 			function registrationFailed(data) {
 				vm.isSending = false;
-				if (angular.isDefined(data)) {
+				if (angular.isDefined(data) && angular.isDefined(data.errors)) {
 					vm.errors = ArrayUtils.flatten(data.errors);
 				}
 			}

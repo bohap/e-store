@@ -17,7 +17,7 @@
 
 		function linkFunc(scope, element, attr, ngModelCtrl) {
 			ngModelCtrl.$validators.fieldMatch = function(modelValue, viewValue) {
-				return modelValue !== null && modelValue === scope.field;
+				return modelValue === scope.field;
 			};
 
 			var unwatch = scope.$watch('field', function() {

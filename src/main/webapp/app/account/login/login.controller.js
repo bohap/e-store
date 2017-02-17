@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app.login')
+		.module('app.account')
 		.controller('LoginController', LoginController);
 
 	LoginController.$inject = ['Auth', '$uibModalInstance', 'ArrayUtils', '$rootRouter'];

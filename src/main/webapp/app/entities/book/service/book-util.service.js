@@ -47,6 +47,10 @@
 		}
 
 		function getBookPrice(book) {
+			if (angular.isUndefined(book) || book === null) {
+				return 0;
+			}
+
 			if (isBookOnPromotion(book)) {
 				return book.promotion.newPrice;
 			}
@@ -54,6 +58,10 @@
 		}
 
 		function getBookDiscount(book) {
+			if (angular.isUndefined(book) || book === null) {
+				return 0;
+			}
+
 			if (!isBookOnPromotion(book)) {
 				return 0;
 			}

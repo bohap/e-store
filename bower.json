@@ -39,5 +39,8 @@
         "css/font-awesome.css"
       ]
     }
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.6.2"
   }
 }

@@ -12,9 +12,10 @@
 
 		vm.$routerOnActivate = onRouterActivated;
 		vm.favorites = [];
-		vm.areFavoritesLoaded = false;
+		vm.loading = false;
 
 		function onRouterActivated(next, prev) {
+			vm.loading = true;
 			var slug = next.params.slug;
 
 			User.favorites({slug: slug}).$promise
@@ -22,13 +23,14 @@
 
 			function onFavoritesLoadingSuccess(favorites) {
 				vm.favorites = favorites;
-				vm.areFavoritesLoaded = true;
+				vm.loading = false;
 			}
 
 			function onFavoritesLoadingFailed(response) {
+				vm.loading = false;
 				var status = response.status;
 				if (status === 404) {
-					$rootRouter.navigate(['Book']);
+					$rootRouter.navigate(['Home']);
 				} else {
 					ToastrNotify.error("Error occurred while laoding the page! Please reload it.",
 						"Loading Failed");
@@ -37,7 +39,7 @@
 		}
 
 		var logoutWatch = $scope.$on(EVENTS.logoutSuccess, function(event, date) {
-			$rootRouter.navigate(['Book']);
+			$rootRouter.navigate(['Home']);
 		});
 
 		$scope.$on('$destroy', function() {

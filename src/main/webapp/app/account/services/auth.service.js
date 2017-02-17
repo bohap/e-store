@@ -51,7 +51,11 @@
 		}
 
 		function authenticationSuccess(response, deferred) {
-			AuthJWTProvider.storeToken(response);
+			var stored = AuthJWTProvider.storeToken(response);
+			if (!stored) {
+				deferred.reject({ error: "Token Extraction from the response failed" });
+				return;
+			}
 
 			// Get the user account
 			Principal.identity()
@@ -63,7 +67,7 @@
 			}
 
 			function identityResolveFailed(response) {
-				deferred.reject(response);
+				deferred.reject(response.data);
 			}
 		}
 
@@ -72,6 +76,7 @@
 			var token = AuthJWTProvider.getToken();
 			if (angular.isUndefined(token) || token === null) {
 				deferred.reject(false);
+				return deferred.promise;
 			}
 			RefreshToken.refresh()
 				.then(refreshSuccess, refreshFailed);

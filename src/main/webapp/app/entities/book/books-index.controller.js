@@ -72,6 +72,7 @@
 			if (vm.loading) {
 				return;
 			}
+
 			offset = 0;
 			if (category.selected) {
 				category.selected = false;

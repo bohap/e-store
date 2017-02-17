@@ -21,15 +21,15 @@
 		vm.openCreateOrderDialog = openCreateOrderDialog;
 		vm.basket = {};
 		vm.items = [];
-		vm.initDataLoading = false;
+		vm.loading = false;
 
 		function onRouterActivated() {
-			vm.initDataLoading = true;
+			vm.loading = true;
 			BasketBook.query().$promise
 				.then(onBasketBooksLoadingSuccess, onBasketBooksLoadingFailed);
 
 			function onBasketBooksLoadingSuccess(books) {
-				vm.initDataLoading = false;
+				vm.loading = false;
 				vm.items = [];
 				books.forEach(function(book) {
 					var item = {
@@ -41,7 +41,7 @@
 			}
 
 			function onBasketBooksLoadingFailed(response) {
-				vm.initDataLoading = false;
+				vm.loading = false;
 				ToastrNotify.error("Some error occurred while loading the page! Please reload it.",
 					"Loading Failed");
 			}
@@ -75,6 +75,14 @@
 			function onBookRemovingSuccess() {
 				ToastrNotify.success("Book is successfullt removed from the basket", "Book Removed");
 				var index = vm.items.indexOf(item);
+				if (index === -1) {
+					for (var i = 0 ; i < vm.items.length; i++) {
+						if (vm.items[i].book.slug === item.book.slug) {
+							index = i;
+							break;
+						}
+					}
+				}
 				vm.items.splice(index, 1);
 			}
 
@@ -107,7 +115,7 @@
 		}
 
 		var logoutWatch = $scope.$on(EVENTS.logoutSuccess, function(event, date) {
-			$rootRouter.navigate(['Book']);
+			$rootRouter.navigate(['Home']);
 		});
 
 		$scope.$on('$destroy', function() {

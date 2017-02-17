@@ -15,27 +15,36 @@
 
 		return service;
 
-		function flatten(array) {
+		function flatten(param) {
 			var result = [];
-			if (isEmpty(array)) {
+			if (isEmpty(param)) {
 				return result;
 			}
 
 			// Check if the param is only a string
-			if (!angular.isArray(array) && !angular.isObject(array)) {
-				result.push(array);
+			if (!angular.isArray(param) && !angular.isObject(param)) {
+				result.push(param);
 				return result;
 			}
 
-			angular.forEach(array, function(value, key) {
+			if (!angular.isObject(param) && angular.isDefined(param.message)) {
+				result.push(param.message);
+				return result;
+			}
+
+			angular.forEach(param, function(value, key) {
 				if (angular.isArray(value)) {
-					result = result.concat(value);
+					result = result.concat(flatten(value));
 				} else if (angular.isObject(value)) {
 					for (var prop in value) {
-						var flattened = flatten(prop);
+						var flattened = flatten(value[prop]);
 						flattened.forEach(function(f) {
-							if (angular.isUndefined(f.message) && f.message !== null) {
-								result.push(prop + " " + f.message);
+							if (angular.isObject(f)) {
+								if (angular.isUndefined(f.message) && f.message !== null) {
+									result.push(prop + " " + f.message);
+								}
+							} else {
+								result.push(f);
 							}
 						});
 					}
@@ -51,6 +60,13 @@
 			if (isEmpty(array) || isEmpty(element) || isEmpty(param)) {
 				return -1;
 			}
+			if (!angular.isArray(array) || array.length == 0) {
+				return -1;
+			}
+			if (!angular.isObject(element)) {
+				return -1;
+			}
+
 			for (var i = 0; i < array.length; i++) {
 				if (array[i][param] === element[param]) {
 					return i;

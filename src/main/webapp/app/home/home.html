@@ -1,4 +1,4 @@
-<div ng-if="vm.popularLoaded">
+<div ng-if="!vm.popularLoading">
 	<h1 class="page-header text-info">Popular Books</h1>
 	<div uib-carousel active="0" interval="5000">
 		<div uib-slide ng-repeat="book in vm.popular" index="$index">
@@ -23,7 +23,7 @@
 		</div>
 	</div>
 </div>
-<div ng-if="vm.latestLoaded">
+<div ng-if="!vm.latestLoading">
 	<h1 class="page-header text-info">
 		<a ng-link="['Book']">
 			Latest Books

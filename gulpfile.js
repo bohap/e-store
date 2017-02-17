@@ -200,9 +200,10 @@ gulp.task('serve', ['build', 'watch'], function() {
 });
 
 gulp.task('test:inject', function() {
-	// inject the bower resource files in the karma config
 	var bower = gulp.src(bowerFiles({ includeDev: true, filter: ['**/*.js'] }), { read: false });
-	gulp.src('karma.conf.js')
+    var modules = gulp.src(config.app + 'app/**/*.module.js').pipe(angularFilesort());
+
+	return gulp.src('karma.conf.js')
 		.pipe(inject(bower, {
 			starttag: '// bower:js',
 			endtag: '// endbower',
@@ -210,19 +211,13 @@ gulp.task('test:inject', function() {
 				return '\'' + filepath.substring(1, filepath.length) + '\',';
 			}
 		}))
-		.pipe(gulp.dest('./'));
-
-	// inject all the angular modules in the application so that they will be loaded first
-	var modules = gulp.src(config.app + 'app/**/*.module.js')
-							.pipe(angularFilesort());
-	gulp.src('karma.conf.js')
-		.pipe(inject(modules, {
-			starttag: '// angular:modules',
-			endtag: '// endangular',
-			transform: function(filepath) {
-				return '\'' + filepath.substring(1, filepath.length) + '\',';
-			}
-		}))
+        .pipe(inject(modules, {
+            starttag: '// angular:modules',
+            endtag: '// endangular',
+            transform: function(filepath) {
+                return '\'' + filepath.substring(1, filepath.length) + '\',';
+            }
+        }))
 		.pipe(gulp.dest('./'));
 });
 

@@ -48,7 +48,7 @@
 		}
 
 		var unwatch = $scope.$on(EVENTS.bookImageSelected, function(event, data) {
-			image = data.file;
+			image = data.image;
 		});
 
 		$scope.$on('$destroy', function() {

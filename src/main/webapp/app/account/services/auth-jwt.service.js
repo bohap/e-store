@@ -24,8 +24,7 @@
 			if (angular.isUndefined(httpResponse) || httpResponse === null) {
 				return false;
 			}
-			var data = httpResponse.data;
-			var token =  angular.isDefined(data) && data !== null ? data.jwtToken : null;
+			var token = httpResponse.data.jwtToken;
 			if (angular.isUndefined(token) || token === null) {
 				var bearer = httpResponse.headers('Authorization');
 				if (angular.isDefined(bearer) && bearer !== null &&

@@ -16,8 +16,7 @@
 
 		function linkFunc(scope, element, attrs, ctrl) {
 			ctrl.$validators.number = function(modelValue) {
-				return angular.isDefined(modelValue) && modelValue !== null &&
-					/^\d+$/.test(modelValue);
+				return /^\d+$/.test(modelValue);
 			};
 		}
 	}

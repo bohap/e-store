@@ -31,10 +31,42 @@ module.exports = function(config) {
 			'src/main/webapp/assets/libs/angular-smart-table/dist/smart-table.js',
 			'src/main/webapp/assets/libs/moment/moment.js',
 			'src/main/webapp/assets/libs/angular-moment/angular-moment.js',
+			'src/main/webapp/assets/libs/angular-mocks/angular-mocks.js',
 			// endbower
 			// angular:modules
+			'src/main/webapp/app/entities/user/service/user.service.module.js',
+			'src/main/webapp/app/entities/promotion/service/promotion.service.module.js',
+			'src/main/webapp/app/entities/promotion/dialog/promotion.dialog.module.js',
+			'src/main/webapp/app/entities/order/service/order.service.module.js',
+			'src/main/webapp/app/entities/order/dialog/order.dialog.module.js',
+			'src/main/webapp/app/entities/order/_partials/order.partial.module.js',
+			'src/main/webapp/app/entities/favorite/service/favorite.service.module.js',
+			'src/main/webapp/app/entities/category/service/category.service.module.js',
+			'src/main/webapp/app/entities/book/service/book.service.module.js',
+			'src/main/webapp/app/entities/book/directives/book.directive.module.js',
+			'src/main/webapp/app/entities/book/_partials/book.partial.module.js',
+			'src/main/webapp/app/entities/basket/service/basket.service.module.js',
+			'src/main/webapp/app/layouts/navbar/nav.module.js',
+			'src/main/webapp/app/layouts/error/error.module.js',
+			'src/main/webapp/app/layouts/dialog/dialog.module.js',
+			'src/main/webapp/app/entities/user/user.module.js',
+			'src/main/webapp/app/entities/order/order.module.js',
+			'src/main/webapp/app/entities/dashboard/dashboard.module.js',
+			'src/main/webapp/app/entities/book/book.module.js',
+			'src/main/webapp/app/entities/basket/basket.module.js',
+			'src/main/webapp/app/components/util/util.module.js',
+			'src/main/webapp/app/components/notifiy/notify.module.js',
+			'src/main/webapp/app/components/key-events/key-event.module.js',
+			'src/main/webapp/app/components/html/html.module.js',
+			'src/main/webapp/app/components/form-validate/validate.module.js',
+			'src/main/webapp/app/blocks/interceptor/interceptor.module.js',
+			'src/main/webapp/app/blocks/handler/handler.module.js',
+			'src/main/webapp/app/blocks/constants/constans.module.js',
+			'src/main/webapp/app/home/home.module.js',
+			'src/main/webapp/app/account/auth.module.js',
 			'src/main/webapp/app/account/account.module.js',
 			'src/main/webapp/app/app.module.js',
+			'src/main/webapp/app/app.core.module.js',
 			// endangular
 			'src/main/webapp/app/**/*!(.module|.spec|.e2e).js',
 			'src/main/webapp/app/**/*.spec.js',
@@ -49,7 +81,7 @@ module.exports = function(config) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'./app/**': ['coverage']
+			'src/main/webapp/app/**/!(*spec|*e2e).js': ['coverage']
 		},
 
 

@@ -14,27 +14,31 @@
 		vm.isBookOnPromotion = BookUtil.isBookOnPromotion;
 		vm.popular = [];
 		vm.latest = [];
-		vm.popularLoaded = false;
-		vm.latestLoaded = false;
+		vm.popularLoading = false;
+		vm.latestLoading = false;
 
 		function onRouterActivate() {
+			vm.popularLoading = true;
 			Book.popular({limit: 10}).$promise
 				.then(onPopularBooksLoadingSuccess, onLoadingFailed);
 
 			function onPopularBooksLoadingSuccess(books) {
 				vm.popular = books;
-				vm.popularLoaded = true;
+				vm.popularLoading = false;
 			}
 
+			vm.latestLoading = true;
 			Book.query({limit: 10, latest: true}).$promise
 				.then(onLatestBooksLoadingSuccess, onLoadingFailed);
 
 			function onLatestBooksLoadingSuccess(books) {
 				vm.latest = books;
-				vm.latestLoaded = true;
+				vm.latestLoading = false;
 			}
 
 			function onLoadingFailed() {
+				vm.popularLoading = false;
+				vm.latestLoading = false;
 				ToastrNotify.error("Error occurred while loading the page. Please reload it.",
 					"Loading Failed");
 			}

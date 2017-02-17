@@ -32,13 +32,13 @@
 			var touched = ngModelCtrl.$touched;
 			var invalid = ngModelCtrl.$invalid;
 			var hasError = (formSubmitted || touched) && invalid;
-			var viewValue = ngModelCtrl.$viewValue;
 
 			var fieldContainer = element.closest('.form-group');
 			fieldContainer.removeClass('has-error');
 			fieldContainer.removeClass('has-success');
 
 			var errorMessages = fieldContainer.find('.form-error-messages');
+			element.find('.form-error-messages')
 			var icon = angular.element('<i></i>');
 			icon.addClass('fa form-control-feedback');
 			if (hasError) {
@@ -47,13 +47,18 @@
 				fieldContainer.addClass('has-error');
 			} else {
 				errorMessages.hide();
-				if (angular.isDefined(viewValue) && viewValue !== null) {
-					var empty = angular.isArray(viewValue) && viewValue.length === 0 ? true : false;
-					if (!empty) {
-						icon.addClass('fa-check');
-						fieldContainer.addClass('has-success');
-					}
+				if (touched) {
+					errorMessages.hide();
+					icon.addClass('fa-check');
+					fieldContainer.addClass('has-success');
 				}
+				// if (angular.isDefined(viewValue) && viewValue !== null) {
+				// 	var empty = angular.isArray(viewValue) && viewValue.length === 0 ? true : false;
+				// 	if (!empty) {
+				// 		icon.addClass('fa-check');
+				// 		fieldContainer.addClass('has-success');
+				// 	}
+				// }
 			}
 
 			element.nextAll('i').remove();

@@ -17,6 +17,10 @@
 			if (angular.isUndefined(date) || date === null) {
 				return new Date();
 			}
+			if (!angular.isNumber(days)) {
+				return new Date();
+			}
+
 			var daysMills = days * 24 * 60 * 60 * 1000;
 			return new Date(date.getTime() + daysMills);
 		}

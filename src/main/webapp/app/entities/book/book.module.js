@@ -18,6 +18,7 @@
 		'app.auth',
 		'app.book.service',
 		'app.book.partial',
+		'app.book.directive',
 		'app.category.service',
 		'app.favorite.service',
 		'app.basket.service',

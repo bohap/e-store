@@ -20,7 +20,9 @@
 			getIdentity: getIdentity,
 			identity: identity,
 			resolveIdentity: resolveIdentity,
-			invalidate: invalidate
+			invalidate: invalidate,
+			_isAuthenticationChecked: _isAuthenticationChecked,
+			_hasAuthority: hasAuthority
 		};
 
 		return service;
@@ -62,8 +64,10 @@
 			var deferred = $q.defer();
 			if (_identity !== null) {
 				resolve(_identity);
+				return deferred.promise;
 			}
 
+			authChecked = false;
 			var token = AuthJWTProvider.getToken();
 			if (angular.isDefined(token) && token !== null) {
 				Account.get().$promise
@@ -103,6 +107,7 @@
 			var deferred = $q.defer();
 			if (authChecked) {
 				deferred.resolve(_identity);
+				return deferred.promise;
 			}
 			var unwatch = $rootScope.$on(event, function(event, data) {
 				deferred.resolve(_identity);
@@ -115,6 +120,10 @@
 		function invalidate() {
 			_identity = null;
 			autheticated = false;
+		}
+
+		function _isAuthenticationChecked() {
+			return authChecked;
 		}
 	}
 })();

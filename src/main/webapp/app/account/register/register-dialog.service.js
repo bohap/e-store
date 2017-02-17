@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app.register')
+		.module('app.account')
 		.factory('RegisterDialog', RegisterDialog);
 
 	RegisterDialog.$inject = ['$uibModal'];

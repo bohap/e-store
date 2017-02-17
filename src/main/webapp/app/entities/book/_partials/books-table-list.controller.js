@@ -37,17 +37,21 @@
 
 		function getPromotionPrice(book) {
 			if (!hasPromotion(book)) {
-				return undefined;
+				return null;
 			}
 			return book.promotion.newPrice;
 		}
 
 		function deleteBook(book) {
+			if (book.isRemoving) {
+				return;
+			}
 			var message = "Are you sure you want to delete book " + book.name + "?";
 			ConfirmDialog.open(message)
 				.then(onDialogConfirmed, onDialogCanceled);
 
 			function onDialogConfirmed() {
+				book.isRemoving = true;
 				Book.remove({slug: book.slug}).$promise
 					.then(onBookRemovingSuccess, onBookRemovingFailed);
 
@@ -57,6 +61,7 @@
 				}
 
 				function onBookRemovingFailed() {
+					book.isRemoving = false;
 					ToastrNotify.error("Removing the book failed! Please try again.", "Remove Failed");
 				}
 			}
@@ -70,7 +75,7 @@
 		}
 
 		function removePromotion(book) {
-			if (book.isPromotionRemoving) {
+			if (!hasPromotion(book) || book.isPromotionRemoving) {
 				return;
 			}
 

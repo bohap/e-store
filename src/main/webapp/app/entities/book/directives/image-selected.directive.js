@@ -2,12 +2,12 @@
 	'use strict';
 
 	angular
-		.module('app.validate')
-		.directive('validFile', validFile);
+		.module('app.book.directive')
+		.directive('imageSelected', imageSelected);
 
-	validFile.$inject = ['EVENTS'];
+	imageSelected.$inject = ['EVENTS'];
 
-	function validFile(EVENTS) {
+	function imageSelected(EVENTS) {
 		var options = {
 			restrict: 'A',
 			require: 'ngModel',
@@ -18,9 +18,9 @@
 
 		function linkFunc(scope, element, attrs, ctrl) {
 			element.bind('change', function(event) {
-				var file = event.target.files[0];
-				scope.$emit(EVENTS.bookImageSelected, {file: file});
-				scope.$apply(function(){
+				var image = event.target.files[0];
+				scope.$emit(EVENTS.bookImageSelected, { image: image });
+				scope.$apply(function() {
 					ctrl.$setViewValue(element.val());
 					ctrl.$render();
 				});
