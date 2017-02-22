@@ -2,9 +2,9 @@
 describe("Principal test", function() {
 	var Principal, Account, AuthJWTProvider, $rootScope, ROLES, $q;
 	var token = "JWT token";
-    var event = "auth-checked";
-    var identity = { name: 'Test User', slug: 'test-user' };
-    var reject = { data: {}, status: 401 };
+	var event = "auth-checked";
+	var identity = { name: 'Test User', slug: 'test-user' };
+	var reject = { data: {}, status: 401 };
 
 	beforeEach(angular.mock.module('app.auth'));
 
@@ -18,12 +18,12 @@ describe("Principal test", function() {
 	}));
 
 	function resolveIdentity(callBroadcast) {
-        spyOn(AuthJWTProvider, 'getToken').and.returnValue(token);
-        spyOn(Account, 'get').and.callFake(function() {
-            return {
-                $promise: $q.when(identity)
-            }
-        });
+		spyOn(AuthJWTProvider, 'getToken').and.returnValue(token);
+		spyOn(Account, 'get').and.callFake(function() {
+			return {
+				$promise: $q.when(identity)
+			};
+		});
 		if (callBroadcast) {
 			spyOn($rootScope, '$broadcast').and.callThrough();
 		} else {
@@ -32,60 +32,56 @@ describe("Principal test", function() {
 	}
 
 	function rejectIdentity() {
-        spyOn(AuthJWTProvider, 'getToken').and.returnValue(token);
-        spyOn(Account, 'get').and.callFake(function() {
-            return {
-                $promise: $q.reject(reject)
-            }
-        });
-        spyOn($rootScope, '$broadcast');
+		spyOn(AuthJWTProvider, 'getToken').and.returnValue(token);
+		spyOn(Account, 'get').and.callFake(function() {
+			return {
+				$promise: $q.reject(reject)
+			};
+		});
+		spyOn($rootScope, '$broadcast');
 	}
 
 	describe("has authority", function() {
 		it("shoud return false when the user is not authenticated", function() {
-            expect(Principal._hasAuthority(ROLES.admin)).toBeFalsy();
+			expect(Principal._hasAuthority(ROLES.admin)).toBeFalsy();
 		});
 
-        it("shoud return false when the user don't have a authorities set", function() {
+		it("shoud return false when the user don't have a authorities set", function() {
 			identity.authorities = null;
-            resolveIdentity();
+			resolveIdentity();
 			Principal.identity();
 			$rootScope.$apply();
 
 			expect(Principal.getIdentity()).toEqual(identity);
 			expect(Principal._hasAuthority(ROLES.regular)).toBeFalsy();
-        });
+		});
 
 		it("shoud return true when the user has the given authority", function() {
-            identity.authorities = [ROLES.admin];
-            resolveIdentity();
-            Principal.identity();
+			identity.authorities = [ROLES.admin];
+			resolveIdentity();
+			Principal.identity();
 			$rootScope.$apply();
 
 			expect(Principal.getIdentity()).toEqual(identity);
 			expect(Principal._hasAuthority(ROLES.admin)).toBeTruthy();
 		});
 
-        it("shoud return false when the user don't have the given authority", function() {
-            identity.authorities = [ROLES.regular];
-            resolveIdentity();
-            Principal.identity();
+		it("shoud return false when the user don't have the given authority", function() {
+			identity.authorities = [ROLES.regular];
+			resolveIdentity();
+			Principal.identity();
 			$rootScope.$apply();
 
 			expect(Principal.getIdentity()).toEqual(identity);
 			expect(Principal._hasAuthority(ROLES.admin)).toBeFalsy();
-        });
-
-		function onReject() {
-            fail("identity rejected");
-		}
+		});
 	});
 
 	describe("is admin", function() {
 		it("should return true when the user has a admin role", function() {
-            identity.authorities = [ROLES.admin];
-            resolveIdentity();
-            Principal.identity();
+			identity.authorities = [ROLES.admin];
+			resolveIdentity();
+			Principal.identity();
 			$rootScope.$apply();
 
 			expect(Principal.getIdentity()).toEqual(identity);
@@ -93,17 +89,17 @@ describe("Principal test", function() {
 		});
 	});
 
-    describe("is admin", function() {
-        it("should return true when the user has a regular role", function() {
-            identity.authorities = [ROLES.regular];
-            resolveIdentity();
-            Principal.identity();
+	describe("is admin", function() {
+		it("should return true when the user has a regular role", function() {
+			identity.authorities = [ROLES.regular];
+			resolveIdentity();
+			Principal.identity();
 			$rootScope.$apply();
 
 			expect(Principal.getIdentity()).toEqual(identity);
 			expect(Principal.isRegularUser()).toBeTruthy();
-        });
-    });
+		});
+	});
 
 	describe("identity", function() {
 		it("should not send a http request when the token is not in the local storage", function() {
@@ -112,7 +108,7 @@ describe("Principal test", function() {
 
 			Principal.identity()
                 .then(onResolve, onReject);
-            $rootScope.$apply();
+			$rootScope.$apply();
 
 			function onResolve(data) {
 				fail("result not rejected");
@@ -129,15 +125,15 @@ describe("Principal test", function() {
 			resolveIdentity();
 			Principal.identity()
 				.then(onResolve, onReject);
-            $rootScope.$apply();
+			$rootScope.$apply();
 
 			function onResolve(data) {
 				expect(AuthJWTProvider.getToken).toHaveBeenCalled();
 				expect(Account.get).toHaveBeenCalled();
 				expect($rootScope.$broadcast).toHaveBeenCalledWith(event);
 				expect(Principal.isAuthenticated()).toBeTruthy();
-                expect(data).toEqual(identity);
-                expect(Principal.getIdentity()).toEqual(identity);
+				expect(data).toEqual(identity);
+				expect(Principal.getIdentity()).toEqual(identity);
 				expect(Principal._isAuthenticationChecked()).toBeTruthy();
 			}
 
@@ -148,9 +144,9 @@ describe("Principal test", function() {
 
 		it("should set the identoty to null when the http request failed", function() {
 			rejectIdentity();
-            Principal.identity()
+			Principal.identity()
                 .then(onResolve, onReject);
-            $rootScope.$apply();
+			$rootScope.$apply();
 
 			function onResolve() {
 				fail("http request rejected, but the function resulted with a resolve");
@@ -163,14 +159,14 @@ describe("Principal test", function() {
 				expect(Principal.isAuthenticated()).toBeFalsy();
 				expect(Principal.getIdentity()).toBeNull();
 				expect(data).toEqual(reject);
-                expect(Principal._isAuthenticationChecked()).toBeTruthy();
+				expect(Principal._isAuthenticationChecked()).toBeTruthy();
 			}
 		});
 
 		it("should not send a request if the identity is not null", function() {
 			resolveIdentity();
-            Principal.identity();
-            $rootScope.$apply();
+			Principal.identity();
+			$rootScope.$apply();
 
 			expect(Principal._isAuthenticationChecked()).toBeTruthy();
 
@@ -202,7 +198,7 @@ describe("Principal test", function() {
 			resolveIdentity();
 			Principal.identity()
 				.then(onResolve, onReject);
-            $rootScope.$apply();
+			$rootScope.$apply();
 
 			function onResolve() {
 				expect(Principal.getIdentity()).toEqual(identity);

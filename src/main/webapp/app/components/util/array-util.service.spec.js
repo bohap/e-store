@@ -32,7 +32,7 @@ describe("ArrayUtils Service test", function() {
 				param3: [{ message: "Param.3.3" }, {message: "Param.3.4"}]
 			};
 			var result = ArrayUtils.flatten(param);
-            expect(result).toEqual(["Param.1.1", "Param.1.2", "Param.2.1", "Param.2.2", "Param.3.3", "Param.3.4"]);
+			expect(result).toEqual(["Param.1.1", "Param.1.2", "Param.2.1", "Param.2.2", "Param.3.3", "Param.3.4"]);
 		});
 	});
 

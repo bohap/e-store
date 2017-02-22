@@ -38,7 +38,7 @@
 			fieldContainer.removeClass('has-success');
 
 			var errorMessages = fieldContainer.find('.form-error-messages');
-			element.find('.form-error-messages')
+			element.find('.form-error-messages');
 			var icon = angular.element('<i></i>');
 			icon.addClass('fa form-control-feedback');
 			if (hasError) {

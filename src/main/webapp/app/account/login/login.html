@@ -16,7 +16,7 @@
 							   ng-model="vm.username" ng-model-options="{updateOn: 'blur'}"
 							   required form-field-error />
 					</div>
-					<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+					<div class="col-sm-10 col-sm-offset-2 form-error-messages" id="username-errors"
 						 ng-messages="form.email.$error">
 						<strong class="text-danger" ng-message="required">
 							The email field is required
@@ -27,14 +27,14 @@
 					</div>
 				</div>
 				<!-- Password Field -->
-				<div class="form-group has-feedback">
+				<div class="form-group has-feedback" id="password-group">
 					<label for="password" class="control-label col-sm-2">Password:</label>
 					<div class="col-sm-10">
 						<input type="password" id="password" class="form-control" name="password"
 							   ng-model="vm.password" ng-model-options="{updateOn: 'blur'}"
 							   required ng-minlength="6" form-field-error />
 					</div>
-					<div class="col-sm-10 col-sm-offset-2 form-error-messages"
+					<div class="col-sm-10 col-sm-offset-2 form-error-messages" id="password-errors"
 						 ng-messages="form.password.$error">
 						<strong class="text-danger" ng-message="required">
 							The password field is required
@@ -46,7 +46,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-4 col-sm-offset-2 col-xs-8">
-						<button class="btn btn-primary btn-block">
+						<button type="submit" class="btn btn-primary btn-block">
 							<i class="fa fa-paper-plane"></i>
 							Login
 						</button>

@@ -10,7 +10,8 @@
 	function toastrCustomConfig(toastrConfig) {
 		angular.extend(toastrConfig, {
 			closeButton: true,
-			tapToDismiss: false
+			tapToDismiss: false,
+			positionClass: 'toast-top-center'
 		});
 	}
 })();

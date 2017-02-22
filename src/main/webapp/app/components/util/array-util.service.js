@@ -60,7 +60,7 @@
 			if (isEmpty(array) || isEmpty(element) || isEmpty(param)) {
 				return -1;
 			}
-			if (!angular.isArray(array) || array.length == 0) {
+			if (!angular.isArray(array) || array.length === 0) {
 				return -1;
 			}
 			if (!angular.isObject(element)) {

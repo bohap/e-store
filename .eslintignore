@@ -1,5 +1,5 @@
 node_modules
 gulpfile.js
+karma.conf.js
+protractor.conf.js
 src/main/webapp/dist/*
-src/test/javascript/karma.conf.js
-src/test/javascript/protractor.conf.js

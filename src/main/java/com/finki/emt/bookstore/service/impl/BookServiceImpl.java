@@ -137,7 +137,7 @@ public class BookServiceImpl implements BookService {
         final String slugged = SlugUtil.generate(name);
         return repository.findBySlug(slugged)
                 .map(b -> {
-                    Book last = repository.findFirstByOrderById().orElse(new Book());
+                    Book last = repository.findFirstByOrderByIdDesc().orElse(new Book());
                     return slugged + "-" + (last.getId() + 1);
                 })
                 .orElse(slugged);

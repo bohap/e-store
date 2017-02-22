@@ -68,20 +68,21 @@ module.exports = function(config) {
 			'src/main/webapp/app/app.module.js',
 			'src/main/webapp/app/app.core.module.js',
 			// endangular
-			'src/main/webapp/app/**/*!(.module|.spec|.e2e).js',
+			'src/main/webapp/app/**/*!(.module|.spec).js',
 			'src/main/webapp/app/**/*.spec.js',
 		],
 
 
 		// list of files to exclude
 		exclude: [
+			'src/main/webapp/app/**/*.e2e.spec.js',
 		],
 
 
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'src/main/webapp/app/**/!(*spec|*e2e).js': ['coverage']
+			'src/main/webapp/app/**/!(*spec|*e2e.spec).js': ['coverage']
 		},
 
 

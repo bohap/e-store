@@ -1,0 +1,10 @@
+{
+	"exclude": [
+		"node_modules",
+		"src/main/webapp/dist",
+		"src/main/webapp/assets/libs"
+	],
+	"typeAcquisition": {
+		"enable": false
+	}
+}

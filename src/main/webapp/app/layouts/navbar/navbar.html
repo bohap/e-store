@@ -41,7 +41,7 @@
 					</a>
 				</li>
 				<li ng-if="vm.isAdmin()">
-					<a ng-link="['Book', 'BookCreate']">
+					<a ng-link="['Book', 'BookCreate']" id="add-book">
 						<i class="fa fa-plus-square"></i>
 						Add Book
 					</a>
@@ -49,7 +49,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown pointer" uib-dropdown ng-switch-when="true">
-					<a class="dropdown-toggle" uib-dropdown-toggle>
+					<a class="dropdown-toggle" uib-dropdown-toggle id="identity">
 						<i class="fa fa-user"></i>
 						{{ vm.identity().name }}
 						<span class="caret"></span>
@@ -68,7 +68,7 @@
 							</a>
 						</li>
 						<li>
-							<a ng-click="vm.logout()">
+							<a ng-click="vm.logout()" id="logout">
 								<i class="fa fa-sign-out"></i>
 								Logout
 							</a>
@@ -76,13 +76,13 @@
 					</ul>
 				</li>
 				<li ng-switch-when="false">
-					<a ng-click="vm.showRegisterDialog()">
+					<a ng-click="vm.showRegisterDialog()" id="register">
 						<i class="fa fa-user"></i>
 						Register
 					</a>
 				</li>
 				<li ng-switch-when="false">
-					<a ng-click="vm.showLoginDialog()">
+					<a ng-click="vm.showLoginDialog()" id="login">
 						<i class="fa fa-sign-in"></i>
 						Login
 					</a>

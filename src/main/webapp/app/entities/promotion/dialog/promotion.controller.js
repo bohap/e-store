@@ -5,9 +5,9 @@
 		.module('app.promotion.dialog')
 		.controller('PromotionCreateController', PromotionCreateController);
 
-	PromotionCreateController.$inject = ['book', '$uibModalInstance', 'Promotion', 'ArrayUtils', 'DateUtil'];
+	PromotionCreateController.$inject = ['book', '$uibModalInstance', 'Promotion', 'ArrayUtils', 'DateUtil', 'ToastrNotify'];
 
-	function PromotionCreateController(book, $uibModalInstance, Promotion, ArrayUtils, DateUtil) {
+	function PromotionCreateController(book, $uibModalInstance, Promotion, ArrayUtils, DateUtil, ToastrNotify) {
 		var vm = this;
 
 		vm.cancel = cancel;
@@ -74,6 +74,7 @@
 				vm.sending = false;
 				vm.book.promotion = vm.promotion;
 				$uibModalInstance.close('saved');
+				ToastrNotify.success("The book has been added on promotion successfully", "Promotion added");
 			}
 
 			function onPromotionAddingFailed(response) {

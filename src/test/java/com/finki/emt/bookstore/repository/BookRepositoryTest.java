@@ -193,4 +193,10 @@ public class BookRepositoryTest {
         List<Book> books = repository.groupByOrdersCount(page);
         assertThat(books, is(notNullValue()));
     }
+
+    @Test
+    public void testFindFirstOrderById() {
+        Book book = repository.findFirstByOrderByIdDesc().orElse(null);
+        assertBook(book, book3);
+    }
 }

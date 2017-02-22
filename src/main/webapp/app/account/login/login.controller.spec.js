@@ -9,21 +9,21 @@ describe("Login Controller Test", function() {
 
 	beforeEach(angular.mock.module('app.account'));
 
-    beforeEach(inject(function(_$controller_, _$q_, _$rootScope_, _Auth_, _ArrayUtils_) {
+	beforeEach(inject(function(_$controller_, _$q_, _$rootScope_, _Auth_, _ArrayUtils_) {
 		Auth = _Auth_;
 		ArrayUtils = _ArrayUtils_;
 		$q = _$q_;
 		$rootScope = _$rootScope_;
 
 		// mainly mock the $uibModalInstance
-        $uibModalInstance = {};
+		$uibModalInstance = {};
 		$uibModalInstance.close = jasmine.createSpy('close');
 		$uibModalInstance.dismiss = jasmine.createSpy('dismiss');
 
 		// mainly mock the $rootRouter
 		$rootRouter = {};
-        $rootRouter.lastNavigationAttempt = route;
-        $rootRouter.navigateByUrl = jasmine.createSpy('navigateByUrl');
+		$rootRouter.lastNavigationAttempt = route;
+		$rootRouter.navigateByUrl = jasmine.createSpy('navigateByUrl');
 
 		LoginController = _$controller_('LoginController', {
 			Auth: Auth,
@@ -45,11 +45,11 @@ describe("Login Controller Test", function() {
 		it("should navigate to the last route on successful login", function() {
 			LoginController.username = credentials.username;
 			LoginController.password = credentials.password;
-            LoginController.errors = ["Err1", "Err2", "Err3", "Err4"];
-			spyOn(Auth,'login').and.callFake(function() {
+			LoginController.errors = ["Err1", "Err2", "Err3", "Err4"];
+			spyOn(Auth, 'login').and.callFake(function() {
 				expect(LoginController.isSending).toBeTruthy();
 				expect(LoginController.errors).toEqual([]);
-                return $q.when({ msg: "Login Success" });
+				return $q.when({ msg: "Login Success" });
 			});
 
 			LoginController.login();
@@ -65,14 +65,14 @@ describe("Login Controller Test", function() {
 			var response = {
 				errors: ["Err1", "Err2", "Err3", "Err4"]
 			};
-            LoginController.username = credentials.username;
-            LoginController.password = credentials.password;
-            LoginController.errors = response.errors;
-            spyOn(Auth, 'login').and.callFake(function() {
-                expect(LoginController.isSending).toBeTruthy();
-                expect(LoginController.errors).toEqual([]);
-                return $q.reject(response);
-            });
+			LoginController.username = credentials.username;
+			LoginController.password = credentials.password;
+			LoginController.errors = response.errors;
+			spyOn(Auth, 'login').and.callFake(function() {
+				expect(LoginController.isSending).toBeTruthy();
+				expect(LoginController.errors).toEqual([]);
+				return $q.reject(response);
+			});
 			spyOn(ArrayUtils, 'flatten').and.returnValue(response.errors);
 
 			LoginController.login();
@@ -87,10 +87,10 @@ describe("Login Controller Test", function() {
 		});
 
 		it("should not flatten the errors when failed login response dont have any", function() {
-            LoginController.username = credentials.username;
-            LoginController.password = credentials.password;
-            spyOn(Auth, 'login').and.returnValue($q.reject({ status: 401 }));
-            spyOn(ArrayUtils, 'flatten');
+			LoginController.username = credentials.username;
+			LoginController.password = credentials.password;
+			spyOn(Auth, 'login').and.returnValue($q.reject({ status: 401 }));
+			spyOn(ArrayUtils, 'flatten');
 
 			LoginController.login();
 			$rootScope.$apply();

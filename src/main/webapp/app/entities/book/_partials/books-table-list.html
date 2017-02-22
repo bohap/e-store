@@ -71,10 +71,12 @@
 								ng-link="['/Book', 'BookUpdate', {slug: book.slug}]">
 								<i class='fa fa-pencil-square-o'></i>
 							</a>
-							<button class='btn btn-danger' uib-tooltip="Delete book" ng-click="vm.deleteBook(book)">
+							<button class='btn btn-danger remove-book-btn' uib-tooltip="Delete book"
+									ng-click="vm.deleteBook(book)">
 								<i class='fa fa-remove'></i>
 							</button>
-							<button class='btn btn-success' uib-tooltip="Add on promotion" ng-switch-when="false"
+							<button class='btn btn-success add-promotion' uib-tooltip="Add on promotion"
+									ng-switch-when="false"
 									ng-click="vm.openPromotionDialog(book)">
 								<i class='fa fa-plus-circle'></i>
 							</button>
@@ -82,8 +84,8 @@
 									ng-click="vm.openPromotionDialog(book)">
 								<i class='fa fa-pencil-square-o'></i>
 							</button>
-							<button class='btn btn-danger' uib-tooltip="Remove promotion" ng-switch-when="true"
-									ng-click="vm.removePromotion(book)">
+							<button class='btn btn-danger' uib-tooltip="Remove promotion"
+									ng-switch-when="true" ng-click="vm.removePromotion(book)">
 								<i class='fa fa-trash'></i>
 							</button>
 						</div>

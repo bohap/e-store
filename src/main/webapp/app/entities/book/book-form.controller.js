@@ -31,6 +31,12 @@
 		}
 
 		function categoryTransform(category) {
+			for (var i = 0; i < vm.categories.length; i++) {
+				if (vm.categories[i].name === category) {
+					return;
+				}
+			}
+
 			var item = {
 				name: category,
 				id: vm.categories.length + 1

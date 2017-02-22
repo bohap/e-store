@@ -18,14 +18,14 @@
 		return service;
 
 		function handleNotFound() {
-			var messageUtil = $injector.get('MessageUtil');
-			messageUtil.showNotFound();
+			var notify = $injector.get('ToastrNotify');
+			notify.showNotFound();
 			// go to nod found route
 		}
 
 		function handleNotAuthenticated() {
-			var messageUtil = $injector.get('MessageUtil');
-			messageUtil.showNotAuthenticated();
+			var notify = $injector.get('ToastrNotify');
+			notify.showNotAuthenticated();
 
 			// Show the login dialog
 			var LoginDialog = $injector.get('LoginDialog');
@@ -33,13 +33,13 @@
 		}
 
 		function handleNotAuthorized() {
-			var messageUtil = $injector.get('MessageUtil');
-			messageUtil.showNotAuthorized();
+			var notify = $injector.get('ToastrNotify');
+			notify.showNotAuthorized();
 		}
 
 		function handleInternalServerError() {
-			var messageUtil = $injector.get('MessageUtil');
-			messageUtil.showInternalServerError();
+			var notify = $injector.get('ToastrNotify');
+			notify.showInternalServerError();
 		}
 	}
 })();

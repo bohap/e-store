@@ -1,15 +1,14 @@
 var os = require('os');
+var ngStorageMock = require('ngstorage-mock');
 
 var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
 var JasmineReporters = require('jasmine-reporters');
 
-var prefix = "src/test/javascript".replace(/[^/]+/g, '..');
-
 var webbrowserDriver = '';
 if (os.platform() === 'win32') {
-	webbrowserDriver = prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.27.exe';
+	webbrowserDriver = 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.27.exe';
 } else {
-	webbrowserDriver = prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.27';
+	webbrowserDriver = 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.27';
 }
 
 var htmlScreenshotReporter = new HtmlScreenshotReporter({
@@ -18,12 +17,15 @@ var htmlScreenshotReporter = new HtmlScreenshotReporter({
 });
 
 exports.config = {
-	seleniumServerJar: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.0.1.jar',
+	seleniumServerJar: 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.0.1.jar',
 	chromeDriver: webbrowserDriver,
 	allScriptsTimeout: 20000,
 
 	suites: {
-
+		account: "src/main/webapp/app/account/**/*.e2e.spec.js",
+		book: "src/main/webapp/app/entities/book/**/*.e2e.spec.js",
+		dashboard: "src/main/webapp/app/entities/dashboard/**/*.e2e.spec.js",
+		promotion: "src/main/webapp/app/entities/promotion/**/*.e2e.spec.js",
 	},
 
 	capabilities: {
@@ -78,6 +80,7 @@ exports.config = {
 
 		browser.addMockModule('disableNgAnimate', disableNgAnimate);
 		browser.addMockModule('disableCssAnimate', disableCssAnimate);
+		browser.addMockModule('ngStorage', ngStorageMock);
 
 		browser.driver.manage().window().setSize(1280, 1024);
 		jasmine.getEnv().addReporter(new JasmineReporters.JUnitXmlReporter({

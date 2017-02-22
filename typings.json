@@ -1,11 +1,7 @@
 {
-  "name": "angular-testing",
-  "dependencies": {
-    "angular": "registry:dt/angular#1.6.0+20170203172714",
-    "angular-mocks": "registry:dt/angular-mocks#1.5.0+20170201235656"
-  },
+  "name": "emt-book-store",
+  "dependencies": {},
   "globalDependencies": {
-    "angular-protractor": "registry:dt/angular-protractor#1.5.0+20161101133457",
-    "jasmine": "registry:dt/jasmine#2.5.0+20170117213604"
+    "protractor": "registry:dt/protractor#1.5.0+20161119044246"
   }
 }

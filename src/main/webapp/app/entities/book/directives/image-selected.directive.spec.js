@@ -1,6 +1,6 @@
 'use strict';
 describe("ValidFile Directive Test", function() {
-	var $scope, form, element, EVENTS;
+	var $scope, element, EVENTS;
 
 	beforeEach(angular.mock.module('app.book.directive'));
 
@@ -15,8 +15,6 @@ describe("ValidFile Directive Test", function() {
 		$scope.model = { image: undefined };
 		element = $compile(html)($scope);
 		$scope.$digest();
-
-		form = $scope.form;
 	}));
 
 	it("should emit a broadcast when the image is selected", function() {

@@ -34,14 +34,15 @@
 
 			function onBookSavingFailed(response) {
 				vm.sending = false;
-				if (angular.isDefined(response.data.errors)) {
+				if (angular.isDefined(response.data) && response.data !== null &&
+					angular.isDefined(response.data.errors) && response.data.errors !== null ) {
 					vm.errors = ArrayUtils.flatten(response.data.errors);
 				}
 			}
 		}
 
 		var logoutWatch = $scope.$on(EVENTS.logoutSuccess, function(event, date) {
-			$rootRouter.navigate(['Book']);
+			$rootRouter.navigate(['Home']);
 		});
 
 		$scope.$on('$destroy', function() {

@@ -30,7 +30,7 @@ describe("DateUtil Service test", function() {
 
 		it("should add days to the date", function() {
 			var date = new Date(2020, 10, 10);
-			expectEquals(DateUtils.addDays(date, 10), new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000))
+			expectEquals(DateUtils.addDays(date, 10), new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000));
 		});
 	});
 

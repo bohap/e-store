@@ -104,44 +104,44 @@ describe("Basket Controller test", function() {
 
 	describe("remove book", function() {
 		it("should remove the book from the array when the http request successed", function() {
-            var response = { msg: "Book Removed" };
-            spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
-            spyOn(BasketBook, 'remove').and.returnValue({ $promise: $q.when(response) });
-            spyOn(ToastrNotify, 'success');
+			var response = { msg: "Book Removed" };
+			spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
+			spyOn(BasketBook, 'remove').and.returnValue({ $promise: $q.when(response) });
+			spyOn(ToastrNotify, 'success');
 
-            BasketController.$routerOnActivate();
+			BasketController.$routerOnActivate();
 
-            var index = 1;
-            var items = getWithQuantity();
-            BasketController.removeBook(items[index]);
-            $rootScope.$apply();
+			var index = 1;
+			var items = getWithQuantity();
+			BasketController.removeBook(items[index]);
+			$rootScope.$apply();
 
 			expect(BasketBook.remove).toHaveBeenCalledWith({ slug: items[index].book.slug });
-            expect(ToastrNotify.success).toHaveBeenCalled();
-            expect(BasketController.items.length).toEqual(items.length - 1);
-            items.splice(index, 1);
-            expect(BasketController.items).toEqual(items);
+			expect(ToastrNotify.success).toHaveBeenCalled();
+			expect(BasketController.items.length).toEqual(items.length - 1);
+			items.splice(index, 1);
+			expect(BasketController.items).toEqual(items);
 		});
 	});
 
 	describe("open create order dialog", function() {
 		it("should not open when some book quentity is invalid", function() {
-            spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
-            spyOn(OrderCreateDialog, 'open');
+			spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
+			spyOn(OrderCreateDialog, 'open');
 
-            BasketController.$routerOnActivate();
-            $rootScope.$apply();
+			BasketController.$routerOnActivate();
+			$rootScope.$apply();
 
 			BasketController.items[2].quantity = -1;
 			BasketController.openCreateOrderDialog();
-            $rootScope.$apply();
+			$rootScope.$apply();
 
 			expect(OrderCreateDialog.open).not.toHaveBeenCalled();
 		});
 
 		it("should empty the items when the dialog closes successfully", function() {
-            spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
-            spyOn(OrderCreateDialog, 'open').and.returnValue($q.when({}));
+			spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
+			spyOn(OrderCreateDialog, 'open').and.returnValue($q.when({}));
 
 			BasketController.$routerOnActivate();
 			BasketController.openCreateOrderDialog();
@@ -151,22 +151,22 @@ describe("Basket Controller test", function() {
 			expect(BasketController.items).toEqual([]);
 		});
 
-        it("should not empty the items when the dialog is dissmissed", function() {
-            spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
-            spyOn(OrderCreateDialog, 'open').and.returnValue($q.reject({}));
+		it("should not empty the items when the dialog is dissmissed", function() {
+			spyOn(BasketBook, 'query').and.returnValue({ $promise: $q.when(books) });
+			spyOn(OrderCreateDialog, 'open').and.returnValue($q.reject({}));
 
-            BasketController.$routerOnActivate();
-            BasketController.openCreateOrderDialog();
-            $rootScope.$apply();
+			BasketController.$routerOnActivate();
+			BasketController.openCreateOrderDialog();
+			$rootScope.$apply();
 
-            expect(OrderCreateDialog.open).toHaveBeenCalled();
-            expect(BasketController.items).toEqual(getWithQuantity());
-        });
+			expect(OrderCreateDialog.open).toHaveBeenCalled();
+			expect(BasketController.items).toEqual(getWithQuantity());
+		});
 	});
 
 	describe("logout", function() {
 		it("should navigate to the home route when the user is logged out", function() {
-            spyOn($scope, "$on").and.callThrough();
+			spyOn($scope, "$on").and.callThrough();
 			$rootScope.$broadcast(EVENTS.logoutSuccess);
 
 			expect($rootRouter.navigate).toHaveBeenCalledWith(['Home']);

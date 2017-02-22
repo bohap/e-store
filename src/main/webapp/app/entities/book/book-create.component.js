@@ -25,7 +25,7 @@
 		function onIdentityResolved(identity) {
 			if (!Principal.isAdmin()) {
 				ToastrNotify.showNotAuthorized();
-				$rootRouter.navigate(['Book']);
+				$rootRouter.navigate(['Home']);
 				return false;
 			}
 			return true;

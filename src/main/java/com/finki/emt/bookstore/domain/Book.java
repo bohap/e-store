@@ -27,7 +27,6 @@ public class Book extends BaseModel implements Serializable {
     @NotNull
     @Column(nullable = false)
     @Field(index = Index.YES, store = Store.NO, analyze = Analyze.YES)
-    @SortableField
     @Boost(2f)
     private String name;
 

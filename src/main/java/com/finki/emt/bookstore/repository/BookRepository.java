@@ -14,7 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long>,
 
     Optional<Book> findBySlug(String slug);
 
-    Optional<Book> findFirstByOrderById();
+    Optional<Book> findFirstByOrderByIdDesc();
 
     List<Book> findDistinctByCategoriesNameIn(Pageable pageable, String... categories);
 

@@ -123,7 +123,7 @@ gulp.task('build-custom-css', function() {
 });
 
 gulp.task('build-app-js', function() {
-	return gulp.src([config.app + 'app/**/*.js', '!' + config.app + 'app/**/*.{spec,e2e}.js'])
+	return gulp.src([config.app + 'app/**/*.js', '!' + config.app + 'app/**/*.spec.js'])
 		.pipe(plumber({ errorHandler: handleErrors }))
 		.pipe(angularFilesort())
 		.pipe(sourcemaps.init())
@@ -191,6 +191,7 @@ gulp.task('serve', ['build', 'watch'], function() {
 
 	browserSync({
 		open: true,
+		notify: false,
 		port: config.port,
 		server: {
 			baseDir: config.app,
