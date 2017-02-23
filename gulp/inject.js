@@ -1,5 +1,6 @@
 'use strict';
 var gulp = require('gulp');
+var inject = require('gulp-inject');
 var bowerFiles = require('main-bower-files');
 var config = require('./config');
 var angularFilesort = require('gulp-angular-filesort');

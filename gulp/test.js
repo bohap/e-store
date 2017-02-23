@@ -1,5 +1,6 @@
 'use strict';
 var gulp = require('gulp');
+var path = require('path');
 var gutil = require('gulp-util');
 var KarmaServer = require('karma').Server;
 var Protractor = require('gulp-protractor').protractor;
@@ -13,8 +14,9 @@ module.exports = {
  * Start a karma server for running unit tests.
  */
 function karma(done) {
+	var file = path.join(__dirname, '..', 'karma.conf.js');
 	return new KarmaServer({
-		configFile: __dirname + '/karma.conf.js',
+		configFile: file,
 		singleRun: true
 	}, done).start();
 }

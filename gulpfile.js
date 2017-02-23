@@ -31,8 +31,8 @@ gulp.task('reload', function(cb) {
 	cb();
 });
 
-gulp.task('build', ['clean'], function() {
-	runSequence(['vendor', 'app', 'css', 'html', 'copy-fonts', 'copy-images'], 'cache-break');
+gulp.task('build', ['clean'], function(callback) {
+	runSequence(['vendor', 'app', 'css', 'html', 'copy-fonts', 'copy-images'], 'cache-break', callback);
 });
 
 gulp.task('watch', function() {
