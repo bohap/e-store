@@ -1,5 +1,6 @@
 node_modules
 gulpfile.js
+gulp
 karma.conf.js
 protractor.conf.js
-src/main/webapp/dist/*
+src/main/webapp/dist/
